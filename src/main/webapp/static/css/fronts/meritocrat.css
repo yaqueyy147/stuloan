@@ -1,0 +1,39 @@
+body{
+    background: url("../../images/bg-front.jpg") no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:cover;
+    background-size:cover;
+}
+
+.searchForm select{
+    height:34px;
+    min-width: 100px;
+}
+
+.container-fluid{
+    padding: 0px !important;
+    margin-top: 20px;
+    width: 90%;
+    position: relative;
+}
+
+#meritocratDiv{
+    overflow: auto;
+    padding-bottom: 30px;
+}
+
+#pageChanger{
+    position: absolute;
+    bottom: -40px;
+    height: 30px;
+    background-color: #ffffff;
+    width: 100%;
+    left: 0;
+    right: 0;
+}
+
+.active{
+    color: #2a6496;
+    text-decoration: underline;
+    cursor: default;
+}

@@ -1,0 +1,53 @@
+body{
+    background: url("../../images/bg-front.jpg") no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -webkit-background-size:cover;
+    -moz-background-size:cover;
+    background-size:cover;
+    background-attachment:fixed;
+    min-width: 1170px;
+}
+
+.userInfo{
+    float: right;
+}
+
+.panel{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.row .caption p{
+    font-size: 12px;
+}
+
+.row .thumbnail a{
+    display: inline-block;
+    float: left;
+}
+
+.searchForm select{
+    height:34px;
+    min-width: 100px;
+}
+
+.familyImgFF{
+    display: block;
+    width: 100%;
+    height: 155px !important;
+}
+
+.familyDiv{
+    height:320px;
+}
+.familyDiv p{
+    margin-top: 0px !important;
+    margin-bottom: 5px !important;
+}
+
+.peoplecount{
+    float: right;
+    margin-right: 50px;
+    line-height: 50px;
+    color: #0000ff;
+}

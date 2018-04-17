@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="com.base.web.dao.UserDao" id="userDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<bean class="com.base.web.dao.ResourceDao" id="resourceDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	<bean class="com.base.web.dao.UserresourceDao" id="userresourceDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+</beans>

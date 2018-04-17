@@ -1,0 +1,23 @@
+body{
+    background: url("../../images/bg-front.jpg") no-repeat;
+    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -webkit-background-size:cover;
+    -moz-background-size:cover;
+    background-size:cover;
+    background-attachment:fixed;
+}
+.container-fluid{
+    margin-top: 50px;
+    width: 90%;
+    margin-bottom: 50px
+}
+
+.personalRank,.companyRank{
+    float: left;
+    width: 45%;
+    background-color: #ffffff;
+    overflow: auto;
+}
+.companyRank{
+    margin-left: 20px;
+}
