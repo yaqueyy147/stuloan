@@ -104,17 +104,17 @@ $(function () {
         }
     });
 
-    $("#applyVolunteer").click(function () {
+    $("#toidentity").click(function () {
         $.ajax({
             type:'post',
-            url: projectUrl + '/family/applyVolunteer',
+            url: projectUrl + '/loan/toidentity',
             dataType: 'json',
             data:{},
             // async:false,
             success:function (data) {
                 if(data.code >= 1){
-                    alert(data.msg);
-                    $("#applyVolunteer").replaceWith("<span>已申请修订族谱，请等待审核！</span>");
+                    alert(data.message);
+                    $("#loanopera").replaceWith("<span>已申请认证，请等待审核！</span>");
                 }
             },
             error:function (data) {
@@ -155,49 +155,4 @@ $(function () {
         });
     });
 
-    $("#userMoney").click(function () {
-        $.ajax({
-            type:'post',
-            url: projectUrl + "/company/moneyList",
-            dataType:'json',
-            data:{"userId" : userId, "type" : 1},
-            success:function (data) {
-            	var moneyHtml = "<tr><th>序号</th><th>充值金额</th><th>充值说明</th><th>充值时间</th><th>充值人</th></tr><tr>";
-                if(data){
-                    var moneyList = data.dataList;
-                    
-                    for(var i=0;i<moneyList.length;i++){
-                        var ii = moneyList[i];
-                        moneyHtml  += "<td>" + (i+1) + "</td>";
-                        moneyHtml  += "<td>" + ii.payMoney + "</td>";
-                        moneyHtml  += "<td>" + ii.payDesc + "</td>";
-                        moneyHtml  += "<td>" + ii.payTime + "</td>";
-                        moneyHtml  += "<td>" + ii.payMan + "</td>";
-                    }
-                    moneyHtml += "</tr>";
-                    
-                }
-                $("#moneyTable").html(moneyHtml);
-                $("#moneyModal").modal('show');
-            },
-            error:function (data) {
-                var responseText = data.responseText;
-                if(responseText.indexOf("登出跳转页面") >= 0){
-                    ajaxErrorToLogin();
-                }else{
-                    alert(JSON.stringify(data));
-                }
-            }
-        });
-
-    });
-
-    $('#myFamilyTabLi a').on('shown.bs.tab', function (e) {
-        var myFamilyUrl = projectUrl + "/family/personalIndex";
-        $("#myFamilyTab iframe").attr("src",myFamilyUrl);
-    });
-    $('#includeFamilyTabLi a').on('shown.bs.tab', function (e) {
-        var myFamilyUrl = projectUrl + "/family/includeFamily";
-        $("#includeFamilyTab iframe").attr("src",myFamilyUrl);
-    })
 });

@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: Administrator
+  Sysuser: Administrator
   Date: 2017/1/25 0025
   Time: 9:22
   To change this template use File | Settings | File Templates.
@@ -27,24 +27,24 @@
     <div style="padding:10px 40px 20px 40px">
         <form id="resourceForm" method="post">
             <input type="hidden" id="resourceId" name="id" value="0" />
-            <input type="hidden" id="sourceLevel" name="sourceLevel" value="0" />
-            <input type="hidden" id="sourceType" name="sourceType" value="0" />
+            <input type="hidden" id="sourcelevel" name="sourcelevel" value="0" />
+            <input type="hidden" id="sourcetype" name="sourcetype" value="0" />
             <table cellpadding="5">
                 <tr>
                     <td>资源名称:</td>
-                    <td><input class="easyui-validatebox" type="text" id="sourceName" name="sourceName" data-options="required:true" /></td>
+                    <td><input class="easyui-validatebox" type="text" id="sourcename" name="sourcename" data-options="required:true" /></td>
                 </tr>
                 <tr>
                     <td>上级资源:</td>
-                    <td><input class="easyui-combobox" id="parentSourceId" name="parentSourceId" data-options="required:true,valueField:'id',textField:'sourceName'" value="0" /></td>
+                    <td><input class="easyui-combobox" id="parentsourceid" name="parentsourceid" data-options="required:true,valueField:'id',textField:'sourcename'" value="0" /></td>
                 </tr>
                 <tr>
                     <td>资源链接:</td>
-                    <td><input class="easyui-validatebox" id="sourceUrl" name="sourceUrl" value="/" /></td>
+                    <td><input class="easyui-validatebox" id="sourceurl" name="sourceurl" value="/" /></td>
                 </tr>
                 <tr>
                     <td>资源说明:</td>
-                    <td><input class="easyui-validatebox" id="sourceDesc" name="sourceDesc"/></td>
+                    <td><input class="easyui-validatebox" id="sourcedesc" name="sourcedesc"/></td>
                 </tr>
                 <tr>
                     <td>状态:</td>

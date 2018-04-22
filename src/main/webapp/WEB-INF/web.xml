@@ -8,7 +8,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
   <!-- Spring Context params -->
   <context-param>
     <param-name>contextConfigLocation</param-name>
-    <param-value>classpath*:/spring/*.xml;classpath*:/spring/**/*.xml</param-value>
+    <param-value>classpath*:/spring/*.xml;classpath*:/spring/**/*.xml;classpath*:/mybatis/**/*.xml</param-value>
   </context-param>
 
   <!-- filter -->
@@ -44,7 +44,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
   <filter>
     <filter-name>XssSqlFilter</filter-name>
-    <filter-class>com.base.web.filter.XssFilter</filter-class>
+    <filter-class>com.stuloan.web.filter.XssFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>XssSqlFilter</filter-name>

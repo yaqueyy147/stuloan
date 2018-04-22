@@ -5,10 +5,10 @@
 <hibernate-configuration>
 	<!--session-factory name="ecsc"-->
 	<session-factory>
-            <property name="connection.url">jdbc:mysql://localhost:3307/webbase</property>
+            <property name="connection.url">jdbc:mysql://localhost:3307/stuloan</property>
             <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-            <mapping class="com.base.web.domain.User"/>
-            <mapping class="com.base.web.domain.Resource"/>
-            <mapping class="com.base.web.domain.Userresource"/>
+            <mapping class="com.stuloan.web.domain.Sysuser"/>
+            <mapping class="com.stuloan.web.domain.Resource"/>
+            <mapping class="com.stuloan.web.domain.Userresource"/>
     </session-factory>
 </hibernate-configuration>

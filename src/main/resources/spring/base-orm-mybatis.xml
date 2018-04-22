@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- mybatis TransactionManager -->
+	<bean id="mtransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="mDataSource" />
+	</bean>
+
+	<!-- mybatis SessionFactory -->
+	<bean id="msqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="mDataSource" />
+		<property name="mapperLocations" value="classpath*:com/stuloan/web/mybatis/domain/mapper/*.xml" />
+	</bean>
+	<!-- DAO接口所在包名，Spring会自动查找其下的类 -->
+	<bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.stuloan.web.mybatis.domain.inte" />
+		<property name="sqlSessionFactoryBeanName" value="msqlSessionFactory"></property>
+	</bean>
+
+	<!-- AOP Use aspectj define -->
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="serviceMethod" expression="execution(public * com.stuloan.web.mybatis..*inte.*(..))" />
+		<aop:pointcut id="methodCache" expression="execution(public * com.stuloan.web.mybatis..*inte.*(..))" />
+		<aop:advisor pointcut-ref="methodCache" advice-ref="mmethodCacheInterceptor" order="1" />
+		<aop:advisor pointcut-ref="serviceMethod" advice-ref="mtxAdvice" order="99" />
+	</aop:config>
+
+	<!-- Base transaction define -->
+	<tx:advice id="mtxAdvice" transaction-manager="mtransactionManager">
+		<tx:attributes>
+			<tx:method name="do*" />
+			<tx:method name="save*" />
+			<tx:method name="create*" />
+			<tx:method name="update*" />
+			<tx:method name="remove*" />
+			<tx:method name="delete*" />
+			<tx:method name="*" read-only="true" isolation="READ_COMMITTED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<bean id="mmethodCacheInterceptor" class="com.stuloan.web.aop.MethodCacheInterceptor">
+	</bean>
+
+</beans>

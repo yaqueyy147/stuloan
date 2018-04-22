@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
    <!--后台service-->
-	<bean id="consoleService" class="com.base.web.service.consoles.impl.ConsoleServiceImpl">
-		<property name="userDao" ref="userDao" />
+	<bean id="consoleService" class="com.stuloan.web.service.consoles.impl.ConsoleServiceImpl">
+		<property name="sysuserDao" ref="sysuserDao" />
 		<property name="resourceDao" ref="resourceDao" />
 		<property name="userresourceDao" ref="userresourceDao" />
 	</bean>

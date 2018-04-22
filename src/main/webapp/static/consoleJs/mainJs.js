@@ -208,6 +208,6 @@ function loadTab(tabId,tabTitle,tabUrl) {
 
 }
 function zTreeOnClick(event, treeId, treeNode) {
-    loadTab(treeNode.id,treeNode.source_name,treeNode.source_url);
+    loadTab(treeNode.id,treeNode.sourcename,treeNode.sourceurl);
 
 }

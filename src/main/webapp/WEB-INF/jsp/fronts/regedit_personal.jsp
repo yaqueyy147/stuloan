@@ -1,6 +1,6 @@
 <%--
   Created by IntelliJ IDEA.
-  User: suyx
+  Sysuser: suyx
   Date: 2016/12/18
   Time: 10:35
   To change this template use File | Settings | File Templates.
@@ -9,7 +9,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>世纪动漫--注册</title>
+    <title>校园贷款--注册</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link href="<%=request.getContextPath()%>/static/css/fronts/regedit.css" rel="stylesheet" type="text/css" />
     <%@include file="common/commonCss.jsp"%>
@@ -59,6 +59,12 @@
                     <input class="form-control" id="passwordAffirm" name="passwordAffirm" placeholder="确认密码" type="password" />
                 </div>
             </div>
+                <div class="form-group" style="margin-top: 15px">
+                    <label for="idcard" class="col-sm-4 control-label">身份证号:</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" id="idcard" name="idcard" placeholder="身份证号" type="text" />
+                    </div>
+                </div>
             <div class="form-group" style="margin-top: 15px">
                 <label for="phone" class="col-sm-4 control-label">手机号码:</label>
                 <div class="col-sm-8">
@@ -82,7 +88,7 @@
                 <div class="col-sm-offset-4 col-sm-10">
                     <button class="btn btn-primary bbtt" style="margin-bottom: 20px;" id="regedit" type="button">注 册</button>
                     &nbsp;&nbsp;
-                    <a class="btn btn-primary bbtt" style="margin-bottom: 20px;" href="<%=request.getContextPath()%>/cartoon/index" type="button">取 消</a>
+                    <a class="btn btn-primary bbtt" style="margin-bottom: 20px;" href="<%=request.getContextPath()%>/fronts/index" type="button">取 消</a>
                 </div>
             </div>
 

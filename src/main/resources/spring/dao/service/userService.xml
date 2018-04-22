@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
    <!--个人信息-->
-	<bean id="userFrontService" class="com.base.web.service.fronts.impl.UserServiceImpl">
-		<property name="userDao" ref="userDao" />
+	<bean id="userFrontService" class="com.stuloan.web.service.fronts.impl.UserServiceImpl">
+		<property name="sysuserDao" ref="sysuserDao" />
 	</bean>
 	
 </beans>

@@ -27,9 +27,8 @@
         <!--</mvc:message-converters>-->
     </mvc:annotation-driven>
 
-    <context:component-scan base-package="com.base.web.controller" />
-    <context:component-scan base-package="com.base.web.service" />
-    <context:component-scan base-package="com.base.web.domain" />
+    <context:component-scan base-package="com.stuloan.web" />
+    <context:component-scan base-package="com.stuloan.web.mybatis.domain" />
 
     <mvc:view-controller path="/" view-name="redirect:${web.view.index}"/>
 
@@ -72,7 +71,7 @@
         <!--<mvc:interceptor>-->
             <!--<mvc:mapping path="/**" />-->
             <!--<mvc:exclude-mapping path="/static/**" />-->
-            <!--<bean clacom.basee.webtoon.interceptor.TestInterceptor">-->
+            <!--<bean class="com.stuloan.web.interceptor.TestInterceptor">-->
                 <!--<property name="excludeMappings">-->
                     <!--<list>-->
                         <!--<value>/</value>-->
@@ -82,6 +81,7 @@
                         <!--<value>/static/**</value>-->
                         <!--<value>/scripts/**</value>-->
                         <!--<value>/output/**</value>-->
+                        <!--<value>/fronts/index</value>-->
                         <!--&lt;!&ndash;<value>/familyTree</value>&ndash;&gt;-->
                         <!--<value>/consoles/</value>-->
                         <!--<value>/consoles/login</value>-->

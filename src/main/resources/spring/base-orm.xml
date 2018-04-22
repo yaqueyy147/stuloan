@@ -15,8 +15,8 @@
 
 	<!-- Hibernate SessionFactory -->
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:hibernate/base.cfg.xml,classpath:hibernate/loan.cfg.xml" />
+		<property name="dataSource" ref="mDataSource" />
+		<property name="configLocation" value="classpath:hibernate/base.cfg.xml" />
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
@@ -30,22 +30,13 @@
 	</bean>
 
 	<bean id="txJdbcTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource" />
-		<property name="loandataSource" ref="loandataSource" />
-	</bean>
-	<!-- Jdbc Template -->
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="dataSource" ref="dataSource" />
-	</bean>
-	<!-- loan Jdbc Template -->
-	<bean id="loanjdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-		<property name="loandataSource" ref="loandataSource" />
+		<property name="dataSource" ref="mDataSource" />
 	</bean>
 
 	<!-- AOP Use aspectj define -->
 	<aop:config proxy-target-class="true">
-		<aop:pointcut id="serviceMethod" expression="execution(public * com.base.web.service..*Service.*(..))" />
-		<aop:pointcut id="methodCache" expression="execution(public * com.base.web.service..*Service.*(..))" />
+		<aop:pointcut id="serviceMethod" expression="execution(public * com.stuloan.web.service..*Service.*(..))" />
+		<aop:pointcut id="methodCache" expression="execution(public * com.stuloan.web.service..*Service.*(..))" />
 		<aop:advisor pointcut-ref="methodCache" advice-ref="methodCacheInterceptor" order="1" />
 		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" order="99" />
 	</aop:config>
@@ -63,7 +54,7 @@
 		</tx:attributes>
 	</tx:advice>
 
-	<bean id="methodCacheInterceptor" class="com.base.web.aop.MethodCacheInterceptor">
+	<bean id="methodCacheInterceptor" class="com.stuloan.web.aop.MethodCacheInterceptor">
 	</bean>
 
 </beans>

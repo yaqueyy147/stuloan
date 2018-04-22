@@ -75,7 +75,7 @@ $(function () {
 
     $("#toEdit").click(function () {
         $("#resourceForm").form('clear');
-        var selectRows = $("#roleList").datagrid('getSelections');
+        var selectRows = $("#resourceList").datagrid('getSelections');
         if(selectRows.length > 1){
             alert("只能编辑一条数据!");
             return;
@@ -85,7 +85,7 @@ $(function () {
             return;
         }
         loadDataToForm(selectRows[0]);
-        $("#parentSourceId").combobox("loadData", getResourceList(params));
+        $("#parentsourceid").combobox("loadData", getResourceList(params));
         $("#resourceDialog").dialog('open');
     });
 
@@ -153,9 +153,9 @@ function loadDataGrid(params) {
         columns:[[
             {field:"ck",checkbox:"true"},
             {field:"id",title:"资源Id",width:"80",hidden:true},
-            {field:"sourceName",title:"资源名称",width:"200"},
-            {field:"sourceUrl",title:"资源链接",width:"200"},
-            {field:"resourceState",title:"状态",width:"80",
+            {field:"sourcename",title:"资源名称",width:"200"},
+            {field:"sourceurl",title:"资源链接",width:"200"},
+            {field:"state",title:"状态",width:"80",
                 formatter: function(value,row,index){
                     if(value == 1){
                         return "可用";
@@ -168,27 +168,13 @@ function loadDataGrid(params) {
     });
 }
 
-function formatDataList(data){
-    if(data){
-
-        for(var i=0;i<data.length;i++){
-            if(data[i].state == 1){
-                data[i].stateDesc = "可用";
-            }else{
-                data[i].stateDesc = "不可用";
-            }
-        }
-    }
-    return data;
-}
-
 function loadDataToForm(data){
 
     $("#resourceId").val(data.id);
-    $("#sourceName").val(data.sourceName);
-    $("#sourceDesc").val(data.sourceDesc);
-    $("#sourceUrl").val(data.sourceUrl);
-    $("#parentSourceId").val(data._parentId);
+    $("#sourcename").val(data.sourceName);
+    $("#sourcedesc").val(data.sourceDesc);
+    $("#sourceurl").val(data.sourceUrl);
+    $("#parentsourceid").val(data._parentId);
     $("#state").combobox("setValue",data.state);
 }
 

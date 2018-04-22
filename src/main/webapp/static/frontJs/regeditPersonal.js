@@ -13,6 +13,7 @@ $(function () {
         var password = $("#password").val();
         var passwordAffirm = $("#passwordAffirm").val();
         var phone = $("#phone").val();
+        var idcard = $("#idcard").val();
 
         var checkCode = $("#checkCode").val();
 
@@ -39,6 +40,11 @@ $(function () {
 
         if($.trim(phone).length != 11){
             alert("手机号输入有误！如果是固定电话，请加上区号！");
+            return ;
+        }
+
+        if($.trim(idcard).length <= 0){
+            alert("身份证号不能为空！");
             return ;
         }
 

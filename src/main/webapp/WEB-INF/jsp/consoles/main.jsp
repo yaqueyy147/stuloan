@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
-  User: Administrator
+  Sysuser: Administrator
   Date: 2016/12/14 0014
   Time: 10:45
   To change this template use File | Settings | File Templates.
@@ -10,7 +10,7 @@
 <html>
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>世界何氏族谱管理系统</title>
+    <title>校园贷款</title>
     <%@ include file="common/commonCss.jsp" %>
     <style type="text/css">
 
@@ -48,7 +48,7 @@
 <body class="layout">
 <div class="easyui-layout" style="width:100%;height:100%;">
     <div id="topRegion" data-options="region:'north'" style="height:50px;">
-        <div id="logoDiv">世纪动漫</div>
+        <div id="logoDiv">校园贷款</div>
         <div id="userInfoDiv" class="userInfo">
             <a href="javascript:void 0;" class="easyui-menubutton"
                data-options="menu:'#mm'">
@@ -87,7 +87,7 @@
             <%--<c:if test="${consoleUserInfo.loginName == 'admin'}">--%>
             <%--<li><span>用户管理</span>--%>
                 <%--<ul>--%>
-                    <%--<li><span><a href="javascript:void 0;" onclick="loadTab('userSetting','用户设置','/consoles/user')">用户设置</a></span></li>--%>
+                    <%--<li><span><a href="javascript:void 0;" onclick="loadTab('userSetting','用户设置','/consoles/sysuser')">用户设置</a></span></li>--%>
                     <%--<li><span><a href="javascript:void 0;" onclick="loadTab('roleSetting','角色设置','/consoles/role')">角色设置</a></span></li>--%>
                     <%--<li><span><a href="javascript:void 0;" onclick="loadTab('resourceSetting','资源设置','/consoles/resource')">资源设置</a></span></li>--%>
                     <%--<li><span><a href="javascript:void 0;" onclick="loadTab('log','日志','/log/index')">日志</a></span></li>--%>

@@ -2,14 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean class="com.base.web.dao.UserDao" id="userDao">
+	<bean class="com.stuloan.web.dao.SysuserDao" id="sysuserDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
-	<bean class="com.base.web.dao.ResourceDao" id="resourceDao">
+	<bean class="com.stuloan.web.dao.ResourceDao" id="resourceDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	<bean class="com.base.web.dao.UserresourceDao" id="userresourceDao">
+	<bean class="com.stuloan.web.dao.UserresourceDao" id="userresourceDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 

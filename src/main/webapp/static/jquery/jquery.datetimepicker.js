@@ -721,7 +721,7 @@
 							});
 						});
 
-				// base handler - generating a calendar and timepicker
+				// stuloan handler - generating a calendar and timepicker
 				datetimepicker
 					.on('xchange.xdsoft',function( event ) {
 						var table 	=	'',
