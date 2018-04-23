@@ -1,11 +1,11 @@
-package com.base.web.util;
+package com.stuloan.web.util;
 
 /**
  * Created by liubo on 2017/1/6.
  */
 
 import com.alibaba.fastjson.JSONObject;
-import com.base.web.vo.ResultBase;
+import com.stuloan.web.vo.ResultBase;
 import io.itit.itf.okhttp.FastHttpClient;
 import io.itit.itf.okhttp.FastHttpClientBuilder;
 import io.itit.itf.okhttp.PostBuilder;

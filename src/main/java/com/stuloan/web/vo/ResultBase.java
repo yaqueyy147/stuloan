@@ -1,4 +1,4 @@
-package com.base.web.vo;
+package com.stuloan.web.vo;
 
 import java.util.HashMap;
 import java.util.Map;

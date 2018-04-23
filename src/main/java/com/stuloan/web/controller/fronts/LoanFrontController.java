@@ -1,10 +1,14 @@
 package com.stuloan.web.controller.fronts;
 
+import com.alibaba.fastjson.JSONObject;
 import com.stuloan.web.mybatis.domain.*;
 import com.stuloan.web.mybatis.domain.inte.*;
 import com.stuloan.web.util.CommonUtil;
+import com.stuloan.web.util.HttpRequest;
 import com.stuloan.web.util.Userutils;
 import com.stuloan.web.util.Userutils4mybatis;
+import com.stuloan.web.vo.ResultBase;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +30,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/loan")
 public class LoanFrontController {
+
+    private static final  String IDENTITY_URL = "http://192.168.31.156:8082/student/api/identity/stuidentity";
 
     @Autowired
     private LoanMapper loanMapper;
@@ -38,6 +45,9 @@ public class LoanFrontController {
 
     @Autowired
     private RepaydetailMapper repaydetailMapper;
+
+    @Autowired
+    private CreditscoreMapper creditscoreMapper;
 
     @RequestMapping(value = "/applyloan")
     public ModelAndView applyloan(Model model, HttpServletRequest request){
@@ -112,12 +122,27 @@ public class LoanFrontController {
         result.put("message","保存失败");
 
         try {
+            Sysuser sysuser = Userutils4mybatis.getcookieuser(request,Userutils4mybatis.FRONG_COOKIE_NAME);
+
             Studentinfo studentinfo = new Studentinfo();
+            Creditscore creditscore = new Creditscore();
+
+            Map<String, String> params = new HashMap<String, String>();
+            Map<String, String> headers = new HashMap<String, String>();
+            headers.put("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+            params.put("stuidcard", sysuser.getIdcard());
+            ResultBase resultBase = HttpRequest.doPost05(IDENTITY_URL, headers, params, "utf-8", "utf-8");
+            if(resultBase.isSuccess()){
+                studentinfo = JSONObject.parseObject(resultBase.getResultmaps().get("studentinfo"),Studentinfo.class);
+                creditscore = JSONObject.parseObject(resultBase.getResultmaps().get("creditscore"),Creditscore.class);
+            }
             studentinfo.setId(CommonUtil.uuid());
             studentinfo.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
             int i = studentinfoMapper.insertSelective(studentinfo);
+            creditscore.setId(CommonUtil.uuid());
+            creditscore.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+            i += creditscoreMapper.insertSelective(creditscore);
 
-            Sysuser sysuser = Userutils4mybatis.getcookieuser(request,Userutils4mybatis.FRONG_COOKIE_NAME);
             sysuser.setIsstuidentity("1");
             i += sysuserMapper.updateByPrimaryKey(sysuser);
             result.put("code",1);
