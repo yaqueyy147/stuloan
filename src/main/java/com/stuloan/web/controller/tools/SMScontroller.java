@@ -21,6 +21,7 @@ public class SMScontroller {
 
         client.executeMethod(post);
         Header[] headers = post.getResponseHeaders();
+
         int statusCode = post.getStatusCode();
         System.out.println("statusCode:"+statusCode);
         for(Header h : headers)
@@ -30,25 +31,7 @@ public class SMScontroller {
         String result = new String(post.getResponseBodyAsString().getBytes("gbk"));
         System.out.println(result); //打印返回消息状态
 
-
         post.releaseConnection();
-
-
-//        String paramdata = map.get("paramdata") + "";
-//        Map<String, String> params = new HashMap<String, String>();
-//        Map<String, String> headers = new HashMap<String, String>();
-//        headers.put("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-//        params.put("qzurl", URLEncoder.encode(map.get("qzurl") + ""));
-//        params.put("createid", map.get("createid") + "");
-//        params.put("custocken", custocken);
-//        params.put("dataid", map.get("dataid") + "");
-//        params.put("paramdata", paramdata);
-//        if(StringUtils.equals(paramdata,"0")){
-//            params.put("routeway", AuthConfigData.QZ_BQ_YC_ROUTEWAY);
-//        }else{
-//            params.put("routeway", "");
-//        }
-//        ResultBase result = HttpRequest.doPost05(groupqzUrl, headers, params, "utf-8", "utf-8");
 
     }
 }
