@@ -47,9 +47,8 @@ public class LoanController {
     @ResponseBody
     public Object loanlist(HttpServletRequest request, @RequestParam Map<String,Object> params){
         Map<String,Object> result = new HashMap<>();
-        result.put("total",0);
         int totalcount = loanMapper.selectCountByParams(params);
-        result.put("rows",totalcount);
+        result.put("total",totalcount);
         List<Map<String,Object>> list = loanMapper.selectByParams02(params);
         result.put("rows",list);
         return result;

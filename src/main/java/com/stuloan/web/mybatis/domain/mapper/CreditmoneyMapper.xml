@@ -46,6 +46,21 @@
     </if>
   </select>
 
+  <select id="selectloanmoneyByParams" parameterType="java.lang.String" resultType="java.lang.Double">
+    select
+    max(loanmoney) as maxloanmoney
+    from creditmoney
+    where 1=1
+    and thresholdscore &lt;= ${score}
+    <if test="id != null and id != ''">
+      and id = #{id,jdbcType=VARCHAR}
+    </if>
+
+    <if test="beginRow != null and beginRow != ''">
+      limit ${beginRow},${pageSize}
+    </if>
+  </select>
+
   <select id="selectCountByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
     select
     count(id) as total

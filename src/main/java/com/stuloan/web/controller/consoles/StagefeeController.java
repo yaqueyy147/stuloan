@@ -35,9 +35,8 @@ public class StagefeeController {
     @ResponseBody
     public Object stagefeelist(HttpServletRequest request, @RequestParam Map<String,Object> params){
         Map<String,Object> result = new HashMap<>();
-        result.put("total",0);
         int totalcount = stagefeeMapper.selectCountByParams(params);
-        result.put("rows",totalcount);
+        result.put("total",totalcount);
         List<Stagefee> list = stagefeeMapper.selectByParams(params);
         result.put("rows",list);
         return result;

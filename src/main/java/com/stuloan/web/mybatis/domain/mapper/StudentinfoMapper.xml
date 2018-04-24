@@ -60,6 +60,33 @@
     </if>
   </select>
 
+  <select id="selectByParams02" parameterType="java.lang.String"  resultType="java.util.Map">
+    select
+    a.*,b.loginname
+    from studentinfo a
+    left join sysuser b on b.id=a.userid
+    where 1=1
+    <if test="id != null and id != ''">
+      and a.id = #{id,jdbcType=VARCHAR}
+    </if>
+    <if test="userid != null and userid != ''">
+      and a.userid = #{userid,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="selectCountByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select
+    count(id) as total
+    from studentinfo
+    where 1=1
+    <if test="id != null and id != ''">
+      and id = #{id,jdbcType=VARCHAR}
+    </if>
+    <if test="state != null and state != ''">
+      and state = #{state,jdbcType=VARCHAR}
+    </if>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     <!--
       WARNING - @mbggenerated

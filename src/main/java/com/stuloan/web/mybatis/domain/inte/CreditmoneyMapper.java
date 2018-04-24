@@ -43,6 +43,8 @@ public interface CreditmoneyMapper {
 
     List<Creditmoney> selectByParams(Map<String,Object> params);
 
+    Double selectloanmoneyByParams(Map<String,Object> params);
+
     Integer selectCountByParams(Map<String,Object> params);
 
     /**
