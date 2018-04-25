@@ -50,13 +50,15 @@ function loadDataGrid(params) {
             {field:"historyscore",title:"历史信用分",width:"100"},
             {field:"peoplekeepscore",title:"人脉分",width:"100"},
             {field:"behaviorscore",title:"行为分",width:"100"},
-            {field:"state",title:"状态",width:"80",
+            {field:"state",title:"状态",width:"200",
                 formatter: function(value,row,index){
                 if(value == 1){
                     return "已通过认证";
+                }else if(value == 2){
+                    return "未通过认证";
                 }
-                var identity = "<a href='javascript:void 0;' onclick=\"toauditcredit('" + row.id + "','1')\">同意认证</a>";
-                identity += "<a href='javascript:void 0;' onclick=\"toauditcredit('" + row.id + "','0')\">不同意认证</a>&nbsp;&nbsp;";
+                var identity = "<a href='javascript:void 0;' onclick=\"toauditcredit('" + row.id + "','1')\">同意认证</a>&nbsp;&nbsp;";
+                identity += "<a href='javascript:void 0;' onclick=\"toauditcredit('" + row.id + "','0')\">不同意认证</a>";
                 return identity;
             }}
         ]],
@@ -70,7 +72,7 @@ function toauditcredit(ids,state) {
         dataType:'json',
         data:{ids:ids,state:state},
         success:function (data) {
-            alert(data.msg);
+            alert(data.message);
             var params = {};
             loadDataGrid(params);
         },

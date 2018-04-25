@@ -44,31 +44,7 @@ $(function () {
             });
         }
     });
-
-    $("#toidentity").click(function () {
-        $.ajax({
-            type:'post',
-            url: projectUrl + '/loan/toidentity',
-            dataType: 'json',
-            data:{},
-            // async:false,
-            success:function (data) {
-                if(data.code >= 1){
-                    alert(data.msg);
-                    $("#loanopera").replaceWith("<span>已申请认证，请等待审核！</span>");
-                }
-            },
-            error:function (data) {
-                var responseText = data.responseText;
-                if(responseText.indexOf("登出跳转页面") >= 0){
-                    ajaxErrorToLogin();
-                }else{
-                    alert(JSON.stringify(data));
-                }
-            }
-        });
-    });
-
+    
     $("#torepay").click(function () {
         var repaychk = $("input[name='repaychk']:checked");
         if(repaychk.length <= 0){

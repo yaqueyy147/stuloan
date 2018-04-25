@@ -56,23 +56,45 @@
                             <p id="loanopera">
                                 <c:choose>
                                     <c:when test="${sysuser.isstuidentity == 1}">
-                                        已通过认证&nbsp;&nbsp;
-                                        <a href="<%=request.getContextPath()%>/loan/applyloan">申请贷款</a>
+                                        已通过学生认证&nbsp;&nbsp;
+
                                     </c:when>
                                     <c:when test="${sysuser.isstuidentity == 2}">
-                                        认证未通过
+                                        学生认证未通过&nbsp;
+                                        <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
                                     </c:when>
                                     <c:when test="${sysuser.isstuidentity == 5}">
-                                        <span>已申请认证，请等待审核！</span>
+                                        <span>已申请学生认证，请等待审核！</span>
                                     </c:when>
                                     <c:otherwise>
-                                    <button type="button" class="btn btn-primary" id="toidentity" >申请认证</button>
+                                        <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
                                     </c:otherwise>
 
                                 </c:choose>
                             </p>
-                            <p><a href="<%=request.getContextPath()%>/loan/myloan">我的贷款</a></p>
-                            <p><a href="<%=request.getContextPath()%>/loan/repaydetail">全部待还</a></p>
+                            <p id="creditopera">
+                                <c:choose>
+                                    <c:when test="${sysuser.iscreditidentity == 1}">
+                                        已通过信用认证,您的信用额度为<span style="color: #ff0000">${sysuser.loanlimit}</span>元
+                                    </c:when>
+                                    <c:when test="${sysuser.iscreditidentity == 2}">
+                                        信用认证未通过&nbsp;
+                                        <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
+                                    </c:when>
+                                    <c:when test="${sysuser.iscreditidentity == 5}">
+                                        <span>已申请信用认证，请等待审核！</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
+                                    </c:otherwise>
+
+                                </c:choose>
+                            </p>
+                            <c:if test="${sysuser.isstuidentity == 1 && sysuser.iscreditidentity == 1 && sysuser.loanlimit > 0}">
+                                <a href="<%=request.getContextPath()%>/loan/applyloan">申请贷款</a>
+                                <p><a href="<%=request.getContextPath()%>/fronts/personalInfo">个人信息</a></p>
+                                <p><a href="<%=request.getContextPath()%>/loan/repaydetail">全部待还</a></p>
+                            </c:if>
                         </div>
                     </div>
                 </div>
@@ -122,6 +144,75 @@
                     </form>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--学生认证-->
+<div class="modal fade" id="stuidentityModal" tabindex="-1" role="dialog" aria-labelledby="stuidentityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="stuidentitytitle">学生认证</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="stuidetityform" action="" method="post">
+                    <div class="form-group">
+                        <label for="school" class="col-sm-2 control-label">学校</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="school" name="school" placeholder="请输入完整的学校名">
+                        </div>
+                        <span id="schooltips" style="color: #ff0000;display: none;font-size: 12px">学校不能为空</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="classgrade" class="col-sm-2 control-label">班级</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="classgrade" name="classgrade" placeholder="班级">
+                        </div>
+                        <span id="classgradetips" style="color: #ff0000;display: none;font-size: 12px">班级不能为空</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="stunum" class="col-sm-2 control-label">学号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="stunum" name="stunum" placeholder="学号">
+                        </div>
+                        <span id="stunumtips" style="color: #ff0000;display: none;font-size: 12px">学号不能为空</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="tostuidentity">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--信用认证-->
+<div class="modal fade" id="creditidentityModal" tabindex="-1" role="dialog" aria-labelledby="creditidentityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="creditidentitytitle">信用认证</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="creditidetityform" action="" method="post">
+                    <div class="form-group">
+                        <label for="school" class="col-sm-2 control-label">身份证号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="stuidcard" name="stuidcard" placeholder="请输入正确的身份证号">
+                        </div>
+                        <span id="stuidcardtips" style="color: #ff0000;display: none;font-size: 12px">身份证号</span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="tocreditidentity">提交</button>
             </div>
         </div>
     </div>

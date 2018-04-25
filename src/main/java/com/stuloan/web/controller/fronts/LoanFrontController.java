@@ -8,7 +8,6 @@ import com.stuloan.web.util.HttpRequest;
 import com.stuloan.web.util.Userutils;
 import com.stuloan.web.util.Userutils4mybatis;
 import com.stuloan.web.vo.ResultBase;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +29,8 @@ import java.util.Map;
 @RequestMapping(value = "/loan")
 public class LoanFrontController {
 
-    private static final  String IDENTITY_URL = "http://192.168.31.156:8082/student/api/identity/stuidentity";
+    private static final  String STU_IDENTITY_URL = "http://10.2.12.58:8082/student/api/identity/stuidentity";
+    private static final  String CREDIT_IDENTITY_URL = "http://10.2.12.58:8082/student/api/identity/creditidentity";
 
     @Autowired
     private LoanMapper loanMapper;
@@ -114,9 +113,9 @@ public class LoanFrontController {
         return new ModelAndView("/fronts/myloan");
     }
 
-    @RequestMapping(value = "/toidentity")
+    @RequestMapping(value = "/tostuidentity")
     @ResponseBody
-    public Object toidentity(HttpServletRequest request){
+    public Object tostuidentity(HttpServletRequest request, @RequestParam Map<String,String> params){
         Map<String,Object> result = new HashMap<>();
         result.put("code",0);
         result.put("message","保存失败");
@@ -125,26 +124,74 @@ public class LoanFrontController {
             Sysuser sysuser = Userutils4mybatis.getcookieuser(request,Userutils4mybatis.FRONG_COOKIE_NAME);
 
             Studentinfo studentinfo = new Studentinfo();
-            Creditscore creditscore = new Creditscore();
 
-            Map<String, String> params = new HashMap<String, String>();
+            int i = 0;
             Map<String, String> headers = new HashMap<String, String>();
             headers.put("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-            params.put("stuidcard", sysuser.getIdcard());
-            ResultBase resultBase = HttpRequest.doPost05(IDENTITY_URL, headers, params, "utf-8", "utf-8");
+            ResultBase resultBase = HttpRequest.doPost05(STU_IDENTITY_URL, headers, params, "utf-8", "utf-8");
             if(resultBase.isSuccess()){
                 studentinfo = JSONObject.parseObject(resultBase.getResultmaps().get("studentinfo"),Studentinfo.class);
+            }else{
+                studentinfo.setRemark("查无此人");
+            }
+
+            Studentinfo studentinfo1 = studentinfoMapper.selectByuserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+            if(studentinfo1 != null && !CommonUtil.isBlank(studentinfo1.getId()) ){
+                studentinfo.setId(studentinfo1.getId());
+            }else{
+                studentinfo.setId(CommonUtil.uuid());
+            }
+
+            studentinfo.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+            studentinfo.setIsstuidentity("5");
+            i += studentinfoMapper.insertSelective(studentinfo);
+            sysuser.setIsstuidentity("5");
+            i += sysuserMapper.updateByPrimaryKeySelective(sysuser);
+            result.put("code",1);
+            result.put("message","已申请");
+
+        }catch (Exception e){
+            e.printStackTrace();
+            result.put("code",0);
+            result.put("message","保存失败");
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/tocreditidentity")
+    @ResponseBody
+    public Object tocreditidentity(HttpServletRequest request, @RequestParam Map<String,String> params){
+        Map<String,Object> result = new HashMap<>();
+        result.put("code",0);
+        result.put("message","保存失败");
+
+        try {
+            Sysuser sysuser = Userutils4mybatis.getcookieuser(request,Userutils4mybatis.FRONG_COOKIE_NAME);
+
+            Creditscore creditscore = new Creditscore();
+
+            int i = 0;
+
+            Map<String, String> headers = new HashMap<String, String>();
+            headers.put("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+            ResultBase resultBase = HttpRequest.doPost05(CREDIT_IDENTITY_URL, headers, params, "utf-8", "utf-8");
+            if(resultBase.isSuccess()){
                 creditscore = JSONObject.parseObject(resultBase.getResultmaps().get("creditscore"),Creditscore.class);
             }
-            studentinfo.setId(CommonUtil.uuid());
-            studentinfo.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
-            int i = studentinfoMapper.insertSelective(studentinfo);
-            creditscore.setId(CommonUtil.uuid());
+
+            Creditscore creditscores1 = creditscoreMapper.selectByuserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+            if(creditscores1 != null && !CommonUtil.isBlank(creditscores1.getId()) ){
+                creditscore.setId(creditscores1.getId());
+            }else{
+                creditscore.setId(CommonUtil.uuid());
+            }
             creditscore.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+            creditscore.setState("5");
             i += creditscoreMapper.insertSelective(creditscore);
 
-            sysuser.setIsstuidentity("1");
-            i += sysuserMapper.updateByPrimaryKey(sysuser);
+            sysuser.setIscreditidentity("5");
+            i += sysuserMapper.updateByPrimaryKeySelective(sysuser);
             result.put("code",1);
             result.put("message","已申请");
         }catch (Exception e){

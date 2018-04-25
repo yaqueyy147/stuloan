@@ -34,6 +34,8 @@ public class Sysuser {
     private Integer isfront;
     private Integer userfrom;
     private String isstuidentity;
+    private Double loanlimit;
+    private String iscreditidentity;
 
     public Sysuser(String loginname){
         this.loginname = loginname;
@@ -287,6 +289,22 @@ public class Sysuser {
         this.isstuidentity = isstuidentity;
     }
 
+    public Double getLoanlimit() {
+        return loanlimit;
+    }
+
+    public void setLoanlimit(Double loanlimit) {
+        this.loanlimit = loanlimit;
+    }
+
+    public String getIscreditidentity() {
+        return iscreditidentity;
+    }
+
+    public void setIscreditidentity(String iscreditidentity) {
+        this.iscreditidentity = iscreditidentity;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -318,6 +336,8 @@ public class Sysuser {
         if (isfront != null ? !isfront.equals(that.isfront) : that.isfront != null) return false;
         if (userfrom != null ? !userfrom.equals(that.userfrom) : that.userfrom != null) return false;
         if (isstuidentity != null ? !isstuidentity.equals(that.isstuidentity) : that.isstuidentity != null) return false;
+        if (loanlimit != null ? !loanlimit.equals(that.loanlimit) : that.loanlimit != null) return false;
+        if (iscreditidentity != null ? !iscreditidentity.equals(that.iscreditidentity) : that.iscreditidentity != null) return false;
         return true;
     }
 
@@ -347,6 +367,8 @@ public class Sysuser {
         result = 31 * result + (isfront != null ? isfront.hashCode() : 0);
         result = 31 * result + (userfrom != null ? userfrom.hashCode() : 0);
         result = 31 * result + (isstuidentity != null ? isstuidentity.hashCode() : 0);
+        result = 31 * result + (loanlimit != null ? loanlimit.hashCode() : 0);
+        result = 31 * result + (iscreditidentity != null ? iscreditidentity.hashCode() : 0);
         return result;
     }
 }

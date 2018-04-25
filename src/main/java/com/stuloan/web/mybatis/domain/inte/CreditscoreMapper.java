@@ -1,7 +1,6 @@
 package com.stuloan.web.mybatis.domain.inte;
 
 import com.stuloan.web.mybatis.domain.Creditscore;
-import com.stuloan.web.mybatis.domain.Studentinfo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -40,6 +39,8 @@ public interface CreditscoreMapper {
      * @mbggenerated
      */
     Creditscore selectByPrimaryKey(String id);
+
+    Creditscore selectByuserid(String userid);
 
     List<Creditscore> selectByParams(Map<String,Object> params);
 

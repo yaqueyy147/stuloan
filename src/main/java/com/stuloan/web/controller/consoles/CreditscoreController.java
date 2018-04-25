@@ -1,11 +1,9 @@
 package com.stuloan.web.controller.consoles;
 
 import com.stuloan.web.mybatis.domain.Creditscore;
-import com.stuloan.web.mybatis.domain.Studentinfo;
 import com.stuloan.web.mybatis.domain.Sysuser;
 import com.stuloan.web.mybatis.domain.inte.CreditmoneyMapper;
 import com.stuloan.web.mybatis.domain.inte.CreditscoreMapper;
-import com.stuloan.web.mybatis.domain.inte.StudentinfoMapper;
 import com.stuloan.web.mybatis.domain.inte.SysuserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,6 +71,11 @@ public class CreditscoreController {
                     Sysuser sysuser = new Sysuser();
                     sysuser.setId(creditscore.getUserid());
                     sysuser.setLoanlimit(maxloanmoney);
+                    ii += sysuserMapper.updateByPrimaryKeySelective(sysuser);
+                }else{
+                    Sysuser sysuser = new Sysuser();
+                    sysuser.setId(creditscore.getUserid());
+                    sysuser.setIscreditidentity(state);
                     ii += sysuserMapper.updateByPrimaryKeySelective(sysuser);
                 }
             }

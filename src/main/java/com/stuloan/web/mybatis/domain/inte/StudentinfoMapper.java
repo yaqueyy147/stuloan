@@ -40,6 +40,8 @@ public interface StudentinfoMapper {
      */
     Studentinfo selectByPrimaryKey(String id);
 
+    Studentinfo selectByuserid(String userid);
+
     List<Studentinfo> selectByParams(Studentinfo studentinfo);
 
     List<Map<String,Object>> selectByParams02(Map<String,Object> params);

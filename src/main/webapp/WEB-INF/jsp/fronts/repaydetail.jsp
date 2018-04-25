@@ -52,25 +52,7 @@
                             <h3>${sysuser.username}</h3>
 
                             <p>${sysuser.province}${sysuser.city}${sysuser.district}</p>
-
-                            <p id="loanopera">
-                                <c:choose>
-                                    <c:when test="${sysuser.isstuidentity == 1}">
-                                        已通过认证&nbsp;&nbsp;
-                                        <a href="<%=request.getContextPath()%>/loan/applyloan">申请贷款</a>
-                                    </c:when>
-                                    <c:when test="${sysuser.isstuidentity == 2}">
-                                        认证未通过
-                                    </c:when>
-                                    <c:when test="${sysuser.isstuidentity == 5}">
-                                        <span>已申请认证，请等待审核！</span>
-                                    </c:when>
-                                    <c:otherwise>
-                                    <button type="button" class="btn btn-primary" id="toidentity" >申请认证</button>
-                                    </c:otherwise>
-
-                                </c:choose>
-                            </p>
+                            <p><a href="<%=request.getContextPath()%>/loan/applyloan">申请贷款</a></p>
                             <p><a href="<%=request.getContextPath()%>/fronts/personalInfo">个人信息</a></p>
                             <p><a href="<%=request.getContextPath()%>/loan/myloan">我的贷款</a></p>
                         </div>

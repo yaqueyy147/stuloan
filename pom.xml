@@ -42,6 +42,10 @@
           <artifactId>javax.servlet.jsp</artifactId>
           <groupId>org.eclipse.jetty.orbit</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>javax.servlet</artifactId>
+          <groupId>org.eclipse.jetty.orbit</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>

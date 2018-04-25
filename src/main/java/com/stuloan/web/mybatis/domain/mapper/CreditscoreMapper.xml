@@ -67,6 +67,16 @@
     </if>
   </select>
 
+  <select id="selectByuserid" parameterType="java.lang.String"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from creditscore
+    where 1=1
+    <if test="userid != null and userid != ''">
+      and a.userid = #{userid,jdbcType=VARCHAR}
+    </if>
+  </select>
+
   <select id="selectCountByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
     select
     count(id) as total

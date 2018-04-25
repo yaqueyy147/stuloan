@@ -32,6 +32,7 @@
       <arg column="userfrom" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="isstuidentity" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="loanlimit" javaType="java.lang.Double" jdbcType="DECIMAL" />
+      <arg column="iscreditidentity" javaType="java.lang.String" jdbcType="CHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
@@ -41,7 +42,7 @@
     -->
     id, username, loginname, password, idcard, phone, wechart, qqnum, remark, createman, 
     createdate, province, city, district, county, town, detailaddr, userphoto, idcardphoto, 
-    state, isconsole, isfront, userfrom, isstuidentity, loanlimit
+    state, isconsole, isfront, userfrom, isstuidentity, loanlimit, iscreditidentity
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
@@ -73,7 +74,7 @@
       city, district, county, 
       town, detailaddr, userphoto, 
       idcardphoto, state, isconsole, 
-      isfront, userfrom, isstuidentity, loanlimit)
+      isfront, userfrom, isstuidentity, loanlimit, iscreditidentity)
     values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{loginname,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{wechart,jdbcType=VARCHAR}, #{qqnum,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
@@ -82,7 +83,7 @@
       #{town,jdbcType=VARCHAR}, #{detailaddr,jdbcType=VARCHAR}, #{userphoto,jdbcType=VARCHAR}, 
       #{idcardphoto,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{isconsole,jdbcType=INTEGER}, 
       #{isfront,jdbcType=INTEGER}, #{userfrom,jdbcType=INTEGER}, #{isstuidentity,jdbcType=CHAR}
-      , #{loanlimit,jdbcType=DECIMAL})
+      , #{loanlimit,jdbcType=DECIMAL}, #{iscreditidentity,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.stuloan.web.mybatis.domain.Sysuser">
     <!--
@@ -166,6 +167,9 @@
       <if test="loanlimit != null">
         loanlimit,
       </if>
+      <if test="iscreditidentity != null">
+        iscreditidentity,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -243,6 +247,9 @@
       <if test="loanlimit != null">
         #{loanlimit,jdbcType=DECIMAL},
       </if>
+      <if test="iscreditidentity != null">
+        #{iscreditidentity,jdbcType=CHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.stuloan.web.mybatis.domain.Sysuser">
@@ -319,10 +326,13 @@
         userfrom = #{userfrom,jdbcType=INTEGER},
       </if>
       <if test="isstuidentity != null">
-        isstuidentity = #{userfrom,jdbcType=CHAR},
+        isstuidentity = #{isstuidentity,jdbcType=CHAR},
       </if>
       <if test="loanlimit != null">
-        loanlimit = #{userfrom,jdbcType=DECIMAL},
+        loanlimit = #{loanlimit,jdbcType=DECIMAL},
+      </if>
+      <if test="iscreditidentity != null">
+        iscreditidentity = #{iscreditidentity,jdbcType=CHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -356,7 +366,8 @@
       isfront = #{isfront,jdbcType=INTEGER},
       userfrom = #{userfrom,jdbcType=INTEGER},
       isstuidentity = #{isstuidentity,jdbcType=CHAR},
-      loanlimit = #{loanlimit,jdbcType=DECIMAL}
+      loanlimit = #{loanlimit,jdbcType=DECIMAL},
+      iscreditidentity = #{iscreditidentity,jdbcType=CHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
