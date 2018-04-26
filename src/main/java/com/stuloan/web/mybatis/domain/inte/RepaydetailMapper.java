@@ -1,6 +1,5 @@
 package com.stuloan.web.mybatis.domain.inte;
 
-import com.stuloan.web.mybatis.domain.Loan;
 import com.stuloan.web.mybatis.domain.Repaydetail;
 import org.springframework.stereotype.Repository;
 
@@ -65,4 +64,7 @@ public interface RepaydetailMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Repaydetail record);
+
+    int updatesmsstate(String ids);
+
 }

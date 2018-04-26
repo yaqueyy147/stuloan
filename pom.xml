@@ -277,6 +277,71 @@
       <artifactId>fastjson</artifactId>
       <version>1.2.41</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.8.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.1991wangliang</groupId>
+      <artifactId>alipay-api</artifactId>
+      <version>1.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>cn.bingoogolapple</groupId>
+      <artifactId>zxing</artifactId>
+      <version>1.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>23.5-jre</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.aliyun.alicom</groupId>
+      <artifactId>alicom-mns-receive-sdk</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/alicom-mns-receive-sdk-1.0.1.jar</systemPath>
+    </dependency>
+
+    <dependency>
+      <groupId>com.aliyun.mns</groupId>
+      <artifactId>aliyun-sdk-mns</artifactId>
+      <version>1.1.8</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/aliyun-sdk-mns-1.1.8.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.aliyun</groupId>
+      <artifactId>aliyun-java-sdk-core</artifactId>
+      <version>3.5.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.aliyun</groupId>
+      <artifactId>aliyun-java-sdk-dybaseapi</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/aliyun-java-sdk-dybaseapi-1.0.0.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.aliyun</groupId>
+      <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/aliyun-java-sdk-dysmsapi-1.0.0.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>cq.hlideal</groupId>
+      <artifactId>hlideal-jetty-consoles</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/hlideal-jetty-console.jar</systemPath>
+    </dependency>
+
   </dependencies>
   <build>
     <finalName>stuloan</finalName>
