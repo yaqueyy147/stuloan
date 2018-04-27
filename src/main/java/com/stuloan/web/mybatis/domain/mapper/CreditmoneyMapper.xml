@@ -109,7 +109,7 @@
         loanmoney,
       </if>
       <if test="remark != null">
-        remark,
+        remark
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -126,7 +126,7 @@
         #{loanmoney,jdbcType=DECIMAL},
       </if>
       <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -147,7 +147,7 @@
         loanmoney = #{loanmoney,jdbcType=DECIMAL},
       </if>
       <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
+        remark = #{remark,jdbcType=VARCHAR}
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

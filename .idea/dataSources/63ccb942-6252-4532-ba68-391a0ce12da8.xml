@@ -1,0 +1,846 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="jdbc:mysql://127.0.0.1:3307/stuloan?useUnicode=true&amp;amp;characterEncoding=UTF-8&amp;amp;zeroDateTimeBehavior=convertToNull">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.0">
+    <root id="1"/>
+    <schema id="2" parent="1" name="stuloan">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="auth"/>
+    <schema id="4" parent="1" name="auth_right"/>
+    <schema id="5" parent="1" name="base1"/>
+    <schema id="6" parent="1" name="cartoonweb"/>
+    <schema id="7" parent="1" name="central_office"/>
+    <schema id="8" parent="1" name="cqnb1"/>
+    <schema id="9" parent="1" name="family_tree"/>
+    <schema id="10" parent="1" name="hlideal-newspub"/>
+    <schema id="11" parent="1" name="hlidealdb"/>
+    <schema id="12" parent="1" name="hlideal_bq_db"/>
+    <schema id="13" parent="1" name="hlideal_framework"/>
+    <schema id="14" parent="1" name="hlideal_framework_henan"/>
+    <schema id="15" parent="1" name="hlideal_framework_shanghai"/>
+    <schema id="16" parent="1" name="hlideal_framework_shiyong"/>
+    <schema id="17" parent="1" name="information_schema"/>
+    <schema id="18" parent="1" name="mwyf"/>
+    <schema id="19" parent="1" name="mysql"/>
+    <schema id="20" parent="1" name="nba"/>
+    <schema id="21" parent="1" name="openplatform"/>
+    <schema id="22" parent="1" name="performance_schema"/>
+    <schema id="23" parent="1" name="quazheng_gxb"/>
+    <schema id="24" parent="1" name="quzheng"/>
+    <schema id="25" parent="1" name="quzheng1"/>
+    <schema id="26" parent="1" name="quzheng_gxb"/>
+    <schema id="27" parent="1" name="stuloanidentity"/>
+    <schema id="28" parent="1" name="test"/>
+    <table id="29" parent="2" name="creditmoney"/>
+    <table id="30" parent="2" name="creditscore"/>
+    <table id="31" parent="2" name="loan"/>
+    <table id="32" parent="2" name="repaydetail"/>
+    <table id="33" parent="2" name="resource"/>
+    <table id="34" parent="2" name="shortmessage"/>
+    <table id="35" parent="2" name="stagefee"/>
+    <table id="36" parent="2" name="studentinfo"/>
+    <table id="37" parent="2" name="sysuser"/>
+    <table id="38" parent="2" name="trade"/>
+    <table id="39" parent="2" name="userresource"/>
+    <column id="40" parent="29" name="id">
+      <Position>1</Position>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="41" parent="29" name="creditlevel">
+      <Position>2</Position>
+      <Comment>信用分等级</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="42" parent="29" name="thresholdscore">
+      <Position>3</Position>
+      <Comment>信用分阈值</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="43" parent="29" name="loanmoney">
+      <Position>4</Position>
+      <Comment>最大可贷款金额</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="44" parent="29" name="remark">
+      <Position>5</Position>
+      <Comment>备注备用字段</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <key id="45" parent="29" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="46" parent="30" name="id">
+      <Position>1</Position>
+      <Comment>主键id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="47" parent="30" name="userid">
+      <Position>2</Position>
+      <Comment>用户id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="48" parent="30" name="stuidcard">
+      <Position>3</Position>
+      <DataType>varchar(64)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="49" parent="30" name="creditscoretotal">
+      <Position>4</Position>
+      <Comment>信用总分</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="50" parent="30" name="identityscore">
+      <Position>5</Position>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="51" parent="30" name="performscore">
+      <Position>6</Position>
+      <Comment>履约分</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="52" parent="30" name="historyscore">
+      <Position>7</Position>
+      <Comment>历史信用分</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="53" parent="30" name="peoplekeepscore">
+      <Position>8</Position>
+      <Comment>人脉分</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="54" parent="30" name="behaviorscore">
+      <Position>9</Position>
+      <Comment>行为分</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="55" parent="30" name="createdate">
+      <Position>10</Position>
+      <Comment>创建时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="56" parent="30" name="remark">
+      <Position>11</Position>
+      <Comment>备注备用字段</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="57" parent="30" name="state">
+      <Position>12</Position>
+      <Comment>状态：1、已通过认证</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <key id="58" parent="30" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="59" parent="31" name="id">
+      <Position>1</Position>
+      <Comment>主键id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="60" parent="31" name="userid">
+      <Position>2</Position>
+      <Comment>用户id,学生id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="61" parent="31" name="loanamount">
+      <Position>3</Position>
+      <Comment>贷款金额</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="62" parent="31" name="isstage">
+      <Position>4</Position>
+      <Comment>是否分期</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="63" parent="31" name="repayreal">
+      <Position>5</Position>
+      <Comment>实际要还款总额</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="64" parent="31" name="stagenum">
+      <Position>6</Position>
+      <Comment>分期期数</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="65" parent="31" name="repayyet">
+      <Position>7</Position>
+      <Comment>已还款金额</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="66" parent="31" name="stagenumyet">
+      <Position>8</Position>
+      <Comment>已还款期数</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="67" parent="31" name="createdate">
+      <Position>9</Position>
+      <Comment>创建时间，贷款时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="68" parent="31" name="updatedate">
+      <Position>10</Position>
+      <Comment>修改时间，最后还款时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="69" parent="31" name="state">
+      <Position>11</Position>
+      <Comment>放款状态：0、待审核；1、已同意放款；2、不同意</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="70" parent="31" name="auditid">
+      <Position>12</Position>
+      <Comment>审核人id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="71" parent="31" name="auditman">
+      <Position>13</Position>
+      <Comment>审核人name</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="72" parent="31" name="auditdate">
+      <Position>14</Position>
+      <Comment>审核时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="73" parent="31" name="auditmsg">
+      <Position>15</Position>
+      <Comment>审核意见</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="74" parent="31" name="remark">
+      <Position>16</Position>
+      <Comment>备注备用字段</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="75" parent="31" name="loanpurpose">
+      <Position>17</Position>
+      <Comment>贷款用途</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="76" parent="31" name="loanage">
+      <Position>18</Position>
+      <Comment>贷款期限：月数</Comment>
+      <DataType>int(11) unsigned zerofill|0</DataType>
+      <DefaultExpression>&apos;00000000000&apos;</DefaultExpression>
+    </column>
+    <column id="77" parent="31" name="ispayoff">
+      <Position>19</Position>
+      <Comment>是否已还清：1、是</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="78" parent="31" name="tradeid">
+      <Position>20</Position>
+      <Comment>订单id，关联订单表id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <key id="79" parent="31" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="80" parent="32" name="id">
+      <Position>1</Position>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="81" parent="32" name="loanid">
+      <Position>2</Position>
+      <Comment>贷款id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="82" parent="32" name="stagenum">
+      <Position>3</Position>
+      <Comment>还款期次，第几期还款</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="83" parent="32" name="repaymoney">
+      <Position>4</Position>
+      <Comment>还款金额</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="84" parent="32" name="repaydateplan">
+      <Position>5</Position>
+      <Comment>最后还款时间/预计还款时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="85" parent="32" name="repaydatereal">
+      <Position>6</Position>
+      <Comment>实际还款时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="86" parent="32" name="isrepay">
+      <Position>7</Position>
+      <Comment>是否已还本期：1、是</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="87" parent="32" name="issendmsg">
+      <Position>8</Position>
+      <Comment>是否已发短信提醒</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="88" parent="32" name="state">
+      <Position>9</Position>
+      <Comment>状态</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="89" parent="32" name="remark">
+      <Position>10</Position>
+      <Comment>备注备用字段</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="90" parent="32" name="tradeid">
+      <Position>11</Position>
+      <Comment>订单id，关联订单表id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <key id="91" parent="32" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="92" parent="33" name="id">
+      <Position>1</Position>
+      <Comment>id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="93" parent="33" name="sourcecode">
+      <Position>2</Position>
+      <Comment>resource编码</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="94" parent="33" name="sourcename">
+      <Position>3</Position>
+      <Comment>资源名称</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="95" parent="33" name="sourcedesc">
+      <Position>4</Position>
+      <Comment>资源说明</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="96" parent="33" name="sourcelevel">
+      <Position>5</Position>
+      <Comment>资源等级</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="97" parent="33" name="sourcetype">
+      <Position>6</Position>
+      <Comment>资源类别：待定。</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="98" parent="33" name="sourceurl">
+      <Position>7</Position>
+      <Comment>资源链接</Comment>
+      <DataType>varchar(1000)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="99" parent="33" name="parentsourceid">
+      <Position>8</Position>
+      <Comment>上级资源id</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="100" parent="33" name="parentsourcecode">
+      <Position>9</Position>
+      <Comment>上级资源编码</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="101" parent="33" name="state">
+      <Position>10</Position>
+      <Comment>状态：0、不可用，1、可用</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <key id="102" parent="33" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="103" parent="34" name="id">
+      <Position>1</Position>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="104" parent="34" name="userid">
+      <Position>2</Position>
+      <Comment>用户id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="105" parent="34" name="phone">
+      <Position>3</Position>
+      <Comment>手机号码</Comment>
+      <DataType>varchar(20)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="106" parent="34" name="msgcontent">
+      <Position>4</Position>
+      <Comment>短信内容</Comment>
+      <DataType>varchar(500)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="107" parent="34" name="msgdate">
+      <Position>5</Position>
+      <Comment>发送时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="108" parent="34" name="issend">
+      <Position>6</Position>
+      <Comment>是否已发送</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="109" parent="34" name="remark">
+      <Position>7</Position>
+      <Comment>备注备用字段</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <key id="110" parent="34" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="111" parent="35" name="id">
+      <Position>1</Position>
+      <Comment>主键id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="112" parent="35" name="stagenum">
+      <Position>2</Position>
+      <Comment>分期期数</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="113" parent="35" name="feepercent">
+      <Position>3</Position>
+      <Comment>手续费百分比，实际为字段值%100</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="114" parent="35" name="state">
+      <Position>4</Position>
+      <Comment>状态：1、可用</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="115" parent="35" name="remark">
+      <Position>5</Position>
+      <Comment>备注备用字段</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <key id="116" parent="35" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="117" parent="36" name="id">
+      <Position>1</Position>
+      <Comment>主键id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="118" parent="36" name="userid">
+      <Position>2</Position>
+      <Comment>用户id，关联baseuser表学生用户id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="119" parent="36" name="stuname">
+      <Position>3</Position>
+      <Comment>姓名</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="120" parent="36" name="stusex">
+      <Position>4</Position>
+      <Comment>性别：0、女；1、男</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="121" parent="36" name="stuidcard">
+      <Position>5</Position>
+      <Comment>身份号</Comment>
+      <DataType>varchar(18)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="122" parent="36" name="school">
+      <Position>6</Position>
+      <Comment>学习</Comment>
+      <DataType>varchar(500)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="123" parent="36" name="edulevel">
+      <Position>7</Position>
+      <Comment>学历层次：专科、本科、硕士、博士</Comment>
+      <DataType>varchar(20)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="124" parent="36" name="major">
+      <Position>8</Position>
+      <Comment>专业</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="125" parent="36" name="edusystem">
+      <Position>9</Position>
+      <Comment>学制</Comment>
+      <DataType>varchar(10)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="126" parent="36" name="edutype">
+      <Position>10</Position>
+      <Comment>学历类别</Comment>
+      <DataType>varchar(50)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="127" parent="36" name="edumode">
+      <Position>11</Position>
+      <Comment>学习形式：如普通全日制</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="128" parent="36" name="branch">
+      <Position>12</Position>
+      <Comment>分院</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="129" parent="36" name="classgrade">
+      <Position>13</Position>
+      <Comment>班级</Comment>
+      <DataType>varchar(50)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="130" parent="36" name="stunum">
+      <Position>14</Position>
+      <Comment>学号</Comment>
+      <DataType>varchar(50)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="131" parent="36" name="admissiondate">
+      <Position>15</Position>
+      <Comment>入学时间</Comment>
+      <DataType>date|0</DataType>
+    </column>
+    <column id="132" parent="36" name="leavedate">
+      <Position>16</Position>
+      <Comment>离校时间</Comment>
+      <DataType>date|0</DataType>
+    </column>
+    <column id="133" parent="36" name="stustate">
+      <Position>17</Position>
+      <Comment>学籍状态：0、不在籍；1、在籍...</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="134" parent="36" name="remark">
+      <Position>18</Position>
+      <Comment>备注备用字段</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="135" parent="36" name="isstuidentity">
+      <Position>19</Position>
+      <Comment>是否已通过学生认证:1、已认证</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <key id="136" parent="36" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="137" parent="37" name="id">
+      <Position>1</Position>
+      <Comment>主键id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="138" parent="37" name="username">
+      <Position>2</Position>
+      <Comment>昵称/真实姓名/展示姓名</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="139" parent="37" name="loginname">
+      <Position>3</Position>
+      <Comment>用户登录名</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="140" parent="37" name="password">
+      <Position>4</Position>
+      <Comment>密码</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="141" parent="37" name="idcard">
+      <Position>5</Position>
+      <Comment>身份证号</Comment>
+      <DataType>varchar(18)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="142" parent="37" name="phone">
+      <Position>6</Position>
+      <Comment>电话号码</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="143" parent="37" name="wechart">
+      <Position>7</Position>
+      <Comment>微信</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="144" parent="37" name="qqnum">
+      <Position>8</Position>
+      <Comment>qq号</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="145" parent="37" name="remark">
+      <Position>9</Position>
+      <Comment>备注备用字段</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="146" parent="37" name="createman">
+      <Position>10</Position>
+      <Comment>创建人</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="147" parent="37" name="createdate">
+      <Position>11</Position>
+      <Comment>注册时间</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="148" parent="37" name="province">
+      <Position>12</Position>
+      <Comment>省</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="149" parent="37" name="city">
+      <Position>13</Position>
+      <Comment>市</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="150" parent="37" name="district">
+      <Position>14</Position>
+      <Comment>区</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="151" parent="37" name="county">
+      <Position>15</Position>
+      <Comment>县</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="152" parent="37" name="town">
+      <Position>16</Position>
+      <Comment>镇</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="153" parent="37" name="detailaddr">
+      <Position>17</Position>
+      <Comment>详细地址</Comment>
+      <DataType>varchar(1000)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="154" parent="37" name="userphoto">
+      <Position>18</Position>
+      <Comment>用户头像地址</Comment>
+      <DataType>varchar(2000)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="155" parent="37" name="idcardphoto">
+      <Position>19</Position>
+      <Comment>身份证图片地址</Comment>
+      <DataType>varchar(2000)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="156" parent="37" name="state">
+      <Position>20</Position>
+      <Comment>状态:1、可用</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;1&apos;</DefaultExpression>
+    </column>
+    <column id="157" parent="37" name="isconsole">
+      <Position>21</Position>
+      <Comment>是否可登录后台：1、是</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="158" parent="37" name="isfront">
+      <Position>22</Position>
+      <Comment>是否可登陆前台：1、是</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="159" parent="37" name="userfrom">
+      <Position>23</Position>
+      <Comment>用户类型：1、前台注册；2、后台管理员创建</Comment>
+      <DataType>int(11)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="160" parent="37" name="isstuidentity">
+      <Position>24</Position>
+      <Comment>是否已通过学生认证:1、已认证</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="161" parent="37" name="loanlimit">
+      <Position>25</Position>
+      <Comment>贷款额度</Comment>
+      <DataType>decimal(18,2)|0</DataType>
+      <DefaultExpression>&apos;0.00&apos;</DefaultExpression>
+    </column>
+    <column id="162" parent="37" name="iscreditidentity">
+      <Position>26</Position>
+      <Comment>是否通过信用认证</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <key id="163" parent="37" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="164" parent="38" name="id">
+      <Position>1</Position>
+      <Comment>主键id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="165" parent="38" name="tradeno">
+      <Position>2</Position>
+      <Comment>放款时生成的支付宝订单号</Comment>
+      <DataType>varchar(100)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="166" parent="38" name="tradeqrimage">
+      <Position>3</Position>
+      <Comment>订单支付二维码</Comment>
+      <DataType>varchar(500)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="167" parent="38" name="tradestate">
+      <Position>4</Position>
+      <Comment>支付状态：1、已支付</Comment>
+      <DataType>char(1)|0</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+    </column>
+    <column id="168" parent="38" name="tradedate">
+      <Position>5</Position>
+      <Comment>支付时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="169" parent="38" name="createdate">
+      <Position>6</Position>
+      <Comment>订单生成时间</Comment>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="170" parent="38" name="tradedesc">
+      <Position>7</Position>
+      <Comment>订单说明</Comment>
+      <DataType>varchar(500)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <column id="171" parent="38" name="remark">
+      <Position>8</Position>
+      <Comment>备注备用字段</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <key id="172" parent="38" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="173" parent="39" name="id">
+      <Position>1</Position>
+      <Comment>自增长id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="174" parent="39" name="userid">
+      <Position>2</Position>
+      <Comment>用户id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="175" parent="39" name="resourceid">
+      <Position>3</Position>
+      <Comment>资源id</Comment>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="176" parent="39" name="remark">
+      <Position>4</Position>
+      <Comment>备注备用字段</Comment>
+      <DataType>varchar(255)|0</DataType>
+      <DefaultExpression>&apos;&apos;</DefaultExpression>
+    </column>
+    <key id="177" parent="39" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>

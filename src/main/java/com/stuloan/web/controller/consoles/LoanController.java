@@ -80,6 +80,14 @@ public class LoanController {
                     loan.setAuditmsg("同意贷款");
                     repaydetail.setState(state);
                     ii += repaydetailMapper.updatestateByLoanIdSelective(repaydetail);
+
+                    Order order = new Order();
+                    order.setId(CommonUtil.uuid());
+                    order.setOrderno("loan_" + order.getId());
+                    order.setCreatedate(new Date());
+                    order.setOrderdesc("");
+                    order.setTotalamount(loan.getLoanamount());
+
                 }else{
                     loan.setAuditmsg(CommonUtil.isBlank(auditmsg)?"不同意贷款":auditmsg);
                     ii += repaydetailMapper.deleteByLoanid(id);

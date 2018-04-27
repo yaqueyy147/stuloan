@@ -293,6 +293,17 @@
       <groupId>cn.bingoogolapple</groupId>
       <artifactId>zxing</artifactId>
       <version>1.0.2</version>
+      <exclusions>
+        <exclusion>
+          <groupId>QRCode-Android</groupId>
+          <artifactId>qrcodecore</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>cn.bingoogolapple</groupId>
+      <artifactId>qrcodecore</artifactId>
+      <version>1.0.2</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>

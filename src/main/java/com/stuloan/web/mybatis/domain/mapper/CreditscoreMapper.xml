@@ -153,7 +153,7 @@
         remark,
       </if>
       <if test="state != null">
-        state,
+        state
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -191,7 +191,7 @@
         #{remark,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
-        #{state,jdbcType=CHAR},
+        #{state,jdbcType=CHAR}
       </if>
     </trim>
   </insert>
@@ -233,7 +233,7 @@
         remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="state != null">
-        state = #{state,jdbcType=CHAR},
+        state = #{state,jdbcType=CHAR}
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
     <!-- 本地数据库驱动程序jar包的全路径 -->
-    <classPathEntry location="C:\Users\Administrator.USER-20151013MO\.m2\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar"/>
+    <!--<classPathEntry location="C:\Users\Administrator.USER-20151013MO\.m2\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar"/>-->
+    <classPathEntry location="E:\work\maven\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar"/>
 
     <context id="context" targetRuntime="MyBatis3">
         <commentGenerator>
@@ -42,61 +43,12 @@
         </javaClientGenerator>
 
         <!-- 相关表的配置 -->
-        <table tableName="loan" enableCountByExample="false"
+        <table tableName="trade" enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"
                selectByExampleQueryId="false"/>
-        <table tableName="creditmoney" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="creditscore" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="repaydetail" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="shortmessage" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="stagefee" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="studentinfo" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="studentroll" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="sysuser" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="userresource" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="resource" enableCountByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               enableUpdateByExample="false"
-               selectByExampleQueryId="false"/>
+
 
     </context>
 </generatorConfiguration>

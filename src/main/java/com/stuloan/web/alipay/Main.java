@@ -20,10 +20,12 @@ import com.stuloan.web.alipay.service.impl.AlipayMonitorServiceImpl;
 import com.stuloan.web.alipay.service.impl.AlipayTradeServiceImpl;
 import com.stuloan.web.alipay.service.impl.AlipayTradeWithHBServiceImpl;
 import com.stuloan.web.alipay.utils.Utils;
+import com.stuloan.web.alipay.utils.ZxingUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -64,7 +66,7 @@ public class Main {
     }
 
     // 简单打印应答
-    private void dumpResponse(AlipayResponse response) {
+    private static void dumpResponse(AlipayResponse response) {
         if (response != null) {
             log.info(String.format("code:%s, msg:%s", response.getCode(), response.getMsg()));
             if (StringUtils.isNotEmpty(response.getSubCode())) {
@@ -97,7 +99,7 @@ public class Main {
         //        main.test_trade_refund();
 
         // 测试当面付2.0生成支付二维码
-        main.test_trade_precreate();
+        test_trade_precreate();
     }
 
     // 测试系统商交易保障调度
@@ -365,7 +367,7 @@ public class Main {
     }
 
     // 测试当面付2.0生成支付二维码
-    public void test_trade_precreate() {
+    public static void test_trade_precreate() {
         // (必填) 商户网站订单系统中唯一订单号，64个字符以内，只能包含字母、数字、下划线，
         // 需保证商户系统端不能重复，建议通过数据库sequence生成，
         String outTradeNo = "tradeprecreate" + System.currentTimeMillis()
@@ -431,10 +433,18 @@ public class Main {
                 dumpResponse(response);
 
                 // 需要修改为运行机器上的路径
-                String filePath = String.format("/Users/sudo/Desktop/qr-%s.png",
+
+                String path = "";
+                try {
+                    File file = new File("");
+                    path = file.getCanonicalPath() + "/src/main/webapp/static/alipay/qr-%s.png";
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                String filePath = String.format(path,
                     response.getOutTradeNo());
                 log.info("filePath:" + filePath);
-                //                ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
+                    ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
                 break;
 
             case FAILED:
