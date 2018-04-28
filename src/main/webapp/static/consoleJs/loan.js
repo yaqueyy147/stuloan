@@ -189,6 +189,12 @@ function toaudit(obj,ids,state) {
                 loadDataGrid(params);
                 $("#stagefeeForm").form('clear');
                 closeDialog("stagefeeDialog");
+                if(state == 1){
+                    var qrcodeurl = data.qrcodeurl;
+                    var qrcode = "<img src=\"" + qrcodeurl + "\" style=\"width:100%;height:100%\" />";
+                    $("#payqrcodeDialog").html(qrcode);
+                    $("#payqrcodeDialog").dialog("open");
+                }
             }
         },
         error:function (data) {
@@ -201,3 +207,4 @@ function toaudit(obj,ids,state) {
         }
     });
 }
+

@@ -7,7 +7,6 @@ import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.stuloan.web.alipay.config.Configs;
 import com.stuloan.web.alipay.model.ExtendParams;
 import com.stuloan.web.alipay.model.GoodsDetail;
-import com.stuloan.web.alipay.model.OrderDetail;
 import com.stuloan.web.alipay.model.builder.AlipayTradePrecreateRequestBuilder;
 import com.stuloan.web.alipay.model.builder.AlipayTradeQueryRequestBuilder;
 import com.stuloan.web.alipay.model.result.AlipayF2FPrecreateResult;
@@ -19,6 +18,7 @@ import com.stuloan.web.alipay.service.impl.AlipayTradeServiceImpl;
 import com.stuloan.web.alipay.service.impl.AlipayTradeWithHBServiceImpl;
 import com.stuloan.web.alipay.utils.Utils;
 import com.stuloan.web.alipay.utils.ZxingUtils;
+import com.stuloan.web.mybatis.domain.Order;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -140,7 +140,7 @@ public class AlipayTrade {
     }
 
     // 测试当面付2.0生成支付二维码
-    public static String test_trade_precreate(OrderDetail orderDetail, List<GoodsDetail> goodsDetailList) {
+    public static String test_trade_precreate(Order order, List<GoodsDetail> goodsDetailList) {
 
         // 业务扩展参数，目前可添加由支付宝分配的系统商编号(通过setSysServiceProviderId方法)，详情请咨询支付宝技术支持
         ExtendParams extendParams = new ExtendParams();
@@ -148,10 +148,10 @@ public class AlipayTrade {
 
         // 创建扫码支付请求builder，设置请求参数
         AlipayTradePrecreateRequestBuilder builder = new AlipayTradePrecreateRequestBuilder()
-            .setSubject(orderDetail.getSubject()).setTotalAmount(orderDetail.getTotalAmount()).setOutTradeNo(orderDetail.getOutTradeNo())
-            .setUndiscountableAmount(orderDetail.getUndiscountableAmount()).setSellerId(orderDetail.getSellerId()).setBody(orderDetail.getBody())
-            .setOperatorId(orderDetail.getOperatorId()).setStoreId(orderDetail.getStoreId()).setExtendParams(extendParams)
-            .setTimeoutExpress(orderDetail.getTimeoutExpress())
+            .setSubject(order.getOrdertitle()).setTotalAmount(order.getTotalamount() + "").setOutTradeNo(order.getOrderno())
+            .setUndiscountableAmount(order.getUndiscountableAmount()).setSellerId(order.getSellerid()).setBody(order.getOrderdesc())
+            .setOperatorId(order.getOperatorid()).setStoreId(order.getStoreid()).setExtendParams(extendParams)
+            .setTimeoutExpress(order.getTimeoutExpress())
             .setGoodsDetailList(goodsDetailList);
 
         AlipayF2FPrecreateResult result = tradeService.tradePrecreate(builder);

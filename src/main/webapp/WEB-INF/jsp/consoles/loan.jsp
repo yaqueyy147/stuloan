@@ -24,6 +24,9 @@
     <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" name="audit" data-state="1">批量同意</a>
     <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" name="audit" data-state="2">批量不同意</a>
 </div>
+<div id="payqrcodeDialog" class="easyui-dialog" title="放款二维码" style="width:400px;height:200px;padding:10px;top: 10%;left: 10%;text-align: center">
+
+</div>
 <%@include file="common/springUrl.jsp"%>
 <%@include file="common/commonJs.jsp"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/consoleJs/loan.js"></script>

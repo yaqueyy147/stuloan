@@ -15,6 +15,11 @@ public class Order {
     private String orderdesc;
     private String ordertitle;
     private Double totalamount;
+    private String timeoutExpress="120m";
+    private String sellerid;
+    private String operatorid;
+    private String storeid;
+    private String undiscountableAmount="0";
     private String remark;
 
     public String getId() {
@@ -89,6 +94,46 @@ public class Order {
         this.totalamount = totalamount;
     }
 
+    public String getTimeoutExpress() {
+        return timeoutExpress;
+    }
+
+    public void setTimeoutExpress(String timeoutExpress) {
+        this.timeoutExpress = timeoutExpress;
+    }
+
+    public String getSellerid() {
+        return sellerid;
+    }
+
+    public void setSellerid(String sellerid) {
+        this.sellerid = sellerid;
+    }
+
+    public String getOperatorid() {
+        return operatorid;
+    }
+
+    public void setOperatorid(String operatorid) {
+        this.operatorid = operatorid;
+    }
+
+    public String getStoreid() {
+        return storeid;
+    }
+
+    public void setStoreid(String storeid) {
+        this.storeid = storeid;
+    }
+
+    public String getUndiscountableAmount() {
+        return undiscountableAmount;
+    }
+
+    public void setUndiscountableAmount(String undiscountableAmount) {
+        this.undiscountableAmount = undiscountableAmount;
+    }
+
     public String getRemark() {
         return remark;
     }
@@ -96,4 +141,6 @@ public class Order {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.stuloan.web.controller.consoles;
 
+import com.stuloan.web.alipay.AlipayTrade;
 import com.stuloan.web.mybatis.domain.*;
 import com.stuloan.web.mybatis.domain.inte.*;
 import com.stuloan.web.util.CommonUtil;
@@ -66,8 +67,7 @@ public class LoanController {
             int ii = 0;
             for(int i=0;i<idarr.length;i++){
                 String id = idarr[i];
-                Loan loan = new Loan();
-                loan.setId(id);
+                Loan loan = loanMapper.selectByPrimaryKey(id);
                 loan.setAuditdate(new Date());
                 loan.setAuditid(Userutils.getuserid(request,Userutils.CONSOLE_COOKIE_NAME));
                 loan.setAuditman(Userutils.getusername(request,Userutils.CONSOLE_COOKIE_NAME));
@@ -81,12 +81,17 @@ public class LoanController {
                     repaydetail.setState(state);
                     ii += repaydetailMapper.updatestateByLoanIdSelective(repaydetail);
 
+                    Studentinfo studentinfo = studentinfoMapper.selectByuserid(loan.getUserid());
+
                     Order order = new Order();
                     order.setId(CommonUtil.uuid());
                     order.setOrderno("loan_" + order.getId());
                     order.setCreatedate(new Date());
-                    order.setOrderdesc("");
+                    order.setOrderdesc(studentinfo.getStuname() + "的贷款,贷款金额(" + loan.getLoanamount() + "),用途:" + loan.getLoanpurpose());
                     order.setTotalamount(loan.getLoanamount());
+                    order.setOrdertitle("XXX校园贷扫码放款");
+                    String qrcodeurl = AlipayTrade.test_trade_precreate(order,null);
+                    result.put("qrcodeurl",qrcodeurl);
 
                 }else{
                     loan.setAuditmsg(CommonUtil.isBlank(auditmsg)?"不同意贷款":auditmsg);
