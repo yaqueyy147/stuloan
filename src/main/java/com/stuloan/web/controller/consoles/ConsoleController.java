@@ -267,6 +267,9 @@ public class ConsoleController {
         Map<String,Object> result = new HashMap<>();
 
         try {
+            if(CommonUtil.isBlank(resource.getId()) || "0".equals(resource.getId())){
+                resource.setId(CommonUtil.uuid());
+            }
             consoleService.saveResource(resource);
 
             result.put("code",1);
