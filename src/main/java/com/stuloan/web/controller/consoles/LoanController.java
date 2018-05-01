@@ -4,6 +4,7 @@ import com.stuloan.web.alipay.AlipayTrade_loan;
 import com.stuloan.web.mybatis.domain.*;
 import com.stuloan.web.mybatis.domain.inte.*;
 import com.stuloan.web.util.CommonUtil;
+import com.stuloan.web.util.PageUtil;
 import com.stuloan.web.util.Userutils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -172,6 +174,18 @@ public class LoanController {
             result.put("message","系统错误，请联系管理员");
         }
 
+        return result;
+    }
+
+    @RequestMapping(value = "/viewrepaydetail")
+    @ResponseBody
+    public Object viewrepaydetail(@RequestParam Map<String,Object> params) throws UnsupportedEncodingException {
+
+        Map<String,Object> result = new HashMap<>();
+        int totalcount = repaydetailMapper.selectCountByParams(params);
+        result.put("total",totalcount);
+        List<Repaydetail> list = repaydetailMapper.selectByParams(params);
+        result.put("rows",list);
         return result;
     }
 

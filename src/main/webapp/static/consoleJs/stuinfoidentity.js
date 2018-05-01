@@ -63,14 +63,14 @@ function loadDataGrid(params) {
             {field:"stunum",title:"学号",width:"100"},
             {field:"admissiondate",title:"入校时间",width:"100",
                 formatter: function(value,row,index){
-                    if(value == 1){
+                    if(value){
                         return value;
                     }
                     return "";
                 }},
             {field:"leavedate",title:"离校时间",width:"100",
                 formatter: function(value,row,index){
-                    if(value == 1){
+                    if(value){
                         return value;
                     }
                     return "";

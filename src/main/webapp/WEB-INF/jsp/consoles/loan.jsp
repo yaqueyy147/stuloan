@@ -27,6 +27,17 @@
 <div id="payqrcodeDialog" class="easyui-dialog" title="放款二维码" style="width:400px;height:200px;padding:10px;top: 10%;left: 10%;text-align: center">
 
 </div>
+<div id="repaydetailDialog" class="easyui-dialog" title="还款明细" style="width:400px;height:200px;padding:10px;top: 10%;left: 10%;text-align: center">
+    <table id="repayList" class="easyui-datagrid" style="width:100%;height:100%"
+           title="还款明细" data-options="
+				rownumbers:true,
+				singleSelect:true,
+				pagination:true,
+				pageSize:10">
+
+    </table>
+</div>
+
 <%@include file="common/springUrl.jsp"%>
 <%@include file="common/commonJs.jsp"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/consoleJs/loan.js"></script>

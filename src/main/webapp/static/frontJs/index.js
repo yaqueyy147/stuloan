@@ -128,19 +128,3 @@ $(function () {
     });
 
 });
-
-function viewFamily(familyId,visitStatus,visitPassword) {
-    if(visitStatus == 1){
-        location.href = projectUrl + "/family/viewFamily_visitor?familyId=" + familyId;
-        return;
-    }else if(visitStatus == 0){
-        $("#passwordPre").val(visitPassword);
-        $("#visitFamilyId").val(familyId);
-        $("#visitPasswordModal").modal('show');
-
-        return;
-    }else{
-        alert("您无没有权限访问这个族谱!");
-        return;
-    }
-}

@@ -48,7 +48,7 @@
     <if test="id != null and id != ''">
       and id = #{id,jdbcType=VARCHAR}
     </if>
-    <if test="loanid != null and userid != ''">
+    <if test="loanid != null and loanid != ''">
       and loanid = #{loanid,jdbcType=VARCHAR}
     </if>
     <if test="state != null and state != ''">
@@ -92,8 +92,8 @@
       and id = #{id,jdbcType=VARCHAR}
     </if>
 
-    <if test="loanid != null and userid != ''">
-      and loanid = #{userid,jdbcType=VARCHAR}
+    <if test="loanid != null and loanid != ''">
+      and loanid = #{loanid,jdbcType=VARCHAR}
     </if>
     <if test="state != null and state != ''">
       and state = #{state,jdbcType=CHAR}
