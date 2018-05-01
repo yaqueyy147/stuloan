@@ -39,12 +39,12 @@ $(function () {
             {
                 "text":"提交",
                 handler:function(){
-                    var loginName = $("#loginName").val();
-                    var userName = $("#userName").val();
+                    var loginName = $("#loginname").val();
+                    var userName = $("#username").val();
                     var password = $("#password").val();
                     var passwordAffirm = $("#passwordAffirm").val();
-                    var idCard = $("#idCard").val();
-                    var idCardPhoto = $("#idCardPhoto").val();
+                    var idCard = $("#idcard").val();
+                    var idCardPhoto = $("#idcardphoto").val();
                     var phone = $("#phone").val();
                     var province = $("#province").val();
                     var city = $("#city").val();
@@ -196,60 +196,6 @@ $(function () {
         ]
     });
 
-    $("#userFamilyDialog").dialog({
-        width: 800,
-        height: 500,
-        closed: true,
-        cache: false,
-        modal: true,
-        "buttons":[
-            {
-                "text":"提交",
-                handler:function(){
-                    var selectRows = $("#userFamilyList").datagrid('getSelections');
-                    if(selectRows.length < 1){
-                        alert("请至少选择一条数据!");
-                        return;
-                    }
-                    var selectIds = "";
-                    for(var i=0;i<selectRows.length;i++){
-                        var ii = selectRows[i];
-                        selectIds += "," + ii.id;
-                    }
-                    selectIds = selectIds.substring(1);
-                    $.ajax({
-                        type:'post',
-                        url: projectUrl + "/consoles/saveUserFamily",
-                        // async:false,
-                        dataType:'json',
-                        data:{userId:userId,sourceIds:selectIds},
-                        success:function (data) {
-
-                            alert(data.msg);
-                            if(data.code >= 1){
-                                $("#userFamilyDialog").dialog("close");
-                            }
-                        },
-                        error:function (data) {
-                            var responseText = data.responseText;
-                            if(responseText.indexOf("登出跳转页面") >= 0){
-                                ajaxErrorToLogin();
-                            }else{
-                                alert(JSON.stringify(data));
-                            }
-                        }
-                    });
-                }
-            },
-            {
-                "text":"取消",
-                handler:function () {
-                    $("#userFamilyDialog").dialog("close");
-                }
-            }
-        ]
-    });
-
     $("#modifyPasswordDialog").dialog({
         width: 400,
         height: 200,
@@ -314,13 +260,13 @@ $(function () {
 
         $("#userInfoForm").form('clear');
         $("#state").combobox("setValue",1);
-        $("#isFront").combobox("setValue",1);
-        $("#isConsole").combobox("setValue",1);
-        $("#isVolunteer").combobox("setValue",1);
+        $("#isfront").combobox("setValue",1);
+        $("#isconsole").combobox("setValue",1);
+        $("#isvolunteer").combobox("setValue",1);
         $("#userId").val(0);
         $("#passwordTr").removeAttr("style");
         $("#userDialog").dialog('open');
-        $("#loginName").removeAttr("readonly");
+        $("#loginname").removeAttr("readonly");
     });
     var setting = {
         data: {
@@ -347,7 +293,7 @@ $(function () {
             alert("请选择一条数据!");
             return;
         }
-        if(selectRows[0].isConsole != 1){
+        if(selectRows[0].isconsole != 1){
             alert("该用户不是后台用户，不能授权！");
             return;
         }
@@ -357,27 +303,6 @@ $(function () {
         $.fn.zTree.init($("#resourceTree"), setting, dataList);
 
         $("#resourceDialog").dialog('open');
-    });
-
-    $("#toSetFamilyAuth").click(function () {
-        var selectRows = $("#userList").datagrid('getSelections');
-        if(selectRows.length > 1){
-            alert("只能编辑一条数据!");
-            return;
-        }
-        if(selectRows.length < 1){
-            alert("请选择一条数据!");
-            return;
-        }
-        if(selectRows[0].isConsole != 1){
-            alert("该用户不是后台用户，不能授权！");
-            return;
-        }
-        $("#userId4Tree").val(selectRows[0].id);
-        var params = {userId:selectRows[0].id};
-        loadFamilyList(params);
-
-        $("#userFamilyDialog").dialog('open');
     });
 
     $("#toEdit").click(function () {
@@ -422,7 +347,7 @@ $(function () {
         for(var i=0;i<selectRows.length;i++){
             var ii = selectRows[i];
             selectIds += "," + ii.id;
-            selectNames.push(ii.userName);
+            selectNames.push(ii.username);
         }
         selectIds = selectIds.substring(1);
         $.messager.confirm('提示','确定要删除用户(' + selectNames + ')  吗?',function(r){
@@ -471,11 +396,11 @@ function loadDataGrid(params) {
         columns:[[
             {field:"ck",checkbox:"true"},
             {field:"id",title:"用户Id",width:"80",hidden:true},
-            {field:"loginName",title:"用户账号",width:"120"},
-            {field:"userName",title:"用户昵称",width:"120"},
+            {field:"loginname",title:"用户账号",width:"120"},
+            {field:"username",title:"用户昵称",width:"120"},
             {field:"password",title:"密码",width:"80",hidden:true},
             {field:"phone",title:"电话",width:"120"},
-            {field:"qqNum",title:"QQ",width:"100"},
+            {field:"qqnum",title:"QQ",width:"100"},
             {field:"wechart",title:"微信",width:"100"},
             {field:"address",title:"所在地",width:"150",
                 formatter: function(value,row,index){
@@ -491,38 +416,38 @@ function loadDataGrid(params) {
                     }
                     return '<span title='+ address + '>'+address+'</span>';
                 }},
-            {field:"createMan",title:"创建人",width:"120"},
-            {field:"createTime",title:"创建时间",width:"150",
+            {field:"createman",title:"创建人",width:"120"},
+            {field:"createtime",title:"创建时间",width:"150",
                 formatter: function(value,row,index){
                     if($.trim(value).length > 0){
                         return value;
                     }
                     return '';
                 }},
-            {field:"stateDesc",title:"状态",width:"80"},
+            {field:"statedesc",title:"状态",width:"80"},
             {field:"state",title:"状态",width:"180",hidden:true},
-            {field:"userFrom",title:"用户来源",width:"120",
+            {field:"userfrom",title:"用户来源",width:"120",
                 formatter: function(value,row,index){
                     if(value == 1){
                         return "前台注册";
                     }
                     return '后台管理员设置';
                 }},
-            {field:"isFront",title:"是否可登录前台",width:"100",
+            {field:"isfront",title:"是否可登录前台",width:"100",
                 formatter: function(value,row,index){
                     if(value == 1){
                         return "是";
                     }
                     return '否';
                 }},
-            {field:"isConsole",title:"是否可登录后台",width:"100",
+            {field:"isconsole",title:"是否可登录后台",width:"100",
                 formatter: function(value,row,index){
                     if(value == 1){
                         return "是";
                     }
                     return '否';
                 }},
-            {field:"isVolunteer",title:"是否可修族谱",width:"100",
+            {field:"isvolunteer",title:"是否可修族谱",width:"100",
                 formatter: function(value,row,index){
                     if(value == 1){
                         return "是";
@@ -558,14 +483,14 @@ function formatDataList(data){
 
 function loadDataToForm(data){
     $("#userId").val(data.id);
-    $("#userName").val(data.userName);
-    $("#loginName").val(data.loginName);
-    $("#loginName").attr("readonly","readonly");
+    $("#username").val(data.userName);
+    $("#loginname").val(data.loginName);
+    $("#loginname").attr("readonly","readonly");
     $("#password").val(data.password);
     $("#passwordAffirm").val(data.password);
-    $("#idCard").val(data.idCard);
+    $("#idcard").val(data.idCard);
     $("#phone").val(data.phone);
-    $("#qqNum").val(data.qqNum);
+    $("#qqnum").val(data.qqNum);
     $("#wechart").val(data.wechart);
     $("#province").val(data.province);
     $("#province").change();
@@ -574,46 +499,10 @@ function loadDataToForm(data){
     $("#district").val(data.district);
 
     $("#state").combobox("setValue",data.state);
-    $("#isFront").combobox("setValue",data.isFront);
-    $("#isConsole").combobox("setValue",data.isConsole);
-    $("#isVolunteer").combobox("setValue",data.isVolunteer);
-    $("#userFrom").val(data.userFrom);
-    $("#userPhoto").val(data.userPhoto);
-    $("#idCardPhoto").val(data.idCardPhoto);
-}
-
-function loadFamilyList(params) {
-    var dataList = getData("/consoles/familyList",params).dataList;
-    dataList = formatDataList(dataList);
-    $("#userFamilyList").datagrid({
-        data:dataList,
-        loadMsg:"加载中...",
-        selectOnCheck:true,
-        singleSelect:false,
-        nowrap: true,
-        columns:[[
-            {field:"ck",checkbox:"true"},
-            {field:"id",title:"族谱Id",width:"80",hidden:true},
-            {field:"familyName",title:"族谱名称",width:"200",
-                formatter: function(value,row,index){
-                    return '<span title=' + value + '>' + value + '</span>';
-                }},
-            {field:"familyFirstName",title:"族谱姓氏",width:"150"},
-            {field:"peopleCount",title:"族谱人数",width:"80"},
-            // {field:"createMan",title:"创建人",width:"80"},
-            // {field:"createTime",title:"创建时间",width:"180",
-            //     formatter: function(value,row,index){
-            //         return new Date(value).Format("yyyy-MM-dd hh:mm:ss");
-            //     }},
-            {field:"familyAddr",title:"族谱所在地",width:"300",
-                formatter: function(value,row,index){
-                    return '<span title='+ row.province + row.city + row.district + '>'+row.province + row.city + row.district+'</span>'
-                }},
-            {field:"familyDesc",title:"族谱简介",width:"300",
-                formatter: function(value,row,index){
-                    return '<span title=' + value + '>' + value + '</span>';
-                }}
-        ]],
-        loadFilter:pagerFilter
-    });
+    $("#isfront").combobox("setValue",data.isFront);
+    $("#isconsole").combobox("setValue",data.isConsole);
+    $("#isvolunteer").combobox("setValue",data.isVolunteer);
+    $("#userfrom").val(data.userFrom);
+    $("#userphoto").val(data.userPhoto);
+    $("#idcardphoto").val(data.idCardPhoto);
 }

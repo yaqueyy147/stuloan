@@ -148,7 +148,7 @@ public class ConsoleServiceImpl implements ConsoleService {
     @Override
     public List<Userresource> getUserResource(Map<String,Object> params){
 
-        String hql = " from userresource where userid=?";
+        String hql = " from Userresource where userid=?";
         List<Userresource> list = userresourceDao.find(hql,params.get("userid"));
 
         return list;

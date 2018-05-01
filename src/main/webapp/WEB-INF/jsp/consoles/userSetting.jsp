@@ -20,9 +20,9 @@
 				pageSize:10"></table>
 <div id="tb">
     <span>登录账号:</span>
-    <input id="loginName4Search" name="loginName" style="line-height:26px;border:1px solid #ccc;height: 23px;">
+    <input id="loginName4Search" name="loginname" style="line-height:26px;border:1px solid #ccc;height: 23px;">
     <span>用户名:</span>
-    <input id="userName4Search" name="userName" style="line-height:26px;border:1px solid #ccc;height: 23px;">
+    <input id="userName4Search" name="username" style="line-height:26px;border:1px solid #ccc;height: 23px;">
     <span>用户属地:</span>
     <span data-toggle="distpicker">
         <select id="province4Search" name="province" style="line-height:26px;border:1px solid #ccc" data-province="---- 全部 ----"></select>
@@ -41,15 +41,15 @@
     <div style="padding:10px 40px 20px 40px">
         <form id="userInfoForm" method="post">
             <input class="easyui-validatebox" type="hidden" id="userId" name="id" value="0" />
-            <input class="easyui-validatebox" type="hidden" id="userFrom" name="userFrom" value="0" />
-            <input class="easyui-validatebox" type="hidden" id="userPhoto" name="userPhoto" value="" />
-            <input class="easyui-validatebox" type="hidden" id="idCardPhoto" name="idCardPhoto" value="" />
+            <input class="easyui-validatebox" type="hidden" id="userfrom" name="userfrom" value="0" />
+            <input class="easyui-validatebox" type="hidden" id="userphoto" name="userphoto" value="" />
+            <input class="easyui-validatebox" type="hidden" id="idcardphoto" name="idcardphoto" value="" />
             <table cellpadding="5">
                 <tr>
                     <td>登录账号:</td>
-                    <td><input class="easyui-validatebox" type="text" id="loginName" name="loginName" data-options="required:true" /></td>
+                    <td><input class="easyui-validatebox" type="text" id="loginname" name="loginname" data-options="required:true" /></td>
                     <td>用户名/真实姓名:</td>
-                    <td><input class="easyui-validatebox" type="text" id="userName" name="userName" data-options="required:true" /></td>
+                    <td><input class="easyui-validatebox" type="text" id="username" name="username" data-options="required:true" /></td>
                 </tr>
                 <tr id="passwordTr">
                     <td>密码:</td>
@@ -59,7 +59,7 @@
                 </tr>
                 <tr>
                     <td>身份证号:</td>
-                    <td><input class="easyui-validatebox" type="text" id="idCard" name="idCard" /></td>
+                    <td><input class="easyui-validatebox" type="text" id="idcard" name="idcard" /></td>
                 </tr>
                 <tr>
                     <td>联系电话:</td>
@@ -68,7 +68,7 @@
                     </td>
                     <td>QQ:</td>
                     <td>
-                        <input class="easyui-validatebox" type="text" id="qqNum" name="qqNum"/>
+                        <input class="easyui-validatebox" type="text" id="qqnum" name="qqnum"/>
                     </td>
                 </tr>
                 <tr>
@@ -97,14 +97,14 @@
                 <tr>
                     <td>是否可登录前台:</td>
                     <td>
-                        <select id="isFront" name="isFront" class="easyui-combobox" style="width:150px">
+                        <select id="isfront" name="isfront" class="easyui-combobox" style="width:150px">
                             <option value="1">是</option>
                             <option value="0">否</option>
                         </select>
                     </td>
                     <td>是否可登录后台:</td>
                     <td>
-                        <select id="isConsole" name="isConsole" class="easyui-combobox" style="width:150px">
+                        <select id="isconsole" name="isconsole" class="easyui-combobox" style="width:150px">
                             <option value="1">是</option>
                             <option value="0">否</option>
                         </select>
@@ -114,7 +114,7 @@
                 <tr>
                     <td>是否可修族谱:</td>
                     <td>
-                        <select id="isVolunteer" name="isVolunteer" class="easyui-combobox" style="width:150px">
+                        <select id="isvolunteer" name="isvolunteer" class="easyui-combobox" style="width:150px">
                             <option value="1">是</option>
                             <option value="0">否</option>
                         </select>
@@ -151,27 +151,7 @@
     </div>
 </div>
 
-<div id="userFamilyDialog" class="easyui-dialog" title="用户族谱权限设置" style="width:400px;height:200px;padding:10px;top: 10%;left: 10%;">
-    <input type="hidden" id="userId4Family" />
-    <table id="userFamilyList" class="easyui-datagrid" style="width:100%;height:100%"
-           title="族谱列表" toolbar="#tb3" data-options="
-				rownumbers:true,
-				singleSelect:true,
-				pagination:true,
-				pageSize:10"></table>
-</div>
-<div id="tb3">
-    <span>族谱名:</span>
-    <input id="familyName4Search2" name="familyName" style="line-height:26px;border:1px solid #ccc;height: 23px;">
-    <span>族谱属地:</span>
-    <span data-toggle="distpicker">
-        <select id="province4Search2" name="province" style="line-height:26px;border:1px solid #ccc" data-province="---- 全部 ----"></select>
-        <select id="city4Search2" name="city" style="line-height:26px;border:1px solid #ccc" data-city="---- 全部 ----"></select>
-        <select id="district4Search2" name="district" style="line-height:26px;border:1px solid #ccc" data-district="---- 全部 ----"></select>
-    </span>
 
-    <a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" id="doSearch2">查询</a>
-</div>
 <%@include file="common/springUrl.jsp"%>
 <%@include file="common/commonJs.jsp"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/js/distpicker.data.min.js"></script>
