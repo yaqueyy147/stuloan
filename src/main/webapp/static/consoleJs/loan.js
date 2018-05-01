@@ -55,6 +55,22 @@ $(function () {
             }
         ]
     });
+    $("#payqrcodeDialog").dialog({
+        width: 400,
+        height: 300,
+        closed: true,
+        cache: false,
+        modal: true,
+        "buttons":[
+            {
+                "text":"关闭",
+                handler:function () {
+                    closeDialog("payqrcodeDialog");
+                }
+            }
+        ]
+    });
+
 
     $("a[name='audit']").click(function () {
         var state = $(this).attr("data-state");
@@ -179,7 +195,7 @@ function loadDataGrid(params) {
 function toaudit(obj,ids,state) {
     $.ajax({
         type:'post',
-        url: projectUrl + "/consoles/auditloan",
+        url: projectUrl + "/consoles/getloanqrcode",
         dataType:'json',
         data:{ids:ids,state:state},
         success:function (data) {

@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by suyx on 2018/4/27 0027.
  */
-public class Order {
+public class Repayorder {
     private String id;
     private String orderno;
     private String orderqrimage;
@@ -16,9 +16,9 @@ public class Order {
     private String ordertitle;
     private Double totalamount;
     private String timeoutExpress="120m";
-    private String sellerid;
-    private String operatorid;
-    private String storeid;
+    private String sellerid="";
+    private String operatorid="test_operator_id";
+    private String storeid="test_store_id";
     private String undiscountableAmount="0";
     private String remark;
 

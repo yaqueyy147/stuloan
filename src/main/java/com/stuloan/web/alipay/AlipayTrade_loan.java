@@ -18,7 +18,7 @@ import com.stuloan.web.alipay.service.impl.AlipayTradeServiceImpl;
 import com.stuloan.web.alipay.service.impl.AlipayTradeWithHBServiceImpl;
 import com.stuloan.web.alipay.utils.Utils;
 import com.stuloan.web.alipay.utils.ZxingUtils;
-import com.stuloan.web.mybatis.domain.Order;
+import com.stuloan.web.mybatis.domain.Loanorder;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,8 +31,8 @@ import java.util.List;
  * 简单main函数，用于测试当面付api
  * sdk和demo的意见和问题反馈请联系：liuyang.kly@alipay.com
  */
-public class AlipayTrade {
-    private static Log                  log = LogFactory.getLog(AlipayTrade.class);
+public class AlipayTrade_loan {
+    private static Log                  log = LogFactory.getLog(AlipayTrade_loan.class);
 
     // 支付宝当面付2.0服务
     private static AlipayTradeService tradeService;
@@ -76,7 +76,7 @@ public class AlipayTrade {
     }
 
     public static void main(String[] args) {
-        AlipayTrade main = new AlipayTrade();
+        AlipayTrade_loan main = new AlipayTrade_loan();
 
         // 系统商商测试交易保障接口api
         //        main.test_monitor_sys();
@@ -139,18 +139,27 @@ public class AlipayTrade {
         }
     }
 
+    public static AlipayF2FQueryResult test_trade_query(String orderno) {
+        // 创建查询请求builder，设置请求参数
+        AlipayTradeQueryRequestBuilder builder = new AlipayTradeQueryRequestBuilder()
+                .setOutTradeNo(orderno);
+
+        AlipayF2FQueryResult result = tradeService.queryTradeResult(builder);
+        return result;
+    }
+
     // 测试当面付2.0生成支付二维码
-    public static String test_trade_precreate(Order order, List<GoodsDetail> goodsDetailList) {
+    public static String test_trade_precreate(Loanorder order, List<GoodsDetail> goodsDetailList) {
 
         // 业务扩展参数，目前可添加由支付宝分配的系统商编号(通过setSysServiceProviderId方法)，详情请咨询支付宝技术支持
-        ExtendParams extendParams = new ExtendParams();
-        extendParams.setSysServiceProviderId("2088100200300400500");
+//        ExtendParams extendParams = new ExtendParams();
+//        extendParams.setSysServiceProviderId("2088100200300400500");
 
         // 创建扫码支付请求builder，设置请求参数
         AlipayTradePrecreateRequestBuilder builder = new AlipayTradePrecreateRequestBuilder()
             .setSubject(order.getOrdertitle()).setTotalAmount(order.getTotalamount() + "").setOutTradeNo(order.getOrderno())
             .setUndiscountableAmount(order.getUndiscountableAmount()).setSellerId(order.getSellerid()).setBody(order.getOrderdesc())
-            .setOperatorId(order.getOperatorid()).setStoreId(order.getStoreid()).setExtendParams(extendParams)
+            .setOperatorId(order.getOperatorid()).setStoreId(order.getStoreid())//.setExtendParams(extendParams)
             .setTimeoutExpress(order.getTimeoutExpress())
             .setGoodsDetailList(goodsDetailList);
 
@@ -163,7 +172,7 @@ public class AlipayTrade {
                 dumpResponse(response);
 
                 String path = "";
-                String imgpath = "/src/main/webapp/static/alipay/qr-%s.png";
+                String imgpath = "/src/main/webapp/static/alipay/loan/qr-%s.png";
                 try {
                     File file = new File("");
                     path = file.getCanonicalPath() + imgpath;
@@ -173,6 +182,7 @@ public class AlipayTrade {
                 String filePath = String.format(path, response.getOutTradeNo());
                 log.info("filePath:" + filePath);
                 ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
+                imgpath = filePath.substring(filePath.indexOf("/static"));
                 return imgpath;
 
             case FAILED:

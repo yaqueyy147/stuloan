@@ -125,6 +125,22 @@
     </div>
 </div>
 
+<div class="modal fade" id="repayqrcodeModal" tabindex="-1" role="dialog" aria-labelledby="repayqrcodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="repayqrcodeModalLabel">还款二维码</h4>
+            </div>
+            <div class="modal-body" style="width: 300px;height: 300px;text-align: center">
+                <img src="" width="100%" id="repayqrcode" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 <%@include file="common/springUrl.jsp"%>
 <%@include file="common/footer.jsp" %>
 <%@include file="common/commonJS.jsp"%>

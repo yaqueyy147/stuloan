@@ -19,8 +19,6 @@ import java.util.Map;
 
 /**
  * Created by suyx on 2017/8/14 0014.
- * 根据参数设置的CATCH-REPRINT-DAY天数持续对bqauthmain表中的数据进行转载增量抓取
- * 对确权时间（authdate）在CATCH-REPRINT-DAY天内的数据进行增量抓取
  */
 @Component
 @Lazy(value=false)
@@ -28,17 +26,17 @@ public class WarnLoanExpireTask {
 
     private static final Logger logger = LoggerFactory.getLogger(WarnLoanExpireTask.class);
 
-    private static int bq_timoutminute = 4320 ;
+    private static int bq_timoutminute = -7*24*60 ;
 
     @Autowired
     private LoanMapper loanMapper;
     @Autowired
     private RepaydetailMapper repaydetailMapper;
 
-    @Scheduled(cron = "0 0 9 * * ?")
+    @Scheduled(cron = "0 0 10 * * ?")
     public void dowarnsmssend(){
         try {
-            String searchdate = DateUtil.getAddMinutes(new Date(),-7*24*60);
+            String searchdate = DateUtil.getAddMinutes(new Date(),bq_timoutminute);
             List<Map<String,Object>> list = loanMapper.selectloanexpires(searchdate);
 
             if(list != null && list.size() > 0){

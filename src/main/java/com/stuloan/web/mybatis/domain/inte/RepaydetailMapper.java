@@ -3,6 +3,7 @@ package com.stuloan.web.mybatis.domain.inte;
 import com.stuloan.web.mybatis.domain.Repaydetail;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -66,5 +67,7 @@ public interface RepaydetailMapper {
     int updateByPrimaryKey(Repaydetail record);
 
     int updatesmsstate(String ids);
-
+    int updatebyorderno(String orderno);
+    List<Repaydetail> queryoverdue(Date date);
+    int updateoverdue(Date date);
 }

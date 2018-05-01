@@ -79,8 +79,8 @@
     <include refid="Base_Column_List" />
     from studentinfo
     where 1=1
-    <if test="userid != null and userid != ''">
-      and a.userid = #{userid,jdbcType=VARCHAR}
+    <if test="_parameter  != null and _parameter  != ''">
+      and userid = #{userid,jdbcType=VARCHAR}
     </if>
   </select>
 

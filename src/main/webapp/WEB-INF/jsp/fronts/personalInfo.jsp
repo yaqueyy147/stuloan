@@ -92,7 +92,7 @@
                             </p>
                             <c:if test="${sysuser.isstuidentity == 1 && sysuser.iscreditidentity == 1 && sysuser.loanlimit > 0}">
                                 <a href="<%=request.getContextPath()%>/loan/applyloan">申请贷款</a>
-                                <p><a href="<%=request.getContextPath()%>/fronts/personalInfo">个人信息</a></p>
+                                <p><a href="<%=request.getContextPath()%>/loan/myloan">我的贷款</a></p>
                                 <p><a href="<%=request.getContextPath()%>/loan/repaydetail">全部待还</a></p>
                             </c:if>
                         </div>

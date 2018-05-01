@@ -57,7 +57,7 @@ $(function () {
             repays += "," + $(ii).val();
         }
         repays = repays.substring(1);
-        torepay(repays);
+        getrepyaqrcode(repays);
     });
 
     myloanTablePageChange(1);
@@ -174,7 +174,7 @@ function repaydetailTablePageChange(pageNo,loanid) {
                         repaydetail += "<td>已还款</td>";
                     }else{
                         repaydetail += "<td>";
-                        repaydetail += "<a href='javascript:void 0;' onclick=\"torepay('" + ii.loanid + "::" + ii.id + "')\">还款</a>";
+                        repaydetail += "<a href='javascript:void 0;' onclick=\"getrepyaqrcode('" + ii.loanid + "::" + ii.id + "')\">还款</a>";
                         repaydetail += "</td>";
                     }
 
@@ -192,6 +192,28 @@ function repaydetailTablePageChange(pageNo,loanid) {
                     $("#allrepay").prop("checked",false);
                 }
             });
+        },
+        error:function (data) {
+            var responseText = data.responseText;
+            if(responseText.indexOf("登出跳转页面") >= 0){
+                ajaxErrorToLogin();
+            }else{
+                alert(JSON.stringify(data));
+            }
+        }
+    });
+}
+
+function getrepyaqrcode(repays){
+    $.ajax({
+        type:'post',
+        url: projectUrl + '/loan/getrepyaqrcode',
+        dataType: 'json',
+        data:{repays:repays},
+        success:function (data) {
+            var qrcodeurl = data.qrcodeurl;
+            $("#repayqrcode").attr("src",projectUrl + qrcodeurl);
+            $("#repayqrcodeModal").modal("show");
         },
         error:function (data) {
             var responseText = data.responseText;

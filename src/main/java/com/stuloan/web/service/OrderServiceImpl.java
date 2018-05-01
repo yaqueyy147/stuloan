@@ -63,7 +63,7 @@
 //    private static final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 //
 //    @Autowired
-//    private OrderMapper orderMapper;
+//    private LoanorderMapper orderMapper;
 //    @Autowired
 //    private OrderItemMapper orderItemMapper;
 //    @Autowired

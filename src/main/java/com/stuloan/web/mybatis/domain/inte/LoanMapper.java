@@ -61,4 +61,6 @@ public interface LoanMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Loan record);
+
+    int updatebyorderno(String orderno);
 }

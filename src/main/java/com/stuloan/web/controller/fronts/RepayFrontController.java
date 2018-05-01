@@ -1,11 +1,9 @@
 package com.stuloan.web.controller.fronts;
 
-import com.stuloan.web.mybatis.domain.Loan;
-import com.stuloan.web.mybatis.domain.Repaydetail;
-import com.stuloan.web.mybatis.domain.Sysuser;
-import com.stuloan.web.mybatis.domain.inte.LoanMapper;
-import com.stuloan.web.mybatis.domain.inte.RepaydetailMapper;
-import com.stuloan.web.mybatis.domain.inte.SysuserMapper;
+import com.stuloan.web.alipay.AlipayTrade_loan;
+import com.stuloan.web.alipay.AlipayTrade_repay;
+import com.stuloan.web.mybatis.domain.*;
+import com.stuloan.web.mybatis.domain.inte.*;
 import com.stuloan.web.util.CommonUtil;
 import com.stuloan.web.util.PageUtil;
 import com.stuloan.web.util.Userutils;
@@ -42,6 +40,12 @@ public class RepayFrontController {
 
     @Autowired
     private SysuserMapper sysuserMapper;
+
+    @Autowired
+    private StudentinfoMapper studentinfoMapper;
+
+    @Autowired
+    private RepayorderMapper repayorderMapper;
 
     @RequestMapping(value = "myloan")
     public ModelAndView myloan(Model model, HttpServletRequest request){
@@ -183,20 +187,71 @@ public class RepayFrontController {
         return result;
     }
 
-    @RequestMapping(value = "/repay")
+    @RequestMapping(value = "/getrepyaqrcode")
     @ResponseBody
-    public Object repay(@RequestParam Map<String,Object> params){
+    public Object getrepyaqrcode(@RequestParam Map<String,Object> params, HttpServletRequest request){
         Map<String,Object> result = new HashMap<>();
         result.put("code",0);
         result.put("message","系统错误，请联系管理员");
 
         String repays = params.get("repays") + "";
         String[] repayarr = repays.split(",");
+
+        try {
+            String userid = Userutils4mybatis.getuserid(request, Userutils4mybatis.FRONG_COOKIE_NAME);
+            Studentinfo studentinfo = studentinfoMapper.selectByuserid(userid);
+            int ii = 0;
+            double repayamount = 0.0;
+            for(int i=0;i<repayarr.length;i++){
+                String repay = repayarr[i];
+                String repaydetailid = repay.split("::")[1];
+                Repaydetail repaydetail = repaydetailMapper.selectByPrimaryKey(repaydetailid);
+                repayamount += repaydetail.getRepaymoney();
+            }
+
+            Repayorder order = new Repayorder();
+            order.setId(CommonUtil.uuid());
+            order.setOrderno("repay_" + order.getId());
+            order.setCreatedate(new Date());
+            order.setOrderdesc(studentinfo.getStuname() + "的还款,还款金额(" + repayamount + ")");
+            order.setTotalamount(repayamount);
+            order.setOrdertitle("XXX校园贷扫码放款");
+//            order.setStoreid("loanstore001");
+//            order.setOperatorid("operator001");
+//            order.setSellerid("seller001");
+            String qrcodeurl = AlipayTrade_repay.test_trade_precreate(order,null);
+            order.setOrderqrimage(qrcodeurl);
+            int i = repayorderMapper.insertSelective(order);
+            result.put("qrcodeurl",qrcodeurl);
+            result.put("code",1);
+            result.put("message","订单创建成功!");
+        }catch (Exception e){
+            e.printStackTrace();
+            result.put("code",0);
+            result.put("message","系统错误，请联系管理员");
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/repay")
+    @ResponseBody
+    public Object repay(@RequestParam Map<String,Object> params, HttpServletRequest request){
+        Map<String,Object> result = new HashMap<>();
+        result.put("code",0);
+        result.put("message","系统错误，请联系管理员");
+
+        String repays = params.get("repays") + "";
+        String[] repayarr = repays.split(",");
+
 //        String repaydetailid = params.get("repaydetailid") + "";
 //        String loanid = params.get("loanid") + "";
 
         try {
+            String userid = Userutils4mybatis.getuserid(request, Userutils4mybatis.FRONG_COOKIE_NAME);
+            Studentinfo studentinfo = studentinfoMapper.selectByuserid(userid);
             int ii = 0;
+            double repayamount = 0.0;
             for(int i=0;i<repayarr.length;i++){
                 String repay = repayarr[i];
                 String repaydetailid = repay.split("::")[1];
@@ -208,11 +263,25 @@ public class RepayFrontController {
                 repaydetail.setRepaydatereal(new Date());
                 ii += repaydetailMapper.updateByPrimaryKeySelective(repaydetail);
 
+                repayamount += repaydetail.getRepaymoney();
+
                 loan.setRepayyet(loan.getRepayyet() + repaydetail.getRepaymoney());
                 loan.setStagenumyet(repaydetail.getStagenum());
                 loan.setUpdatedate(new Date());
                 ii += loanMapper.updateByPrimaryKeySelective(loan);
             }
+
+            Repayorder order = new Repayorder();
+            order.setId(CommonUtil.uuid());
+            order.setOrderno("repay_" + order.getId());
+            order.setCreatedate(new Date());
+            order.setOrderdesc(studentinfo.getStuname() + "的还款,还款金额(" + repayamount + ")");
+            order.setTotalamount(repayamount);
+            order.setOrdertitle("XXX校园贷扫码放款");
+            String qrcodeurl = AlipayTrade_repay.test_trade_precreate(order,null);
+            order.setOrderqrimage(qrcodeurl);
+            int i = repayorderMapper.insertSelective(order);
+            result.put("qrcodeurl",qrcodeurl);
             result.put("code",1);
             result.put("message","还款成功!");
         }catch (Exception e){

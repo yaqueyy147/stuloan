@@ -1,6 +1,6 @@
 package com.stuloan.web.controller.consoles;
 
-import com.stuloan.web.alipay.AlipayTrade;
+import com.stuloan.web.alipay.AlipayTrade_loan;
 import com.stuloan.web.mybatis.domain.*;
 import com.stuloan.web.mybatis.domain.inte.*;
 import com.stuloan.web.util.CommonUtil;
@@ -39,6 +39,9 @@ public class LoanController {
     @Autowired
     private RepaydetailMapper repaydetailMapper;
 
+    @Autowired
+    private LoanorderMapper loanorderMapper;
+
     @RequestMapping(value = "/loan")
     public ModelAndView applyloan(Model model, HttpServletRequest request){
         return new ModelAndView("/consoles/loan");
@@ -52,6 +55,65 @@ public class LoanController {
         result.put("total",totalcount);
         List<Map<String,Object>> list = loanMapper.selectByParams02(params);
         result.put("rows",list);
+        return result;
+    }
+
+    @RequestMapping(value = "/getloanqrcode")
+    @ResponseBody
+    public Object getloanqrcode(HttpServletRequest request, String ids, String state, String auditmsg){
+        Map<String,Object> result = new HashMap<>();
+        result.put("code",0);
+        result.put("message","系统错误，请联系管理员");
+
+        try {
+            String[] idarr = ids.split(",");
+            int ii = 0;
+            for(int i=0;i<idarr.length;i++){
+                String id = idarr[i];
+                Loan loan = loanMapper.selectByPrimaryKey(id);
+                loan.setAuditdate(new Date());
+                loan.setAuditid(Userutils.getuserid(request,Userutils.CONSOLE_COOKIE_NAME));
+                loan.setAuditman(Userutils.getusername(request,Userutils.CONSOLE_COOKIE_NAME));
+//                loan.setState(state);
+
+                Repaydetail repaydetail = new Repaydetail();
+                repaydetail.setLoanid(id);
+
+                if("1".equals(state)){
+                    loan.setAuditmsg("同意贷款");
+//                    repaydetail.setState(state);
+//                    ii += repaydetailMapper.updatestateByLoanIdSelective(repaydetail);
+
+                    Studentinfo studentinfo = studentinfoMapper.selectByuserid(loan.getUserid());
+
+                    Loanorder order = new Loanorder();
+                    order.setId(CommonUtil.uuid());
+                    order.setOrderno("loan_" + order.getId());
+                    order.setCreatedate(new Date());
+                    order.setOrderdesc(studentinfo.getStuname() + "的贷款,贷款金额(" + loan.getLoanamount() + "),用途:" + loan.getLoanpurpose());
+                    order.setTotalamount(loan.getLoanamount());
+                    order.setOrdertitle("XXX校园贷扫码放款");
+                    String qrcodeurl = AlipayTrade_loan.test_trade_precreate(order,null);
+                    result.put("qrcodeurl",qrcodeurl);
+                    order.setOrderqrimage(qrcodeurl);
+                    ii += loanorderMapper.insertSelective(order);
+                }else{
+                    loan.setState(state);
+                    loan.setAuditmsg(CommonUtil.isBlank(auditmsg)?"不同意贷款":auditmsg);
+                    ii += repaydetailMapper.deleteByLoanid(id);
+                }
+
+                ii += loanMapper.updateByPrimaryKeySelective(loan);
+
+            }
+            result.put("code",1);
+            result.put("message","已审核");
+        }catch (Exception e){
+            e.printStackTrace();
+            result.put("code",0);
+            result.put("message","系统错误，请联系管理员");
+        }
+
         return result;
     }
 
@@ -83,16 +145,17 @@ public class LoanController {
 
                     Studentinfo studentinfo = studentinfoMapper.selectByuserid(loan.getUserid());
 
-                    Order order = new Order();
+                    Loanorder order = new Loanorder();
                     order.setId(CommonUtil.uuid());
                     order.setOrderno("loan_" + order.getId());
                     order.setCreatedate(new Date());
                     order.setOrderdesc(studentinfo.getStuname() + "的贷款,贷款金额(" + loan.getLoanamount() + "),用途:" + loan.getLoanpurpose());
                     order.setTotalamount(loan.getLoanamount());
                     order.setOrdertitle("XXX校园贷扫码放款");
-                    String qrcodeurl = AlipayTrade.test_trade_precreate(order,null);
+                    String qrcodeurl = AlipayTrade_loan.test_trade_precreate(order,null);
                     result.put("qrcodeurl",qrcodeurl);
-
+                    order.setOrderqrimage(qrcodeurl);
+                    ii += loanorderMapper.insertSelective(order);
                 }else{
                     loan.setAuditmsg(CommonUtil.isBlank(auditmsg)?"不同意贷款":auditmsg);
                     ii += repaydetailMapper.deleteByLoanid(id);
