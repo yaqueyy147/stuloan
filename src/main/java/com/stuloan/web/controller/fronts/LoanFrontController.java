@@ -62,7 +62,10 @@ public class LoanFrontController {
                 studentinfo = list.get(0);
             }
             model.addAttribute("studentinfo",studentinfo);
-
+            Map<String,Object> params = new HashMap<>();
+            params.put("orderby","stagenum asc");
+            List<Stagefee> list1 = stagefeeMapper.selectByParams(params);
+            model.addAttribute("stagefeelist",list1);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -107,6 +110,7 @@ public class LoanFrontController {
             result.put("code",1);
             result.put("message","提交成功");
         }catch (Exception e){
+            e.printStackTrace();
             result.put("code",0);
             result.put("message","提交失败");
         }

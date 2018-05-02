@@ -56,7 +56,7 @@ public class RepayFrontController {
                 return new ModelAndView("/fronts/login");
             }
             sysuser = sysuserMapper.selectByPrimaryKey(sysuser.getId());
-            model.addAttribute("user", sysuser);
+            model.addAttribute("sysuser", sysuser);
             model.addAttribute(Userutils.FRONG_COOKIE_NAME, sysuser);
         }catch (Exception e){
             ;
@@ -73,7 +73,7 @@ public class RepayFrontController {
                 return new ModelAndView("/fronts/login");
             }
             sysuser = sysuserMapper.selectByPrimaryKey(sysuser.getId());
-            model.addAttribute("user", sysuser);
+            model.addAttribute("sysuser", sysuser);
             model.addAttribute(Userutils.FRONG_COOKIE_NAME, sysuser);
         }catch (Exception e){
             ;

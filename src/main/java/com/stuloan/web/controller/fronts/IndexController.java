@@ -50,8 +50,8 @@ public class IndexController {
 
         //从cookie获取用户信息
         JSONObject jsonUser = CookieUtil.cookieValueToJsonObject(request,Userutils.FRONG_COOKIE_NAME);
-        model.addAttribute("userInfo",jsonUser);
-
+//        model.addAttribute("userInfo",jsonUser);
+        model.addAttribute("sysuser", jsonUser);
         return new ModelAndView("/fronts/index");
     }
 

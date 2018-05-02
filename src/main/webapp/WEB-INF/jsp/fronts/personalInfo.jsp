@@ -31,7 +31,7 @@
 </head>
 <body>
 <%@include file="common/header.jsp" %>
-<div class="container-fluid" style="width: 90%; margin-top: 40px "><!--margin-bottom: 50px-->
+<div class="container-fluid" style="width: 90%; "><!--margin-bottom: 50px-->
     <div class="tab-content container-fluid">
         <div id="userDetail" class=" container-fluid">
             <div class="leftInfo infoDetail col-lg-3 col-md-3 col-sm-3 col-xs-3">

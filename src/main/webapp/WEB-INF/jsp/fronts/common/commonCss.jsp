@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/static/css/style.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/static/bootstrap/css/bootstrap.min.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/static/bootstrap/css/bootstrap-theme.min.css" />
 <link rel="stylesheet" href="<%=request.getContextPath()%>/static/bootstrap/datetime-picker/bootstrap-datetimepicker.min.css" />

@@ -43,7 +43,9 @@
     <if test="stagenum != null and stagenum != ''">
       and stagenum = #{stagenum,jdbcType=INTEGER}
     </if>
-
+    <if test="orderby != null and orderby != ''">
+      order by ${orderby}
+    </if>
     <if test="beginRow != null and beginRow != ''">
       limit ${beginRow},${pageSize}
     </if>
