@@ -171,14 +171,20 @@ public class AlipayTrade_loan {
                 AlipayTradePrecreateResponse response = result.getResponse();
                 dumpResponse(response);
 
-                String path = "";
+//                String path = "";
+                String path = new Object() {
+                    public String getPath() {
+                        return this.getClass().getResource("/").getPath();
+                    }
+                }.getPath().substring(1);
                 String imgpath = "/src/main/webapp/static/alipay/loan/qr-%s.png";
-                try {
-                    File file = new File("");
-                    path = file.getCanonicalPath() + imgpath;
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+//                try {
+//                    File file = new File(this.);
+//                    path = file.getCanonicalPath() + imgpath;
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+                path = path.substring(0,path.indexOf("/target")) + imgpath;
                 String filePath = String.format(path, response.getOutTradeNo());
                 log.info("filePath:" + filePath);
                 ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
