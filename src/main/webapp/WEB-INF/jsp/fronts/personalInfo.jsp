@@ -210,8 +210,8 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="creditidetityform" action="" method="post">
                     <div class="form-group">
-                        <label for="school" class="col-sm-2 control-label">支付宝账号</label>
-                        <div class="col-sm-10">
+                        <label for="school" class="col-sm-4 control-label">支付宝账号</label>
+                        <div class="col-sm-8">
                             <input type="text" class="form-control" id="alipayname" name="alipayname" placeholder="请输入正确的支付宝账号">
                         </div>
                         <span id="stuidcardtips" style="color: #ff0000;display: none;font-size: 12px">支付宝账号</span>
