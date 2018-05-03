@@ -66,6 +66,7 @@ function myloanTablePageChange(pageNo) {
 
     var params = {};
     params.pageNo = pageNo;
+    params.userid = userId;
     params.tableId = "myloanTable";
 
     $.ajax({

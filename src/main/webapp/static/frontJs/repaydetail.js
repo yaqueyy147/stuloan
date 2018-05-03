@@ -49,6 +49,7 @@ $(function () {
 function repaydetailTablePageChange(pageNo,loanid) {
     currentrepaypageno = pageNo;
     var params = {};
+    params.userid = userId;
     params.pageNo = pageNo;
     params.tableId = "repaydetailTable";
 

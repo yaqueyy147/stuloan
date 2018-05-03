@@ -75,6 +75,9 @@
     <if test="state != null and state != ''">
       and a.state = #{state,jdbcType=CHAR}
     </if>
+    <if test="userid != null and userid != ''">
+      and b.userid = #{userid,jdbcType=CHAR}
+    </if>
     <if test="orderby != null and orderby != ''">
       order by ${orderby}
     </if>
