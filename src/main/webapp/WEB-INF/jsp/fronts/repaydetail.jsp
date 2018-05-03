@@ -33,6 +33,16 @@
 </head>
 <body>
 <%@include file="common/header.jsp" %>
+<div class="zxcf_menu_wper">
+    <div class="zxcf_menu px1000">
+        <a href="<%=request.getContextPath()%>/fronts/index">首页</a>
+        <%--<a href="invest.html">我要投资</a>--%>
+        <a href="<%=request.getContextPath()%>/loan/applyloan">我要借款</a>
+        <a href="<%=request.getContextPath()%>/loan/myloan">我的贷款</a>
+        <a href="<%=request.getContextPath()%>/loan/repaydetail" class="zm_cura">全部待还</a>
+        <a href="<%=request.getContextPath()%>/fronts/personalInfo?xxx=1" style="margin-right:0;">个人中心</a>
+    </div>
+</div>
 <div class="container-fluid" style="width: 90%;"><!--margin-bottom: 50px-->
     <div class="tab-content container-fluid">
         <div id="userDetail" class=" container-fluid">

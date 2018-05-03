@@ -31,6 +31,16 @@
 </head>
 <body>
 <%@include file="common/header.jsp" %>
+<div class="zxcf_menu_wper">
+    <div class="zxcf_menu px1000">
+        <a href="<%=request.getContextPath()%>/fronts/index">首页</a>
+        <%--<a href="invest.html">我要投资</a>--%>
+        <a href="<%=request.getContextPath()%>/loan/applyloan">我要借款</a>
+        <a href="<%=request.getContextPath()%>/loan/myloan">我的贷款</a>
+        <a href="<%=request.getContextPath()%>/loan/repaydetail">全部待还</a>
+        <a href="<%=request.getContextPath()%>/fronts/personalInfo?xxx=1" class="zm_cura" style="margin-right:0;">个人中心</a>
+    </div>
+</div>
 <div class="container-fluid" style="width: 90%; "><!--margin-bottom: 50px-->
     <div class="tab-content container-fluid">
         <div id="userDetail" class=" container-fluid">
@@ -109,9 +119,6 @@
 
                         <div class="form-group col-xs-8 form-actions">
                             <input class="form-control" id="loginName" name="loginname" value="${sysuser.loginname}" placeholder="登录名" type="text" readonly />
-                        </div>
-                        <div class="form-group col-xs-8 form-actions" style="margin-top: 15px">
-                            <input class="form-control" id="idcard" name="idcard" value="${sysuser.idcard}" placeholder="身份证号" type="text" />
                         </div>
                         <div class="form-group col-xs-8 form-actions" style="margin-top: 15px">
                             <input class="form-control" id="userName" name="username" value="${sysuser.username}" placeholder="真实姓名" type="text" />
