@@ -1,9 +1,14 @@
 package com.stuloan.web.controller.fronts;
 
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.stuloan.web.domain.Sysuser;
+import com.stuloan.web.mybatis.domain.Sms;
+import com.stuloan.web.mybatis.domain.inte.SmsMapper;
 import com.stuloan.web.service.fronts.UserService;
+import com.stuloan.web.sms.SmsDemo;
 import com.stuloan.web.util.CommonUtil;
 import com.stuloan.web.util.CookieUtil;
+import com.stuloan.web.util.DateUtils;
 import com.stuloan.web.util.Userutils;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
@@ -21,6 +26,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +40,13 @@ public class SignInController {
 
     private static final Logger LOGGER = Logger.getLogger(SignInController.class);
 
+    private static final String SIGNNAME = "树丫丫的通知";
+    private static final String TEMPLATECODE = "SMS_134080286";
+
     @Autowired
     private UserService userService;
+    @Autowired
+    private SmsMapper smsMapper;
 
     /**
      * 前台登录页面
@@ -241,6 +252,56 @@ public class SignInController {
 //        System.out.println("进来了。。。");
         model.addAttribute("type",type);
         return new ModelAndView("/out");
+    }
+
+    /**
+     * 短信验证码
+     * @param request
+     * @param params
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    @RequestMapping(value = "/smscode")
+    @ResponseBody
+    public Map<String,Object> smscode(HttpServletRequest request,@RequestParam Map<String,Object> params) throws UnsupportedEncodingException{
+        Map<String,Object> map = new HashMap<String,Object>();
+        try {
+            String chkcode = CommonUtil.getRandomNumString(4);
+            String phone = params.get("phone") + "";
+            Sms sms = new Sms();
+            sms.setId(CommonUtil.uuid());
+            sms.setSmstype("1");
+            sms.setSmscode(chkcode);
+            sms.setSmsdesc(phone + "的注册验证码");
+            sms.setTemplatecode(TEMPLATECODE);
+            sms.setSignname(SIGNNAME);
+            sms.setSmsphone(phone);
+            sms.setSmstime(new Date());
+            sms.setValidtime(DateUtils.addMinutes(new Date(),5));
+            Map<String,Object> templateparam = new HashMap<>();
+            templateparam.put("code",chkcode);
+            sms.setTemplateparam(com.alibaba.fastjson.JSONObject.toJSONString(templateparam));
+
+            SendSmsResponse response = SmsDemo.sendSms(sms);
+            System.out.println("短信接口返回的数据----------------");
+            System.out.println("Code=" + response.getCode());
+            System.out.println("Message=" + response.getMessage());
+            System.out.println("RequestId=" + response.getRequestId());
+            System.out.println("BizId=" + response.getBizId());
+
+            int i = 0;
+            if("OK".equalsIgnoreCase(response.getCode())){
+
+                i += smsMapper.insertSelective(sms);
+            }
+
+            map.put("code",i);
+            map.put("chkcode",chkcode);
+        }catch (Exception e){
+            map.put("code",0);
+            map.put("message","获取失败!");
+        }
+        return map;
     }
 
 }

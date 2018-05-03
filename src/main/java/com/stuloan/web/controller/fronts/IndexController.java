@@ -1,10 +1,9 @@
 package com.stuloan.web.controller.fronts;
 
-import com.stuloan.web.dao.SysuserDao;
+import com.stuloan.web.mybatis.domain.Creditscore;
 import com.stuloan.web.mybatis.domain.Sysuser;
+import com.stuloan.web.mybatis.domain.inte.CreditscoreMapper;
 import com.stuloan.web.mybatis.domain.inte.SysuserMapper;
-import com.stuloan.web.service.consoles.ConsoleService;
-import com.stuloan.web.service.fronts.UserService;
 import com.stuloan.web.util.CommonUtil;
 import com.stuloan.web.util.CookieUtil;
 import com.stuloan.web.util.Userutils;
@@ -28,12 +27,7 @@ public class IndexController {
     private static final int PAGE_SIZE = 20;//初始每页条数
     private static final int PAGE_NUM = 6;//初始显示页数
     @Autowired
-    private ConsoleService consoleService;
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private SysuserDao sysuserDao;
+    private CreditscoreMapper creditscoreMapper;
 
     @Autowired
     private SysuserMapper sysuserMapper;
@@ -67,6 +61,10 @@ public class IndexController {
             sysuser = sysuserMapper.selectByPrimaryKey(sysuser.getId());
             model.addAttribute("sysuser", sysuser);
             model.addAttribute(Userutils.FRONG_COOKIE_NAME, sysuser);
+
+            Creditscore creditscore = creditscoreMapper.selectByuserid(sysuser.getId());
+            model.addAttribute("creditscore",creditscore);
+
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : local
-Source Server Version : 50635
-Source Host           : 127.0.0.1:3307
+Source Server Version : 50634
+Source Host           : localhost:3307
 Source Database       : stuloanidentity
 
 Target Server Type    : MYSQL
-Target Server Version : 50635
+Target Server Version : 50634
 File Encoding         : 65001
 
-Date: 2018-04-24 23:50:58
+Date: 2018-05-03 17:33:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS `creditscore`;
 CREATE TABLE `creditscore` (
   `id` varchar(64) NOT NULL DEFAULT '' COMMENT '主键id',
   `userid` varchar(64) DEFAULT '',
-  `stuidcard` varchar(64) DEFAULT '' COMMENT '用户id',
+  `alipayname` varchar(100) DEFAULT '' COMMENT '用户id',
   `creditscoretotal` decimal(18,2) DEFAULT '0.00' COMMENT '信用总分',
   `identityscore` decimal(18,2) DEFAULT '0.00',
   `performscore` decimal(18,2) DEFAULT '0.00' COMMENT '履约分',
@@ -31,12 +31,14 @@ CREATE TABLE `creditscore` (
   `behaviorscore` decimal(18,2) DEFAULT '0.00' COMMENT '行为分',
   `createdate` datetime DEFAULT NULL COMMENT '创建时间',
   `remark` varchar(255) DEFAULT '' COMMENT '备注备用字段',
+  `state` char(1) DEFAULT '0' COMMENT '状态',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of creditscore
 -- ----------------------------
+INSERT INTO `creditscore` VALUES ('1', '4f0fde82c40e443195449ef366295422', '', '1000.00', '200.00', '200.00', '200.00', '200.00', '200.00', null, '', '0');
 
 -- ----------------------------
 -- Table structure for studentroll
@@ -55,7 +57,7 @@ CREATE TABLE `studentroll` (
   `edutype` varchar(50) DEFAULT '' COMMENT '学历类别',
   `edumode` varchar(255) DEFAULT '' COMMENT '学习形式：如普通全日制',
   `branch` varchar(255) DEFAULT '' COMMENT '分院',
-  `class` varchar(50) DEFAULT '' COMMENT '班级',
+  `classgrade` varchar(50) DEFAULT '' COMMENT '班级',
   `stunum` varchar(50) DEFAULT '' COMMENT '学号',
   `admissiondate` date DEFAULT NULL COMMENT '入学时间',
   `leavedate` date DEFAULT NULL COMMENT '离校时间',
@@ -68,3 +70,5 @@ CREATE TABLE `studentroll` (
 -- ----------------------------
 -- Records of studentroll
 -- ----------------------------
+INSERT INTO `studentroll` VALUES ('1', '', '测试01', '1', '111111111111111111', '重庆邮电大学', '本科', '测控技术与仪器', '4', '普通', '普通全日制', '自动化学院', '0820803', '08210312', '2008-09-01', '2012-07-01', '0', '', '0');
+INSERT INTO `studentroll` VALUES ('2', '', '测试02', '1', '111111111111111111', '重庆大学', '本科', '自动化', '4', '普通', '普通全日制', '自动化学院', '0820804', '08210322', '2008-09-01', '2012-07-01', '0', '', '0');

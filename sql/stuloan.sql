@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : local
-Source Server Version : 50635
-Source Host           : 127.0.0.1:3307
+Source Server Version : 50634
+Source Host           : localhost:3307
 Source Database       : stuloan
 
 Target Server Type    : MYSQL
-Target Server Version : 50635
+Target Server Version : 50634
 File Encoding         : 65001
 
-Date: 2018-05-01 19:41:21
+Date: 2018-05-03 17:33:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS `creditscore`;
 CREATE TABLE `creditscore` (
   `id` varchar(64) NOT NULL DEFAULT '' COMMENT '主键id',
   `userid` varchar(64) DEFAULT '' COMMENT '用户id',
-  `stuidcard` varchar(64) DEFAULT '',
+  `alipayname` varchar(100) DEFAULT '',
   `creditscoretotal` decimal(18,2) DEFAULT '0.00' COMMENT '信用总分',
   `identityscore` decimal(18,2) DEFAULT '0.00',
   `performscore` decimal(18,2) DEFAULT '0.00' COMMENT '履约分',
@@ -90,7 +90,7 @@ CREATE TABLE `loan` (
 -- Records of loan
 -- ----------------------------
 INSERT INTO `loan` VALUES ('1b12c57b437244d08eb9419c10806984', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11666.55', '5', '0.00', null, '2018-04-22 16:28:40', null, '1', '999', '系统管理员', '2018-04-22 18:04:32', '同意贷款', null, '买包包', '00000000005', null, '');
-INSERT INTO `loan` VALUES ('c25b5bdd22c84ed888faf12f66ca7873', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11666.55', '5', '0.00', null, '2018-04-22 16:28:02', null, '0', '999', '系统管理员', '2018-05-01 18:29:00', '同意贷款', null, '买包包', '00000000005', null, '');
+INSERT INTO `loan` VALUES ('c25b5bdd22c84ed888faf12f66ca7873', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11666.55', '5', '0.00', null, '2018-04-22 16:28:02', null, '0', '999', '系统管理员', '2018-05-03 09:49:55', '同意贷款', null, '买包包', '00000000005', null, '');
 INSERT INTO `loan` VALUES ('d1710ce208d9423c9ea0aa0ad3b54bff', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '同意贷款', null, '买手机', '00000000009', null, '');
 
 -- ----------------------------
@@ -121,12 +121,35 @@ INSERT INTO `loanorder` VALUES ('58065066372645ce81e367c7793f5287', 'loan_580650
 INSERT INTO `loanorder` VALUES ('5824671a24404f9981dbe50759c67824', 'loan_5824671a24404f9981dbe50759c67824', '', '0', null, '2018-05-01 17:10:38', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '');
 INSERT INTO `loanorder` VALUES ('691639749a6445a1ae3b2104d738bbf4', 'loan_691639749a6445a1ae3b2104d738bbf4', '', '0', null, '2018-05-01 17:30:26', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '');
 INSERT INTO `loanorder` VALUES ('89fe3219bc0445128dee6de9b01836b3', 'loan_89fe3219bc0445128dee6de9b01836b3', '', '0', null, '2018-05-01 17:19:53', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '');
+INSERT INTO `loanorder` VALUES ('8a868e7ce7b74fbfaa291ebaf51c93ab', 'loan_8a868e7ce7b74fbfaa291ebaf51c93ab', '/static/alipay/loan/qr-loan_8a868e7ce7b74fbfaa291ebaf51c93ab.png', '0', null, '2018-05-03 09:49:55', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '');
 INSERT INTO `loanorder` VALUES ('9de0682842e645e0879e537c39977d30', 'loan_9de0682842e645e0879e537c39977d30', '/src/main/webapp/static/alipay/loan/qr-loan_9de0682842e645e0879e537c39977d30.png', '0', null, '2018-05-01 18:28:15', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '');
 INSERT INTO `loanorder` VALUES ('a2b8c90ed056434e9724bc4e4c5c8b71', 'loan_a2b8c90ed056434e9724bc4e4c5c8b71', '', '0', null, '2018-05-01 18:16:22', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '');
 INSERT INTO `loanorder` VALUES ('af89db8602894342b3658f707f553201', 'loan_af89db8602894342b3658f707f553201', '/static/alipay/loan/qr-loan_af89db8602894342b3658f707f553201.png', '0', null, '2018-05-01 18:29:00', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '');
 INSERT INTO `loanorder` VALUES ('d835fa4cd51347e88bfb640d21488a5c', 'loan_d835fa4cd51347e88bfb640d21488a5c', '', '0', null, '2018-05-01 17:35:40', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '');
 INSERT INTO `loanorder` VALUES ('e59fa2da8d45400a897dfd7a4ff3c100', 'loan_e59fa2da8d45400a897dfd7a4ff3c100', '', '0', null, '2018-05-01 17:24:17', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '');
 INSERT INTO `loanorder` VALUES ('ea289e6d69de4af8888d05b056debf9d', 'loan_ea289e6d69de4af8888d05b056debf9d', '', '0', null, '2018-05-01 17:35:40', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '');
+
+-- ----------------------------
+-- Table structure for order
+-- ----------------------------
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
+  `id` varchar(64) NOT NULL DEFAULT '' COMMENT '主键id',
+  `orderno` varchar(100) DEFAULT '' COMMENT '放款时生成的支付宝订单号',
+  `orderqrimage` varchar(500) DEFAULT '' COMMENT '订单支付二维码',
+  `orderstate` char(1) DEFAULT '0' COMMENT '支付状态：1、已支付',
+  `paydate` datetime DEFAULT NULL COMMENT '支付时间',
+  `createdate` datetime DEFAULT NULL COMMENT '订单生成时间',
+  `orderdesc` varchar(500) DEFAULT '' COMMENT '订单说明',
+  `ordertitle` varchar(255) DEFAULT '' COMMENT '订单标题',
+  `totalamount` decimal(18,2) DEFAULT '0.00' COMMENT '订单金额',
+  `remark` varchar(255) DEFAULT '' COMMENT '备注备用字段',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of order
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for repaydetail
@@ -222,6 +245,7 @@ INSERT INTO `resource` VALUES ('2002', null, '费率设置', '费率设置', '0'
 INSERT INTO `resource` VALUES ('2003', null, '额度等级设置', '额度等级设置', '0', '0', '/consoles/creditmoney', '2000', null, '1');
 INSERT INTO `resource` VALUES ('2004', null, '学生认证审核', '学生认证审核', '0', '0', '/consoles/stuinfo', '2000', null, '1');
 INSERT INTO `resource` VALUES ('2005', null, '学生信用审核', '学生信用审核', '0', '0', '/consoles/creditscore', '2000', null, '1');
+INSERT INTO `resource` VALUES ('2006', null, '财务统计', '财务统计', '0', '0', '/consoles/moneystatistics', '2000', null, '1');
 
 -- ----------------------------
 -- Table structure for shortmessage
@@ -241,6 +265,35 @@ CREATE TABLE `shortmessage` (
 -- ----------------------------
 -- Records of shortmessage
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for sms
+-- ----------------------------
+DROP TABLE IF EXISTS `sms`;
+CREATE TABLE `sms` (
+  `id` varchar(64) NOT NULL DEFAULT '' COMMENT '主键id',
+  `smstype` char(1) DEFAULT '1' COMMENT '短信类型：1、验证码，2、通知',
+  `smsphone` varchar(500) DEFAULT '' COMMENT '短信接收号码',
+  `smscode` varchar(10) DEFAULT '' COMMENT '验证码，验证码短信有用',
+  `smscontent` varchar(500) DEFAULT '' COMMENT '短信内容',
+  `smstime` datetime DEFAULT NULL COMMENT '短信发送时间',
+  `validtime` datetime DEFAULT NULL COMMENT '有效时间，验证码短信有用',
+  `state` char(1) DEFAULT '1' COMMENT '状态：1、已发送',
+  `smsdesc` varchar(500) DEFAULT '' COMMENT '说明，描述',
+  `remark` varchar(255) DEFAULT '' COMMENT '备注备用字段',
+  `signname` varchar(255) DEFAULT '' COMMENT '短信签名',
+  `templatecode` varchar(255) DEFAULT '' COMMENT '短信模板代码',
+  `templateparam` varchar(255) DEFAULT '' COMMENT '短信变量',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of sms
+-- ----------------------------
+INSERT INTO `sms` VALUES ('17e587bc374b41ecaaa8042e1a45b7fa', '1', '15223653995', '6944', '', '2018-05-03 15:31:22', '2018-05-03 15:36:22', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"6944\"}');
+INSERT INTO `sms` VALUES ('1c76004aa7d043c89550b8fc9b14ca2b', '1', '15223653995', '2371', '', '2018-05-03 15:35:06', '2018-05-03 15:40:06', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"2371\"}');
+INSERT INTO `sms` VALUES ('643690d56550471683a0cbc2f912f07e', '1', '15223653995', '3080', '', '2018-05-03 15:29:16', '2018-05-03 15:34:16', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"3080\"}');
+INSERT INTO `sms` VALUES ('9cd9514979d747ef9c582d73cb7fc847', '1', '15223653995', '2674', '', '2018-05-03 15:33:06', '2018-05-03 15:38:06', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"2674\"}');
 
 -- ----------------------------
 -- Table structure for stagefee
@@ -306,7 +359,7 @@ INSERT INTO `studentinfo` VALUES ('1', '4f0fde82c40e443195449ef366295422', '测�
 DROP TABLE IF EXISTS `sysuser`;
 CREATE TABLE `sysuser` (
   `id` varchar(64) NOT NULL DEFAULT '' COMMENT '主键id',
-  `username` varchar(255) NOT NULL DEFAULT '' COMMENT '昵称/真实姓名/展示姓名',
+  `username` varchar(255) DEFAULT '' COMMENT '昵称/真实姓名/展示姓名',
   `loginname` varchar(255) NOT NULL DEFAULT '' COMMENT '用户登录名',
   `password` varchar(255) NOT NULL DEFAULT '' COMMENT '密码',
   `idcard` varchar(18) DEFAULT '' COMMENT '身份证号',
@@ -337,6 +390,7 @@ CREATE TABLE `sysuser` (
 -- ----------------------------
 -- Records of sysuser
 -- ----------------------------
+INSERT INTO `sysuser` VALUES ('10ab38914bc34a43813e86888e540b27', null, 'test02', '96e79218965eb72c92a549dd5a330112', null, '15223653995', null, null, null, 'test02', '2018-05-03 15:35:14', null, null, null, null, null, null, null, null, '1', null, '1', '1', null, null, null);
 INSERT INTO `sysuser` VALUES ('4f0fde82c40e443195449ef366295422', '测试01', 'test01', '96e79218965eb72c92a549dd5a330112', '', '11111111111', '', '', '', 'test01', '2018-03-07 17:14:16', '', '', '', '', '', '', '', '', '1', '0', '1', '1', '1', '200000.00', '1');
 INSERT INTO `sysuser` VALUES ('999', '系统管理员', 'admin', '96e79218965eb72c92a549dd5a330112', null, '11111111111', '', '11111111', null, '', '', '重庆市', '重庆市市辖区', '江北区', null, null, null, '', '', '1', '1', '0', '0', '0', '0.00', '0');
 

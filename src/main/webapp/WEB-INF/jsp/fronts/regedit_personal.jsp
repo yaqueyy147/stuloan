@@ -11,8 +11,9 @@
 <head>
     <title>校园贷款--注册</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link href="<%=request.getContextPath()%>/static/css/fronts/regedit.css" rel="stylesheet" type="text/css" />
+
     <%@include file="common/commonCss.jsp"%>
+    <link href="<%=request.getContextPath()%>/static/css/fronts/regedit.css" rel="stylesheet" type="text/css" />
     <style>
         .form-group{
             padding-left: 0px !important;
@@ -42,12 +43,6 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="username" class="col-sm-4 control-label">昵 称:</label>
-                <div class="col-sm-8">
-                    <input class="form-control" id="username" name="username" placeholder="昵称" type="text" />
-                </div>
-            </div>
-            <div class="form-group">
                 <label for="password" class="col-sm-4 control-label">密 码:</label>
                 <div class="col-sm-8">
                     <input class="form-control" id="password" name="password" placeholder="密 码" type="password" />
@@ -59,12 +54,6 @@
                     <input class="form-control" id="passwordAffirm" name="passwordAffirm" placeholder="确认密码" type="password" />
                 </div>
             </div>
-                <div class="form-group" style="margin-top: 15px">
-                    <label for="idcard" class="col-sm-4 control-label">身份证号:</label>
-                    <div class="col-sm-8">
-                        <input class="form-control" id="idcard" name="idcard" placeholder="身份证号" type="text" />
-                    </div>
-                </div>
             <div class="form-group" style="margin-top: 15px">
                 <label for="phone" class="col-sm-4 control-label">手机号码:</label>
                 <div class="col-sm-8">
@@ -79,7 +68,8 @@
                         <input class="form-control" id="checkCode" name="checkCode" placeholder="验证码" type="text" />
                     </div>
                     <div class="col-sm-5 chkcls">
-                        <canvas class="form-control" id="canvas" name="canvas"  width="150" height="34"></canvas>
+                            <button type="button" class="btn btn-default" id="getphonecheckcode">获取验证码</button>
+                        <%--<canvas class="form-control" id="canvas" name="canvas"  width="150" height="34"></canvas>--%>
                     </div>
 
                 </div>

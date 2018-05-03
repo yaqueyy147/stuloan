@@ -22,9 +22,9 @@
         <a href="<%=request.getContextPath()%>/fronts/index" class="zm_cura">首页</a>
         <%--<a href="invest.html">我要投资</a>--%>
         <a href="<%=request.getContextPath()%>/loan/applyloan">我要借款</a>
-        <%--<a href="#">实时财务</a>--%>
-        <%--<a href="noticelist.html">新手指引</a>--%>
-        <%--<a href="#" style="margin-right:0;">关于我们</a>--%>
+        <a href="javascript:void 0;" id="stuidentity">学生认证</a>
+        <a href="javascript:void 0;" id="creditidentity">信用认证</a>
+        <a href="<%=request.getContextPath()%>/fronts/personalInfo?xxx=1" style="margin-right:0;">个人中心</a>
     </div>
 </div>
 <!-- end  -->
@@ -65,6 +65,74 @@
 
     </div>
 </div>
+<!--学生认证-->
+<div class="modal fade" id="stuidentityModal" tabindex="-1" role="dialog" aria-labelledby="stuidentityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="stuidentitytitle">学生认证</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="stuidetityform" action="" method="post">
+                    <div class="form-group">
+                        <label for="school" class="col-sm-2 control-label">学校</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="school" name="school" placeholder="请输入完整的学校名">
+                        </div>
+                        <span id="schooltips" style="color: #ff0000;display: none;font-size: 12px">学校不能为空</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="classgrade" class="col-sm-2 control-label">班级</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="classgrade" name="classgrade" placeholder="班级">
+                        </div>
+                        <span id="classgradetips" style="color: #ff0000;display: none;font-size: 12px">班级不能为空</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="stunum" class="col-sm-2 control-label">学号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="stunum" name="stunum" placeholder="学号">
+                        </div>
+                        <span id="stunumtips" style="color: #ff0000;display: none;font-size: 12px">学号不能为空</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="tostuidentity">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--信用认证-->
+<div class="modal fade" id="creditidentityModal" tabindex="-1" role="dialog" aria-labelledby="creditidentityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="creditidentitytitle">信用认证</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="creditidetityform" action="" method="post">
+                    <div class="form-group">
+                        <label for="school" class="col-sm-2 control-label">身份证号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="stuidcard" name="stuidcard" placeholder="请输入正确的身份证号">
+                        </div>
+                        <span id="stuidcardtips" style="color: #ff0000;display: none;font-size: 12px">身份证号</span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="tocreditidentity">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <%@include file="common/springUrl.jsp"%>
 <%@include file="common/footer.jsp" %>
@@ -72,5 +140,6 @@
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/js/distpicker.data.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/js/distpicker.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/static/frontJs/index.js"></script>
 </body>
 </html>

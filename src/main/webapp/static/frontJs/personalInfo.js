@@ -145,8 +145,8 @@ $(function () {
     });
 
     $("#tocreditidentity").click(function () {
-        var stuidcard = $("#stuidcard").val();
-        if($.trim(stuidcard).length <= 0){
+        var alipayname = $("#alipayname").val();
+        if($.trim(alipayname).length <= 0){
             $("#stuidcardtips").show();
             return;
         }
@@ -154,7 +154,7 @@ $(function () {
             type:'post',
             url: projectUrl + '/loan/tocreditidentity',
             dataType: 'json',
-            data:{stuidcard:stuidcard},
+            data:{alipayname:alipayname},
             // async:false,
             success:function (data) {
                 if(data.code >= 1){

@@ -11,8 +11,9 @@
 <head>
     <title>校园贷款--登录</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link href="<%=request.getContextPath()%>/static/css/fronts/login.css" rel="stylesheet" type="text/css" />
+
     <%@include file="common/commonCss.jsp"%>
+    <link href="<%=request.getContextPath()%>/static/css/fronts/login.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 <div class="login-box">

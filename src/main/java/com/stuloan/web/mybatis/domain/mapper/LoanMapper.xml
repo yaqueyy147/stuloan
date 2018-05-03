@@ -117,6 +117,9 @@
     left join studentinfo t3 on t3.userid=t2.userid
     left join sysuser t4 on t4.id=t3.userid
     where t1.repaydateplan &lt;= #{searchdate} and issendmsg <![CDATA[!= ]]> '1'
+    <if test="limit != null and limit != ''">
+      limit ${limit}
+    </if>
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -381,4 +384,47 @@
     </if>
     where orderno=#{orderno}
   </update>
+  
+  <select id="moneystatistics" parameterType="java.lang.String" resultType="java.util.Map">
+    select a.moneydate,a.disburse,b.income
+    from
+    (select DATE_FORMAT(auditdate,#{format}) as moneydate,sum(loanamount) as disburse
+    from loan
+    where state='1'
+    group by moneydate) a
+    left join
+    (select DATE_FORMAT(repaydatereal,#{format}) as moneydate,sum(repaymoney) as income
+    from repaydetail
+    where isrepay='1'
+    group by moneydate) b on b.moneydate = a.moneydate
+    where 1=1
+    <if test="begindate != null and begindate != ''">
+      and a.moneydate &gt;= #{begindate}
+    </if>
+    <if test="enddate != null and enddate != ''">
+      and a.moneydate &lt; #{enddate}
+    </if>
+    order by a.moneydate desc
+    <if test="beginRow != null and beginRow != ''">
+      limit ${beginRow},${pageSize}
+    </if>
+  </select>
+  <select id="gettotaldisburse" parameterType="java.lang.String" resultType="java.lang.Double">
+    select sum(loanamount) from loan where state='1'
+    <if test="begindate != null and begindate != ''">
+       and DATE_FORMAT(repaydatereal,#{format}) &gt;= #{begindate}
+    </if>
+    <if test="enddate != null and enddate != ''">
+      and DATE_FORMAT(repaydatereal,#{format}) &lt; #{enddate}
+    </if>
+  </select>
+  <select id="gettotalincome" parameterType="java.lang.String" resultType="java.lang.Double">
+    select sum(repaymoney) from repaydetail where isrepay='1'
+    <if test="begindate != null and begindate != ''">
+      and DATE_FORMAT(repaydatereal,#{format}) &gt;= #{begindate}
+    </if>
+    <if test="enddate != null and enddate != ''">
+      and DATE_FORMAT(repaydatereal,#{format}) &lt; #{enddate}
+    </if>
+  </select>
 </mapper>

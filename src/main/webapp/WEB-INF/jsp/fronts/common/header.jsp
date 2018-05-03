@@ -14,7 +14,7 @@
                 <c:when test="${not empty sysuser}">
                     【欢迎您，
                     <a href="<%=request.getContextPath()%>/fronts/personalInfo?xxx=1">
-                            ${sysuser.username}</a>
+                            ${sysuser.loginname}</a>
                     <span>|</span>
                     <a href="<%=request.getContextPath()%>/sign/logout">退出</a>
                     】

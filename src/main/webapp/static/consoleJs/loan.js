@@ -154,6 +154,7 @@ function loadDataGrid(params) {
         columns:[[
             {field:"ck",checkbox:"true"},
             {field:"id",title:"贷款Id",width:"80",hidden:true},
+            {field:"stuname",title:"贷款人",width:"120"},
             {field:"loanpurpose",title:"贷款用途",width:"150"},
             {field:"loanamount",title:"贷款金额",width:"80",
                 formatter: function(value,row,index){

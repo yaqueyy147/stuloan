@@ -43,9 +43,9 @@
         <a href="javascript:void 0;" class="zm_cura">我要借款</a>
     </div>
 </div>
-<div class="bor_banner01">
+<%--<div class="bor_banner01">--%>
 
-</div>
+<%--</div>--%>
 <div class="bor_con_wper">
     <div class="bor_con px1000">
         <div class="bor_detail">

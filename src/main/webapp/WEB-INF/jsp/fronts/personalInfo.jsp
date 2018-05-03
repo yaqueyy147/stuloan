@@ -76,6 +76,8 @@
                                 <c:choose>
                                     <c:when test="${sysuser.iscreditidentity == 1}">
                                         已通过信用认证,您的信用额度为<span style="color: #ff0000">${sysuser.loanlimit}</span>元
+                                        &nbsp;&nbsp;
+                                        <a href="#creditModal" id="viewcredit" data-toggle="modal" data-target="#creditModal">查看信用信息</a>
                                     </c:when>
                                     <c:when test="${sysuser.iscreditidentity == 2}">
                                         信用认证未通过&nbsp;
@@ -109,7 +111,7 @@
                             <input class="form-control" id="loginName" name="loginname" value="${sysuser.loginname}" placeholder="登录名" type="text" readonly />
                         </div>
                         <div class="form-group col-xs-8 form-actions" style="margin-top: 15px">
-                            <input class="form-control" id="idcard" name="idcard" value="${sysuser.idcard}" placeholder="身份证号" type="text" readonly />
+                            <input class="form-control" id="idcard" name="idcard" value="${sysuser.idcard}" placeholder="身份证号" type="text" />
                         </div>
                         <div class="form-group col-xs-8 form-actions" style="margin-top: 15px">
                             <input class="form-control" id="userName" name="username" value="${sysuser.username}" placeholder="真实姓名" type="text" />
@@ -129,7 +131,7 @@
                             <input class="form-control" id="detailAddr" name="detailaddr" value="${sysuser.detailaddr}" placeholder="详细地址" type="text" />
                         </div>
                         <div class="form-group col-xs-8 form-actions" style="margin-top: 15px">
-                            <input class="form-control" id="phone" name="phone" value="${sysuser.phone}" placeholder="手机号码" type="text" />
+                            <input class="form-control" id="phone" name="phone" value="${sysuser.phone}" placeholder="手机号码" type="text" readonly />
                         </div>
                         <div class="form-group col-xs-8 form-actions" style="margin-top: 15px">
                             <input class="form-control" id="wechart" name="wechart" value="${sysuser.wechart}" placeholder="微 信" type="text" />
@@ -201,11 +203,11 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="creditidetityform" action="" method="post">
                     <div class="form-group">
-                        <label for="school" class="col-sm-2 control-label">身份证号</label>
+                        <label for="school" class="col-sm-2 control-label">支付宝账号</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="stuidcard" name="stuidcard" placeholder="请输入正确的身份证号">
+                            <input type="text" class="form-control" id="alipayname" name="alipayname" placeholder="请输入正确的支付宝账号">
                         </div>
-                        <span id="stuidcardtips" style="color: #ff0000;display: none;font-size: 12px">身份证号</span>
+                        <span id="stuidcardtips" style="color: #ff0000;display: none;font-size: 12px">支付宝账号</span>
                     </div>
 
                 </form>
@@ -268,6 +270,47 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary" id="toModify-photo">确认修改</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--信用信息-->
+<div class="modal fade" id="creditModal" tabindex="-1" role="dialog" aria-labelledby="creditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="creditModalLabel">我的信用信息</h4>
+            </div>
+            <div class="modal-body" >
+                <div>
+                    <label>信用总分:</label>
+                    ${creditscore.creditscoretotal}
+                </div>
+                <div>
+                    <label>信用分:</label>
+                    ${creditscore.identityscore}
+                </div>
+                <div>
+                    <label>履约分:</label>
+                    ${creditscore.performscore}
+                </div>
+                <div>
+                    <label>历史信用分:</label>
+                    ${creditscore.historyscore}
+                </div>
+                <div>
+                    <label>人脉分:</label>
+                    ${creditscore.peoplekeepscore}
+                </div>
+                <div>
+                    <label>行为分:</label>
+                    ${creditscore.behaviorscore}
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>

@@ -53,6 +53,10 @@ public class LoanFrontController {
 
         try {
             Sysuser sysuser = Userutils4mybatis.getcookieuser(request,Userutils.FRONG_COOKIE_NAME);
+            if(sysuser == null || CommonUtil.isBlank(sysuser.getId())){
+                model.addAttribute("loginCode",-2);
+                return new ModelAndView("/fronts/login");
+            }
             model.addAttribute("sysuser", sysuser);
 
             Studentinfo studentinfo = new Studentinfo();
@@ -126,7 +130,11 @@ public class LoanFrontController {
 
         try {
             Sysuser sysuser = Userutils4mybatis.getcookieuser(request,Userutils4mybatis.FRONG_COOKIE_NAME);
-
+            if(sysuser == null || CommonUtil.isBlank(sysuser.getId())){
+                result.put("code",-2);
+                result.put("message","请先登录再进行学生认证!");
+                return result;
+            }
             Studentinfo studentinfo = new Studentinfo();
 
             int i = 0;
@@ -172,7 +180,11 @@ public class LoanFrontController {
 
         try {
             Sysuser sysuser = Userutils4mybatis.getcookieuser(request,Userutils4mybatis.FRONG_COOKIE_NAME);
-
+            if(sysuser == null || CommonUtil.isBlank(sysuser.getId())){
+                result.put("code",-2);
+                result.put("message","请先登录再进行学生认证!");
+                return result;
+            }
             Creditscore creditscore = new Creditscore();
 
             int i = 0;

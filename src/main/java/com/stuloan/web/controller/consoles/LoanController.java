@@ -1,10 +1,11 @@
 package com.stuloan.web.controller.consoles;
 
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.stuloan.web.alipay.AlipayTrade_loan;
 import com.stuloan.web.mybatis.domain.*;
 import com.stuloan.web.mybatis.domain.inte.*;
+import com.stuloan.web.sms.SmsDemo;
 import com.stuloan.web.util.CommonUtil;
-import com.stuloan.web.util.PageUtil;
 import com.stuloan.web.util.Userutils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,9 @@ import java.util.Map;
 @RequestMapping(value = "/consoles")
 public class LoanController {
 
+    private static final String SIGNNAME = "树丫丫的通知";
+    private static final String TEMPLATECODE = "SMS_133973146";
+
     @Autowired
     private LoanMapper loanMapper;
     @Autowired
@@ -43,6 +47,8 @@ public class LoanController {
 
     @Autowired
     private LoanorderMapper loanorderMapper;
+    @Autowired
+    private SmsMapper smsMapper;
 
     @RequestMapping(value = "/loan")
     public ModelAndView applyloan(Model model, HttpServletRequest request){
@@ -70,6 +76,7 @@ public class LoanController {
         try {
             String[] idarr = ids.split(",");
             int ii = 0;
+            String userphones = "";
             for(int i=0;i<idarr.length;i++){
                 String id = idarr[i];
                 Loan loan = loanMapper.selectByPrimaryKey(id);
@@ -99,6 +106,9 @@ public class LoanController {
                     result.put("qrcodeurl",qrcodeurl);
                     order.setOrderqrimage(qrcodeurl);
                     ii += loanorderMapper.insertSelective(order);
+
+                    Sysuser sysuser = sysuserMapper.selectByPrimaryKey(loan.getUserid());
+                    userphones += "," + sysuser.getPhone();
                 }else{
                     loan.setState(state);
                     loan.setAuditmsg(CommonUtil.isBlank(auditmsg)?"不同意贷款":auditmsg);
@@ -107,6 +117,22 @@ public class LoanController {
 
                 ii += loanMapper.updateByPrimaryKeySelective(loan);
 
+            }
+
+            Sms sms = new Sms();
+            sms.setId(CommonUtil.uuid());
+            sms.setSignname(SIGNNAME);
+            sms.setTemplatecode(TEMPLATECODE);
+            sms.setSmsphone(userphones);
+            sms.setSmsdesc("短信提示还款时间即将到期");
+            sms.setSmstype("2");
+            sms.setSmstime(new Date());
+            sms.setTemplateparam("");
+
+            SendSmsResponse response = SmsDemo.sendSms(sms);
+
+            if("OK".equalsIgnoreCase(response.getCode())){
+                int i = smsMapper.insertSelective(sms);
             }
             result.put("code",1);
             result.put("message","已审核");
@@ -189,4 +215,18 @@ public class LoanController {
         return result;
     }
 
+    @RequestMapping(value = "/moneystatistics")
+    public ModelAndView moneystatistics(Model model, HttpServletRequest request){
+        return new ModelAndView("/consoles/moneystatistics");
+    }
+
+    @RequestMapping(value = "moneystatisticslist")
+    @ResponseBody
+    public Object moneystatisticslist(@RequestParam Map<String,Object> params) throws UnsupportedEncodingException {
+        Map<String,Object> result = new HashMap<>();
+        List<Map<String,Object>> list = loanMapper.moneystatistics(params);
+        result.put("rows",list);
+        result.put("total",list.size());
+        return result;
+    }
 }
