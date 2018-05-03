@@ -128,6 +128,14 @@ public class SignInController {
         if(list != null && list.size() > 0){
             return new RedirectView(contextPath + "/sign/regeditPersonal?regCode=-2");
         }
+        //检查手机号是否已用
+        Sysuser sysuser1 = new Sysuser();
+        sysuser1.setPhone(sysuser.getPhone());
+        list = userService.getUserInfo1(sysuser1);
+
+        if(list != null && list.size() > 0){
+            return new RedirectView(contextPath + "/sign/regeditPersonal?regCode=-3");
+        }
 
         sysuser.setId(CommonUtil.uuid());
         sysuser.setIsfront(1);

@@ -94,6 +94,9 @@ public class UserServiceImpl implements UserService {
         if(!CommonUtil.isBlank(sysuser.getPassword())){
             sql += " and password='"+ sysuser.getPassword() + "'" ;
         }
+        if(!CommonUtil.isBlank(sysuser.getPhone())){
+            sql += " and phone='"+ sysuser.getPhone() + "'" ;
+        }
 
         //查询
         List<Sysuser> list = jdbcTemplate.query(sql,new BeanPropertyRowMapper<Sysuser>(Sysuser.class));

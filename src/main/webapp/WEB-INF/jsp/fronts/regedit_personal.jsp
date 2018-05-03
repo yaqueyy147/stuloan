@@ -100,6 +100,9 @@
         if(regCode == -2){
             alert("该账号已被注册!");
         }
+        if(regCode == -3){
+            alert("该手机号已被注册!");
+        }
     });
 
 </script>

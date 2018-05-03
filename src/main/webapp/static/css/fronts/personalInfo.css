@@ -96,9 +96,11 @@ body{
     /*-moz-box-flex:3;*/
     /*-webkit-box-flex:3;*/
     /*box-flex:3;*/
-    margin-left: 20px;
+    /*margin-left: 20px;*/
     height: 100%;
     background-color: #ffffff;
+    border-left: solid 1px #666666;
+    border-left-width: 4px;
 }
 
 #myFamilyTab,#myFamilyTab iframe{

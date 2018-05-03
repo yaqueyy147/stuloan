@@ -41,6 +41,7 @@
     <div class="zxcf_menu px1000">
         <a href="<%=request.getContextPath()%>/fronts/index">首页</a>
         <a href="javascript:void 0;" class="zm_cura">我要借款</a>
+        <a href="<%=request.getContextPath()%>/fronts/personalInfo?xxx=1">个人中心</a>
     </div>
 </div>
 <%--<div class="bor_banner01">--%>

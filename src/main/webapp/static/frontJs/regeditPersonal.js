@@ -39,10 +39,10 @@ $(function () {
             return ;
         }
 
-        // if(checkCodePre.toUpperCase() != checkCode.toUpperCase()){
-        //     alert("验证码错误！");
-        //     return;
-        // }
+        if(chkcode != checkCode){
+            alert("验证码错误！");
+            return;
+        }
 
         $("#regeditForm").attr("action",projectUrl + "/sign/regesterPersonal");
         $("#regeditForm").submit();
