@@ -28,7 +28,7 @@
 	<aop:config proxy-target-class="true">
 		<aop:pointcut id="serviceMethod" expression="execution(public * com.stuloan.web.mybatis..*inte.*(..))" />
 		<aop:pointcut id="methodCache" expression="execution(public * com.stuloan.web.mybatis..*inte.*(..))" />
-		<aop:advisor pointcut-ref="methodCache" advice-ref="mmethodCacheInterceptor" order="1" />
+		<!--<aop:advisor pointcut-ref="methodCache" advice-ref="methodCacheInterceptor" order="1" />-->
 		<aop:advisor pointcut-ref="serviceMethod" advice-ref="mtxAdvice" order="99" />
 	</aop:config>
 
@@ -45,7 +45,7 @@
 		</tx:attributes>
 	</tx:advice>
 
-	<bean id="mmethodCacheInterceptor" class="com.stuloan.web.aop.MethodCacheInterceptor">
-	</bean>
+	<!--<bean id="methodCacheInterceptor" class="com.stuloan.web.aop.MethodCacheInterceptor">-->
+	<!--</bean>-->
 
 </beans>

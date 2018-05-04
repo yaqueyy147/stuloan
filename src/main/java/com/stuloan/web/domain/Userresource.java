@@ -1,14 +1,12 @@
 package com.stuloan.web.domain;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by Administrator on 2018/3/6 0006.
  */
 @Entity
+@Table(name = "userresource")
 public class Userresource {
     private String id;
     private String userid;

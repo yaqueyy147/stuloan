@@ -5,7 +5,6 @@ import com.alipay.api.domain.TradeFundBill;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.alipay.api.response.AlipayTradeQueryResponse;
 import com.stuloan.web.alipay.config.Configs;
-import com.stuloan.web.alipay.model.ExtendParams;
 import com.stuloan.web.alipay.model.GoodsDetail;
 import com.stuloan.web.alipay.model.builder.AlipayTradePrecreateRequestBuilder;
 import com.stuloan.web.alipay.model.builder.AlipayTradeQueryRequestBuilder;
@@ -23,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.File;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -149,7 +148,7 @@ public class AlipayTrade_loan {
     }
 
     // 测试当面付2.0生成支付二维码
-    public static String test_trade_precreate(Loanorder order, List<GoodsDetail> goodsDetailList) {
+    public static String test_trade_precreate(Loanorder order, List<GoodsDetail> goodsDetailList, HttpServletRequest request) {
 
         // 业务扩展参数，目前可添加由支付宝分配的系统商编号(通过setSysServiceProviderId方法)，详情请咨询支付宝技术支持
 //        ExtendParams extendParams = new ExtendParams();
@@ -171,20 +170,10 @@ public class AlipayTrade_loan {
                 AlipayTradePrecreateResponse response = result.getResponse();
                 dumpResponse(response);
 
-//                String path = "";
-                String path = new Object() {
-                    public String getPath() {
-                        return this.getClass().getResource("/").getPath();
-                    }
-                }.getPath().substring(1);
-                String imgpath = "/src/main/webapp/static/alipay/loan/qr-%s.png";
-//                try {
-//                    File file = new File(this.);
-//                    path = file.getCanonicalPath() + imgpath;
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                }
-                path = path.substring(0,path.indexOf("/target")) + imgpath;
+                String imgpath = "/static/alipay/loan/qr-%s.png";
+                String path = request.getSession().getServletContext().getRealPath("");
+
+                path = path + imgpath;
                 String filePath = String.format(path, response.getOutTradeNo());
                 log.info("filePath:" + filePath);
                 ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);

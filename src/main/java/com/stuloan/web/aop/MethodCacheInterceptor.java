@@ -8,6 +8,7 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.Map;
 /**
  * @author liuhz create 2009-1-5
  */
+@Repository
 public class MethodCacheInterceptor implements MethodInterceptor {
 	Log logger = LogFactory.getLog(this.getClass());
 

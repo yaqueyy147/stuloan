@@ -102,7 +102,7 @@ public class LoanController {
                     order.setOrderdesc(studentinfo.getStuname() + "的贷款,贷款金额(" + loan.getLoanamount() + "),用途:" + loan.getLoanpurpose());
                     order.setTotalamount(loan.getLoanamount());
                     order.setOrdertitle("XXX校园贷扫码放款");
-                    String qrcodeurl = AlipayTrade_loan.test_trade_precreate(order,null);
+                    String qrcodeurl = AlipayTrade_loan.test_trade_precreate(order,null, request);
                     result.put("qrcodeurl",qrcodeurl);
                     order.setOrderqrimage(qrcodeurl);
                     ii += loanorderMapper.insertSelective(order);
@@ -124,7 +124,7 @@ public class LoanController {
             sms.setSignname(SIGNNAME);
             sms.setTemplatecode(TEMPLATECODE);
             sms.setSmsphone(userphones);
-            sms.setSmsdesc("短信提示还款时间即将到期");
+            sms.setSmsdesc("短信提醒已放款");
             sms.setSmstype("2");
             sms.setSmstime(new Date());
             sms.setTemplateparam("");
@@ -180,7 +180,7 @@ public class LoanController {
                     order.setOrderdesc(studentinfo.getStuname() + "的贷款,贷款金额(" + loan.getLoanamount() + "),用途:" + loan.getLoanpurpose());
                     order.setTotalamount(loan.getLoanamount());
                     order.setOrdertitle("XXX校园贷扫码放款");
-                    String qrcodeurl = AlipayTrade_loan.test_trade_precreate(order,null);
+                    String qrcodeurl = AlipayTrade_loan.test_trade_precreate(order,null, request);
                     result.put("qrcodeurl",qrcodeurl);
                     order.setOrderqrimage(qrcodeurl);
                     ii += loanorderMapper.insertSelective(order);

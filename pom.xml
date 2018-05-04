@@ -28,11 +28,16 @@
       <artifactId>jstl</artifactId>
       <version>1.2</version>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>javax.servlet</groupId>-->
-      <!--<artifactId>jstl</artifactId>-->
-      <!--<version>1.2</version>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>javax.servlet.jsp.jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet.jsp.jstl</groupId>
+      <artifactId>jstl-api</artifactId>
+      <version>1.2</version>
+    </dependency>
     <dependency>
       <groupId>org.eclipse.jetty.orbit</groupId>
       <artifactId>javax.servlet.jsp.jstl</artifactId>
@@ -290,21 +295,26 @@
       <version>1.0.1</version>
     </dependency>
     <dependency>
-      <groupId>cn.bingoogolapple</groupId>
-      <artifactId>zxing</artifactId>
-      <version>1.0.2</version>
-      <exclusions>
-        <exclusion>
-          <groupId>QRCode-Android</groupId>
-          <artifactId>qrcodecore</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>core</artifactId>
+      <version>3.3.2</version>
     </dependency>
-    <dependency>
-      <groupId>cn.bingoogolapple</groupId>
-      <artifactId>qrcodecore</artifactId>
-      <version>1.0.2</version>
-    </dependency>
+    <!--<dependency>-->
+      <!--<groupId>cn.bingoogolapple</groupId>-->
+      <!--<artifactId>zxing</artifactId>-->
+      <!--<version>1.0.2</version>-->
+      <!--<exclusions>-->
+        <!--<exclusion>-->
+          <!--<groupId>QRCode-Android</groupId>-->
+          <!--<artifactId>qrcodecore</artifactId>-->
+        <!--</exclusion>-->
+      <!--</exclusions>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>cn.bingoogolapple</groupId>-->
+      <!--<artifactId>qrcodecore</artifactId>-->
+      <!--<version>1.0.2</version>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
@@ -314,36 +324,32 @@
     <dependency>
       <groupId>com.aliyun.alicom</groupId>
       <artifactId>alicom-mns-receive-sdk</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>1.0.1</version>
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/alicom-mns-receive-sdk-1.0.1.jar</systemPath>
     </dependency>
 
-    <dependency>
-      <groupId>com.aliyun.mns</groupId>
-      <artifactId>aliyun-sdk-mns</artifactId>
-      <version>1.1.8</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/aliyun-sdk-mns-1.1.8.jar</systemPath>
-    </dependency>
     <dependency>
       <groupId>com.aliyun</groupId>
       <artifactId>aliyun-java-sdk-core</artifactId>
       <version>3.5.0</version>
     </dependency>
     <dependency>
-      <groupId>com.aliyun</groupId>
-      <artifactId>aliyun-java-sdk-dybaseapi</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/aliyun-java-sdk-dybaseapi-1.0.0.jar</systemPath>
+      <groupId>com.aliyun.mns</groupId>
+      <artifactId>aliyun-sdk-mns</artifactId>
+      <version>1.1.8</version>
     </dependency>
+    <!--<dependency>-->
+      <!--<groupId>com.aliyun</groupId>-->
+      <!--<artifactId>aliyun-java-sdk-dybaseapi</artifactId>-->
+      <!--<version>1.0.0</version>-->
+      <!--<scope>system</scope>-->
+      <!--<systemPath>${project.basedir}/lib/aliyun-java-sdk-dybaseapi-1.0.0.jar</systemPath>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>com.aliyun</groupId>
       <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/aliyun-java-sdk-dysmsapi-1.0.0.jar</systemPath>
+      <version>1.1.0</version>
     </dependency>
     <dependency>
       <groupId>cq.hlideal</groupId>

@@ -1,6 +1,5 @@
 package com.stuloan.web.controller.fronts;
 
-import com.stuloan.web.alipay.AlipayTrade_loan;
 import com.stuloan.web.alipay.AlipayTrade_repay;
 import com.stuloan.web.mybatis.domain.*;
 import com.stuloan.web.mybatis.domain.inte.*;
@@ -219,7 +218,7 @@ public class RepayFrontController {
 //            order.setStoreid("loanstore001");
 //            order.setOperatorid("operator001");
 //            order.setSellerid("seller001");
-            String qrcodeurl = AlipayTrade_repay.test_trade_precreate(order,null);
+            String qrcodeurl = AlipayTrade_repay.test_trade_precreate(order,null, request);
             order.setOrderqrimage(qrcodeurl);
             int i = repayorderMapper.insertSelective(order);
             result.put("qrcodeurl",qrcodeurl);
@@ -278,7 +277,7 @@ public class RepayFrontController {
             order.setOrderdesc(studentinfo.getStuname() + "的还款,还款金额(" + repayamount + ")");
             order.setTotalamount(repayamount);
             order.setOrdertitle("XXX校园贷扫码放款");
-            String qrcodeurl = AlipayTrade_repay.test_trade_precreate(order,null);
+            String qrcodeurl = AlipayTrade_repay.test_trade_precreate(order,null, request);
             order.setOrderqrimage(qrcodeurl);
             int i = repayorderMapper.insertSelective(order);
             result.put("qrcodeurl",qrcodeurl);
