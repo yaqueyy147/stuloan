@@ -40,8 +40,9 @@
         <a href="<%=request.getContextPath()%>/loan/applyloan">我要借款</a>
         <%--<a href="javascript:void 0;" id="stuidentity">学生认证</a>--%>
         <%--<a href="javascript:void 0;" id="creditidentity">信用认证</a>--%>
-        <a href="<%=request.getContextPath()%>/loan/myloan" class="zm_cura">我的贷款</a>
+        <%--<a href="<%=request.getContextPath()%>/loan/myloan" class="zm_cura">我的贷款</a>--%>
         <a href="<%=request.getContextPath()%>/fronts/personalInfo?xxx=1" style="margin-right:0;">个人中心</a>
+        <a href="#" style="margin-right:0;">关于我们</a>
     </div>
 </div>
 <div class="container-fluid" style="width: 90%; "><!--margin-bottom: 50px-->

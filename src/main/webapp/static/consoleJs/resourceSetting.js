@@ -85,7 +85,7 @@ $(function () {
             return;
         }
         loadDataToForm(selectRows[0]);
-        $("#parentsourceid").combobox("loadData", getResourceList(params));
+
         $("#resourceDialog").dialog('open');
     });
 
@@ -141,15 +141,20 @@ function closeDialog(dialogId){
 }
 
 function loadDataGrid(params) {
-    var dataList = getResourceList(params);
+    params.pageNumber = 1;
+    params.pageSize = 50;
+    params.orderby = "id asc";
+    // var dataList = getResourceList(params);
     // dataList = formatDataList(dataList);
-    $("#resourceList").treegrid({
-        data:dataList,
+    $("#resourceList").datagrid({
+        // data:dataList,
+        url:"/consoles/resourceList",
+        queryParams:params,
         loadMsg:"加载中...",
         selectOnCheck:true,
         singleSelect:false,
         idField:"id",
-        treeField: 'sourceName',
+        // treeField: 'sourceName',
         columns:[[
             {field:"ck",checkbox:"true"},
             {field:"id",title:"资源Id",width:"80",hidden:true},
@@ -163,22 +168,23 @@ function loadDataGrid(params) {
                     return '不可用';
                 }}
         ]]
-        // ,
-        // loadFilter:pagerFilter4TreeGrid
+        ,
+        loadFilter:pagerFilter
     });
 }
 
 function loadDataToForm(data){
-
+    $("#parentsourceid").combobox("loadData", getResourceList(null));
     $("#resourceId").val(data.id);
-    $("#sourcename").val(data.sourceName);
-    $("#sourcedesc").val(data.sourceDesc);
-    $("#sourceurl").val(data.sourceUrl);
-    $("#parentsourceid").val(data._parentId);
+    $("#sourcename").val(data.sourcename);
+    $("#sourcedesc").val(data.sourcedesc);
+    $("#sourceurl").val(data.sourceurl);
+    // $("#parentsourceid").val(data.parentsourceid);
+    $("#parentsourceid").combobox("setValue",data.parentsourceid);
     $("#state").combobox("setValue",data.state);
 }
 
 function getResourceList(params){
-    var dataList = getData("/consoles/resourceList",params).resourceList;
+    var dataList = getData("/consoles/resourceList",params).rows;
     return dataList;
 }

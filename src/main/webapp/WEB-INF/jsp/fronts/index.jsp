@@ -25,6 +25,7 @@
         <%--<a href="javascript:void 0;" id="stuidentity">学生认证</a>--%>
         <%--<a href="javascript:void 0;" id="creditidentity">信用认证</a>--%>
         <a href="<%=request.getContextPath()%>/fronts/personalInfo?xxx=1" style="margin-right:0;">个人中心</a>
+        <a href="#" style="margin-right:0;">关于我们</a>
     </div>
 </div>
 <!-- end  -->

@@ -12,10 +12,12 @@
     <%@include file="common/commonCss.jsp"%>
 </head>
 <body>
-<table id="resourceList" class="easyui-treegrid" style="width:100%;height:100%"
+<table id="resourceList" class="easyui-datagrid" style="width:100%;height:100%"
        title="资源列表" toolbar="#tb" data-options="
 				rownumbers:true,
-				singleSelect:true">
+				singleSelect:true,
+				pagination:true,
+				pageSize:50">
 
 </table>
 <div id="tb">

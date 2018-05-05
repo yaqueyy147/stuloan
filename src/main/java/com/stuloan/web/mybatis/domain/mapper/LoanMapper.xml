@@ -98,6 +98,30 @@
     </if>
   </select>
 
+  <select id="selectByParams03" parameterType="java.lang.String" resultType="java.util.Map">
+    select
+    a.*,b.stuname
+    ,(select count(id) from repaydetail where isoverdue='1' and loanid=a.id) as overduecount
+    from loan a
+    left join studentinfo b on b.userid=a.userid
+    where 1=1
+    <if test="id != null and id != ''">
+      and a.id = #{id,jdbcType=VARCHAR}
+    </if>
+    <if test="userid != null and userid != ''">
+      and a.userid = #{userid,jdbcType=VARCHAR}
+    </if>
+    <if test="state != null and state != ''">
+      and state = #{state,jdbcType=CHAR}
+    </if>
+    <if test="orderby != null and orderby != ''">
+      order by ${orderby}
+    </if>
+    <if test="beginRow != null and beginRow != ''">
+      limit ${beginRow},${pageSize}
+    </if>
+  </select>
+
   <select id="selectCountByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
     select
     count(id) as total

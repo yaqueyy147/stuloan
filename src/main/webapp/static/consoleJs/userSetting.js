@@ -455,6 +455,10 @@ function loadDataGrid(params) {
                 formatter: function(value,row,index){
                     if(value == 1){
                         return "可用";
+                    }else if(value == 3){
+                        return "已冻结";
+                    }else if(value == 2){
+                        return "不可用";
                     }
                     return '不可用';
                 }},

@@ -43,6 +43,7 @@ public interface LoanMapper {
     List<Loan> selectByParams(Map<String,Object> params);
 
     List<Map<String,Object>> selectByParams02(Map<String,Object> params);
+    List<Map<String,Object>> selectByParams03(Map<String,Object> params);
 
     Integer selectCountByParams(Map<String,Object> params);
 //    List<Map<String,Object>> selectloanexpires(String searchdate);

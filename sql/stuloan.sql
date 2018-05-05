@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50635
 File Encoding         : 65001
 
-Date: 2018-05-05 18:58:59
+Date: 2018-05-05 23:09:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -267,10 +267,11 @@ INSERT INTO `resource` VALUES ('4001', null, '贷款放款', '贷款放款', '0'
 INSERT INTO `resource` VALUES ('5000', null, '财务管理', '财务管理', '0', '0', '/', '0', null, '1');
 INSERT INTO `resource` VALUES ('5001', null, '财务统计', '财务统计', '0', '0', '/consoles/moneystatistics', '5000', null, '1');
 INSERT INTO `resource` VALUES ('5002', null, '贷款列表', '贷款列表', '0', '0', '/consoles/loan', '5000', null, '1');
+INSERT INTO `resource` VALUES ('5003', null, '逾期管理', '逾期管理', '0', '0', '/consoles/overdue', '5000', null, '1');
 INSERT INTO `resource` VALUES ('99000', null, '系统管理', '系统管理', '0', '0', '/', '0', null, '1');
 INSERT INTO `resource` VALUES ('99001', null, '费率设置', '费率设置', '0', '0', '/consoles/stagefee', '99000', null, '1');
 INSERT INTO `resource` VALUES ('99002', null, '资源设置', '资源设置', '0', '0', '/consoles/resource', '99000', null, '1');
-INSERT INTO `resource` VALUES ('99003', null, '额度等级设置', '额度等级设置', '0', '0', '/consoles/creditmoney', '99000', null, '1');
+INSERT INTO `resource` VALUES ('99003', null, '额度等级设置', '额度等级设置', null, null, '/consoles/creditmoney', '99000', null, '1');
 
 -- ----------------------------
 -- Table structure for shortmessage

@@ -57,6 +57,9 @@
     <if test="orderno != null and orderno != ''">
       and orderno = #{orderno,jdbcType=VARCHAR}
     </if>
+    <if test="isoverdue != null and isoverdue != ''">
+      and isoverdue = #{isoverdue,jdbcType=VARCHAR}
+    </if>
     <if test="orderby != null and orderby != ''">
       order by ${orderby}
     </if>

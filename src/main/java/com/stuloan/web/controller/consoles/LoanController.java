@@ -65,6 +65,11 @@ public class LoanController {
         return new ModelAndView("/consoles/loanout");
     }
 
+    @RequestMapping(value = "/overdue")
+    public ModelAndView overdue(Model model, HttpServletRequest request){
+        return new ModelAndView("/consoles/overdue");
+    }
+
     @RequestMapping(value = "/loanlist")
     @ResponseBody
     public Object loanlist(HttpServletRequest request, @RequestParam Map<String,Object> params){
@@ -72,6 +77,17 @@ public class LoanController {
         int totalcount = loanMapper.selectCountByParams(params);
         result.put("total",totalcount);
         List<Map<String,Object>> list = loanMapper.selectByParams02(params);
+        result.put("rows",list);
+        return result;
+    }
+
+    @RequestMapping(value = "/overdueloanlist")
+    @ResponseBody
+    public Object overdueloanlist(HttpServletRequest request, @RequestParam Map<String,Object> params){
+        Map<String,Object> result = new HashMap<>();
+        int totalcount = loanMapper.selectCountByParams(params);
+        result.put("total",totalcount);
+        List<Map<String,Object>> list = loanMapper.selectByParams03(params);
         result.put("rows",list);
         return result;
     }
@@ -251,4 +267,26 @@ public class LoanController {
 
         return result;
     }
+
+    @RequestMapping(value = "frozenuser")
+    @ResponseBody
+    public Object frozenuser(@RequestParam Map<String,Object> params) throws UnsupportedEncodingException {
+        Map<String,Object> result = new HashMap<>();
+        result.put("code",0);
+        result.put("message","设置失败");
+        try {
+            Sysuser sysuser = sysuserMapper.selectByPrimaryKey(params.get("userid") + "");
+            sysuser.setState(3);
+            sysuserMapper.updateByPrimaryKeySelective(sysuser);
+            result.put("code",1);
+            result.put("message","设置成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            result.put("code",0);
+            result.put("message","设置失败");
+        }
+
+        return result;
+    }
+
 }

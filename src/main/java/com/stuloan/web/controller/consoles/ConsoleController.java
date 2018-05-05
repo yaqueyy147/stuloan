@@ -244,27 +244,30 @@ public class ConsoleController {
      */
     @RequestMapping(value = "resourceList")
     @ResponseBody
-    public Map<String,Object> resourceList(@RequestParam Map<String,Object> params){
+    public Object resourceList(@RequestParam Map<String,Object> params){
         Map<String,Object> result = new HashMap<>();
+
+        List<Resource> listtotal = consoleService.getResourceList(null);
+        result.put("total",listtotal.size());
         List<Resource> list = consoleService.getResourceList(params);
 
-        List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
+//        List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
+//
+//        for (Resource tt : list) {
+//            Map<String,Object> temp = new HashMap<String,Object>();
+//            temp = CommonUtil.bean2Map(tt);
+//            temp.put("pId",tt.getParentsourceid());
+//            temp.put("pid",tt.getParentsourceid());
+//            temp.put("name",tt.getSourcename());
+//            temp.put("text",tt.getSourcename());
+//            temp.put("_parentId",tt.getParentsourceid());
+//            temp.put("resourceState",tt.getState());
+//            temp.put("state","open");
+//            temp.put("open",true);
+//            resultList.add(temp);
+//        }
 
-        for (Resource tt : list) {
-            Map<String,Object> temp = new HashMap<String,Object>();
-            temp = CommonUtil.bean2Map(tt);
-            temp.put("pId",tt.getParentsourceid());
-            temp.put("pid",tt.getParentsourceid());
-            temp.put("name",tt.getSourcename());
-            temp.put("text",tt.getSourcename());
-            temp.put("_parentId",tt.getParentsourceid());
-            temp.put("resourceState",tt.getState());
-            temp.put("state","open");
-            temp.put("open",true);
-            resultList.add(temp);
-        }
-
-        result.put("resourceList",resultList);
+        result.put("rows",list);
         return result;
     }
 
