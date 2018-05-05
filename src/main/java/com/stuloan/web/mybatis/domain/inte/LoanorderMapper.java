@@ -62,4 +62,6 @@ public interface LoanorderMapper {
     List<Map<String,Object>> queryorder(Map<String, Object> params);
 
     int updatebyorderno(Loanorder record);
+
+    Loanorder selectbyorderno(String orderno);
 }

@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>校园贷款--个人信息</title>
@@ -14,19 +15,9 @@
     <%@include file="common/commonCss.jsp"%>
     <link href="<%=request.getContextPath()%>/static/css/fronts/personalInfo.css" rel="stylesheet" type="text/css" />
     <style>
-        /*html,body {*/
-            /*height: 98%;*/
-        /*}*/
-        <%--body{--%>
-            <%--background: url("<%=request.getContextPath()%>/static/images/bg-front.jpg") no-repeat;--%>
-            <%--filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";--%>
-            <%---moz-background-size:100% 100%;--%>
-            <%--background-size:100% 100%;--%>
-        <%--}--%>
         .bbtt {
             margin-bottom: 30px;
         }
-
     </style>
 </head>
 <body>
@@ -45,9 +36,61 @@
     <div class="tab-content container-fluid">
         <div id="userDetail" class=" container-fluid">
             <div class="leftInfo infoDetail col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                <div class="col-sm-10 col-md-10 col-md-offset-1">
-                    <div class="thumbnail">
-                        <a href="javascript:void(0)" id="userPhotoBox">
+                <div class="menu1">
+                    <label class="tt">我的账号</label>
+                    <p><a href="<%=request.getContextPath()%>/fronts/personalInfo?xxx=1" style="margin-right:0;">个人资料</a></p>
+                    <label class="tt">认证信息</label>
+                    <p id="loanopera">
+                    <c:choose>
+                    <c:when test="${sysuser.isstuidentity == 1}">
+                    已通过学生认证&nbsp;&nbsp;
+                    <a href="#studentModal" data-toggle="modal" data-target="#studentModal">查看学生信息</a>
+                    </c:when>
+                    <c:when test="${sysuser.isstuidentity == 2}">
+                    学生认证未通过&nbsp;
+                    <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
+                    </c:when>
+                    <c:when test="${sysuser.isstuidentity == 5}">
+                    <span>已申请学生认证，请等待审核！</span>
+                    </c:when>
+                    <c:otherwise>
+                    <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
+                    </c:otherwise>
+
+                    </c:choose>
+                    </p>
+                    <p id="creditopera">
+                    <c:choose>
+                    <c:when test="${sysuser.iscreditidentity == 1}">
+                    已通过信用认证,您的信用额度为<span style="color: #ff0000">${sysuser.loanlimit}</span>元
+                    &nbsp;&nbsp;
+                    <a href="#creditModal" id="viewcredit" data-toggle="modal" data-target="#creditModal">查看信用信息</a>
+                    </c:when>
+                    <c:when test="${sysuser.iscreditidentity == 2}">
+                    信用认证未通过&nbsp;
+                    <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
+                    </c:when>
+                    <c:when test="${sysuser.iscreditidentity == 5}">
+                    <span>已申请信用认证，请等待审核！</span>
+                    </c:when>
+                    <c:otherwise>
+                    <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
+                    </c:otherwise>
+
+                    </c:choose>
+                    </p>
+                    <label class="tt">我的贷款</label>
+                    <c:if test="${sysuser.isstuidentity == 1 && sysuser.iscreditidentity == 1 && sysuser.loanlimit > 0}">
+                    <p><a href="<%=request.getContextPath()%>/loan/applyloan" target="_blank">申请贷款</a></p>
+                    <p><a href="<%=request.getContextPath()%>/loan/myloan">我的贷款</a></p>
+                    <p><a href="<%=request.getContextPath()%>/loan/repaydetail">全部待还</a></p>
+                    </c:if>
+                </div>
+            </div>
+            <div class="regedit-content rightInfo infoDetail col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <div class="row">
+                    <div class="col-xs-6 col-xs-offset-3 col-md-3 col-md-offset-5">
+                        <a href="javascript:void(0)" id="userPhotoBox" class="thumbnail">
                             <c:if test="${sysuser.userphoto == null || sysuser.userphoto == '' || sysuser.userphoto == 'null'}">
                                 <img src="<%=request.getContextPath()%>/static/images/defaultMan.png" height="150px" width="150px" />
                             </c:if>
@@ -55,99 +98,61 @@
                                 <img src="${sysuser.userphoto}"  height="150px" width="150px" />
                             </c:if>
                         </a>
-                        <%--<img data-src="holder.js/300x300" alt="...">--%>
-                        <div class="caption">
-                            <p id="modifyPhotoBox"><button type="button" class="btn btn-default" data-toggle="modal" data-target="#photoModal">修改头像</button>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifyModal">修改密码</button></p>
-                            <h3>${sysuser.username}</h3>
-
-                            <p>${sysuser.province}${sysuser.city}${sysuser.district}</p>
-
-                            <p id="loanopera">
-                                <c:choose>
-                                    <c:when test="${sysuser.isstuidentity == 1}">
-                                        已通过学生认证&nbsp;&nbsp;
-
-                                    </c:when>
-                                    <c:when test="${sysuser.isstuidentity == 2}">
-                                        学生认证未通过&nbsp;
-                                        <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
-                                    </c:when>
-                                    <c:when test="${sysuser.isstuidentity == 5}">
-                                        <span>已申请学生认证，请等待审核！</span>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
-                                    </c:otherwise>
-
-                                </c:choose>
-                            </p>
-                            <p id="creditopera">
-                                <c:choose>
-                                    <c:when test="${sysuser.iscreditidentity == 1}">
-                                        已通过信用认证,您的信用额度为<span style="color: #ff0000">${sysuser.loanlimit}</span>元
-                                        &nbsp;&nbsp;
-                                        <a href="#creditModal" id="viewcredit" data-toggle="modal" data-target="#creditModal">查看信用信息</a>
-                                    </c:when>
-                                    <c:when test="${sysuser.iscreditidentity == 2}">
-                                        信用认证未通过&nbsp;
-                                        <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
-                                    </c:when>
-                                    <c:when test="${sysuser.iscreditidentity == 5}">
-                                        <span>已申请信用认证，请等待审核！</span>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
-                                    </c:otherwise>
-
-                                </c:choose>
-                            </p>
-                            <c:if test="${sysuser.isstuidentity == 1 && sysuser.iscreditidentity == 1 && sysuser.loanlimit > 0}">
-                                <a href="<%=request.getContextPath()%>/loan/applyloan">申请贷款</a>
-                                <p><a href="<%=request.getContextPath()%>/loan/myloan">我的贷款</a></p>
-                                <p><a href="<%=request.getContextPath()%>/loan/repaydetail">全部待还</a></p>
-                            </c:if>
-                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="regedit-content rightInfo infoDetail col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                <p id="modifyPhotoBox" style="text-align: center; border-bottom: 2px solid #cccccc">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#photoModal">修改头像</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifyModal">修改密码</button>
+                </p>
                 <div class="form active" id="personalRegedit">
-                    <form id="personalForm" action="" method="post">
+                    <form id="personalForm" action="" method="post" class="form-horizontal">
                         <input type="hidden" name="id" value="${sysuser.id}" />
                         <input type="hidden" name="userPhoto" id="userPhoto" value="${sysuser.userphoto}" />
 
-                        <div class="form-group col-xs-8 form-actions">
-                            <input class="form-control" id="loginName" name="loginname" value="${sysuser.loginname}" placeholder="登录名" type="text" readonly />
-                        </div>
-                        <div class="form-group col-xs-8 form-actions" style="margin-top: 15px">
-                            <input class="form-control" id="userName" name="username" value="${sysuser.username}" placeholder="真实姓名" type="text" />
+                        <div class="form-group form-actions">
+                            <label for="loginname" class="col-sm-2 control-label">登录账号:</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" id="loginname" name="loginname" value="${sysuser.loginname}" placeholder="登录账号" type="text" readonly />
+                            </div>
                         </div>
 
                         <div class="form-group col-xs-8 form-actions" style="margin-top: 15px;display: none">
                             <input class="form-control" id="password" name="password" value="${sysuser.password}" type="password" />
                         </div>
-                        <div class="form-group col-xs-12 form-actions" style="margin-top: 15px">
-                            <div data-toggle="distpicker">
+                        <div class="form-group form-actions" style="margin-top: 15px">
+                            <label class="col-sm-2 control-label">家庭住址:</label>
+                            <div data-toggle="distpicker" class="col-sm-10">
                                 <select id="province" name="province" data-province="---- 选择省 ----"></select>
                                 <select id="city" name="city" data-city="---- 选择市 ----"></select>
                                 <select id="district" name="district" data-district="---- 选择区 ----"></select>
                             </div>
                         </div>
-                        <div class="form-group col-xs-8 form-actions" style="margin-top: 15px">
-                            <input class="form-control" id="detailAddr" name="detailaddr" value="${sysuser.detailaddr}" placeholder="详细地址" type="text" />
+                        <div class="form-group form-actions" style="margin-top: 15px">
+                            <label for="detailaddr" class="col-sm-2 control-label">详细地址:</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" id="detailaddr" name="detailaddr" value="${sysuser.detailaddr}" placeholder="详细地址" type="text" />
+                            </div>
                         </div>
-                        <div class="form-group col-xs-8 form-actions" style="margin-top: 15px">
-                            <input class="form-control" id="phone" name="phone" value="${sysuser.phone}" placeholder="手机号码" type="text" readonly />
+                        <div class="form-group form-actions" style="margin-top: 15px">
+                            <label for="phone" class="col-sm-2 control-label">手机号码:</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" id="phone" name="phone" value="${sysuser.phone}" placeholder="手机号码" type="text" readonly />
+                            </div>
                         </div>
-                        <div class="form-group col-xs-8 form-actions" style="margin-top: 15px">
-                            <input class="form-control" id="wechart" name="wechart" value="${sysuser.wechart}" placeholder="微 信" type="text" />
+                        <div class="form-group form-actions" style="margin-top: 15px">
+                            <label for="wechart" class="col-sm-2 control-label">微信:</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" id="wechart" name="wechart" value="${sysuser.wechart}" placeholder="微 信" type="text" />
+                            </div>
                         </div>
-                        <div class="form-group col-xs-8 form-actions" style="margin-top: 15px">
-                            <input class="form-control" id="qqNum" name="qqNum" value="${sysuser.qqnum}" placeholder="QQ" type="text" />
+                        <div class="form-group form-actions" style="margin-top: 15px">
+                            <label for="qqNum" class="col-sm-2 control-label">QQ号码:</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" id="qqnum" name="qqnum" value="${sysuser.qqnum}" placeholder="QQ" type="text" />
+                            </div>
                         </div>
-                        <div class="form-group col-xs-9 form-actions col-xs-offset-2" style="margin-top: 15px">
-                            <button class="btn btn-primary bbtt" id="regedit" type="button">保存</button>
+                        <div class="form-group col-sm-12 form-actions" style="margin-top: 15px;text-align: center">
+                            <button style="text-align: center" class="btn btn-primary bbtt" id="regedit" type="button">保存</button>
                         </div>
 
                     </form>
@@ -314,6 +319,90 @@
                     <label>行为分:</label>
                     ${creditscore.behaviorscore}
                 </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--学生信息-->
+<div class="modal fade bs-example-modal-lg" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="studentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="studentModalLabel">我的学生信息</h4>
+            </div>
+            <div class="modal-body" >
+                <form>
+                    <div class="form-group">
+                        <label class="col-sm-2">姓名:</label>
+                        <span class="col-sm-4">${studentinfo.stuname}</span>
+                        <label class="col-sm-2">性别:</label>
+                        <span>
+                        <c:choose>
+                            <c:when test="${studentinfo.stusex == 1}">
+                                男
+                            </c:when>
+                            <c:otherwise>女</c:otherwise>
+                        </c:choose>
+                    </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">身份证号:</label>
+                        <span class="col-sm-4">${studentinfo.stuidcard}</span>
+                        <label class="col-sm-2">学校:</label>
+                        <span>${studentinfo.school}</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">学历层次:</label>
+                        <span class="col-sm-4">${studentinfo.edulevel}</span>
+                        <label class="col-sm-2">专业:</label>
+                        <span>${studentinfo.major}</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">学制:</label>
+                        <span class="col-sm-4">${studentinfo.edusystem}</span>
+                        <label class="col-sm-2">学历类别:</label>
+                        <span>${studentinfo.edutype}</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">学习形式:</label>
+                        <span class="col-sm-4">${studentinfo.edumode}</span>
+                        <label class="col-sm-2">分院:</label>
+                        <span>${studentinfo.branch}</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">班级:</label>
+                        <span class="col-sm-4">${studentinfo.classgrade}</span>
+                        <label class="col-sm-2">学号:</label>
+                        <span>${studentinfo.stunum}</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">入学时间:</label>
+                        <span class="col-sm-4">
+                            <fmt:formatDate value="${studentinfo.admissiondate}" pattern="yyyy-MM-dd"></fmt:formatDate>
+                        </span>
+                        <label class="col-sm-2">离校时间:</label>
+                        <span>
+                            <fmt:formatDate value="${studentinfo.leavedate}" pattern="yyyy-MM-dd"></fmt:formatDate>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">学籍状态:</label>
+                        <span>
+                    <c:choose>
+                        <c:when test="${studentinfo.stustate == 1}">
+                            在籍
+                        </c:when>
+                        <c:otherwise>不在籍</c:otherwise>
+                    </c:choose>
+                    </span>
+                    </div>
+                </form>
 
             </div>
             <div class="modal-footer">

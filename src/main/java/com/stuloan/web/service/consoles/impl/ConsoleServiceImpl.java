@@ -71,9 +71,52 @@ public class ConsoleServiceImpl implements ConsoleService {
         if(!CommonUtil.isBlank(params.get("district"))){
             sql += " and district='" + params.get("district") + "'";
         }
+        if(!CommonUtil.isBlank(params.get("usertype"))){
+            if(CommonUtil.parseInt(params.get("usertype")) == 1){
+                sql += " and isfront=1";
+            }
+            if(CommonUtil.parseInt(params.get("usertype")) == 2){
+                sql += " and isconsole=1";
+            }
+        }
+        if(!CommonUtil.isBlank(params.get("orderby"))){
+            sql += " order by " + params.get("orderby") + "";
+        }
         List<Sysuser> list = jdbcTemplate.query(sql,new BeanPropertyRowMapper<Sysuser>(Sysuser.class));
 
         return list;
+    }
+
+    @Override
+    public int gettotalusercount(Map<String, Object> params) {
+        String sql = "select count(*) as count from sysuser where state<>9";
+
+        if(!CommonUtil.isBlank(params.get("id"))){
+            sql += " and id='" + params.get("id") + "'";
+        }
+        if(!CommonUtil.isBlank(params.get("userfrom"))){
+            sql += " and userfrom='" + params.get("userfrom") + "'";
+        }
+        if(!CommonUtil.isBlank(params.get("username"))){
+            sql += " and username like '%" + params.get("username") + "%'";
+        }
+        if(!CommonUtil.isBlank(params.get("loginname"))){
+            sql += " and loginname like '%" + params.get("loginname") + "%'";
+        }
+        if(!CommonUtil.isBlank(params.get("province"))){
+            sql += " and province='" + params.get("province") + "'";
+        }
+        if(!CommonUtil.isBlank(params.get("city"))){
+            sql += " and city='" + params.get("city") + "'";
+        }
+        if(!CommonUtil.isBlank(params.get("district"))){
+            sql += " and district='" + params.get("district") + "'";
+        }
+        List<Map<String,Object>> list = jdbcTemplate.queryForList(sql);
+        if(list != null && list.size() >0){
+            return list.size();
+        }
+        return 0;
     }
 
     @Override
@@ -172,6 +215,7 @@ public class ConsoleServiceImpl implements ConsoleService {
             userresource.setUserid(userId);
             userresource.setResourceid(sourceIdArr[i]);
             userresourceDao.save(userresource);
+            ii ++;
         }
 
         return ii;

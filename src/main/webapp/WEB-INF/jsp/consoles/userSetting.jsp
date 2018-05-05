@@ -21,14 +21,18 @@
 <div id="tb">
     <span>登录账号:</span>
     <input id="loginName4Search" name="loginname" style="line-height:26px;border:1px solid #ccc;height: 23px;">
-    <span>用户名:</span>
-    <input id="userName4Search" name="username" style="line-height:26px;border:1px solid #ccc;height: 23px;">
     <span>用户属地:</span>
     <span data-toggle="distpicker">
         <select id="province4Search" name="province" style="line-height:26px;border:1px solid #ccc" data-province="---- 全部 ----"></select>
         <select id="city4Search" name="city" style="line-height:26px;border:1px solid #ccc" data-city="---- 全部 ----"></select>
         <select id="district4Search" name="district" style="line-height:26px;border:1px solid #ccc" data-district="---- 全部 ----"></select>
     </span>
+    <span>用户类型:</span>
+    <select id="usertype4search">
+        <option value="">全部</option>
+        <option value="1">前台用户</option>
+        <option value="2">后台用户</option>
+    </select>
     <a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" id="doSearch">查询</a>
     <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="toAdd">添加</a>
     <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="toEdit" >编辑</a>
@@ -48,18 +52,12 @@
                 <tr>
                     <td>登录账号:</td>
                     <td><input class="easyui-validatebox" type="text" id="loginname" name="loginname" data-options="required:true" /></td>
-                    <td>用户名/真实姓名:</td>
-                    <td><input class="easyui-validatebox" type="text" id="username" name="username" data-options="required:true" /></td>
                 </tr>
                 <tr id="passwordTr">
                     <td>密码:</td>
                     <td><input class="easyui-validatebox" type="password" id="password" name="password" value="123456" data-options="required:true" /></td>
                     <td>确认密码:</td>
                     <td><input class="easyui-validatebox" type="password" id="passwordAffirm" name="passwordAffirm" value="123456" data-options="required:true" /></td>
-                </tr>
-                <tr>
-                    <td>身份证号:</td>
-                    <td><input class="easyui-validatebox" type="text" id="idcard" name="idcard" /></td>
                 </tr>
                 <tr>
                     <td>联系电话:</td>
@@ -98,23 +96,14 @@
                     <td>是否可登录前台:</td>
                     <td>
                         <select id="isfront" name="isfront" class="easyui-combobox" style="width:150px">
-                            <option value="1">是</option>
                             <option value="0">否</option>
+                            <option value="1">是</option>
+
                         </select>
                     </td>
                     <td>是否可登录后台:</td>
                     <td>
                         <select id="isconsole" name="isconsole" class="easyui-combobox" style="width:150px">
-                            <option value="1">是</option>
-                            <option value="0">否</option>
-                        </select>
-                    </td>
-
-                </tr>
-                <tr>
-                    <td>是否可修族谱:</td>
-                    <td>
-                        <select id="isvolunteer" name="isvolunteer" class="easyui-combobox" style="width:150px">
                             <option value="1">是</option>
                             <option value="0">否</option>
                         </select>
@@ -151,6 +140,19 @@
     </div>
 </div>
 
+<div id="loanlimitDialog" class="easyui-dialog" title="贷款额度设置" style="width:400px;height:200px;padding:10px;top: 10%;left: 10%;">
+    <input type="hidden" id="userId4loanlimit" />
+    <div style="padding:10px 40px 20px 40px">
+        <form id="loanlimitsetForm" method="post">
+            <table cellpadding="5">
+                <tr>
+                    <td>贷款额度:</td>
+                    <td><input class="easyui-validatebox" type="text" id="loanlimit" name="loanlimit" data-options="required:true" />元</td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
 
 <%@include file="common/springUrl.jsp"%>
 <%@include file="common/commonJs.jsp"%>

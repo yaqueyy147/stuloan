@@ -47,26 +47,55 @@
     <div class="tab-content container-fluid">
         <div id="userDetail" class=" container-fluid">
             <div class="leftInfo infoDetail col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                <div class="col-sm-10 col-md-10 col-md-offset-1">
-                    <div class="thumbnail">
-                        <a href="javascript:void(0)" id="userPhotoBox">
-                            <c:if test="${sysuser.userphoto == null || sysuser.userphoto == '' || sysuser.userphoto == 'null'}">
-                                <img src="<%=request.getContextPath()%>/static/images/defaultMan.png" height="150px" width="150px" />
-                            </c:if>
-                            <c:if test="${sysuser.userphoto != null && sysuser.userphoto != '' && sysuser.userphoto != 'null'}">
-                                <img src="${sysuser.userphoto}"  height="150px" width="150px" />
-                            </c:if>
-                        </a>
-                        <%--<img data-src="holder.js/300x300" alt="...">--%>
-                        <div class="caption">
-                            <h3>${sysuser.username}</h3>
+                <div class="menu1">
+                    <label class="tt">我的账号</label>
+                    <p><a href="<%=request.getContextPath()%>/fronts/personalInfo?xxx=1" style="margin-right:0;">个人资料</a></p>
+                    <label class="tt">认证信息</label>
+                    <p id="loanopera">
+                        <c:choose>
+                            <c:when test="${sysuser.isstuidentity == 1}">
+                                已通过学生认证&nbsp;&nbsp;
+                                <a href="#studentModal" data-toggle="modal" data-target="#studentModal">查看学生信息</a>
+                            </c:when>
+                            <c:when test="${sysuser.isstuidentity == 2}">
+                                学生认证未通过&nbsp;
+                                <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
+                            </c:when>
+                            <c:when test="${sysuser.isstuidentity == 5}">
+                                <span>已申请学生认证，请等待审核！</span>
+                            </c:when>
+                            <c:otherwise>
+                                <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
+                            </c:otherwise>
 
-                            <p>${sysuser.province}${sysuser.city}${sysuser.district}</p>
-                            <p><a href="<%=request.getContextPath()%>/loan/applyloan">申请贷款</a></p>
-                            <p><a href="<%=request.getContextPath()%>/fronts/personalInfo">个人信息</a></p>
-                            <p><a href="<%=request.getContextPath()%>/loan/myloan">我的贷款</a></p>
-                        </div>
-                    </div>
+                        </c:choose>
+                    </p>
+                    <p id="creditopera">
+                        <c:choose>
+                            <c:when test="${sysuser.iscreditidentity == 1}">
+                                已通过信用认证,您的信用额度为<span style="color: #ff0000">${sysuser.loanlimit}</span>元
+                                &nbsp;&nbsp;
+                                <a href="#creditModal" id="viewcredit" data-toggle="modal" data-target="#creditModal">查看信用信息</a>
+                            </c:when>
+                            <c:when test="${sysuser.iscreditidentity == 2}">
+                                信用认证未通过&nbsp;
+                                <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
+                            </c:when>
+                            <c:when test="${sysuser.iscreditidentity == 5}">
+                                <span>已申请信用认证，请等待审核！</span>
+                            </c:when>
+                            <c:otherwise>
+                                <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
+                            </c:otherwise>
+
+                        </c:choose>
+                    </p>
+                    <label class="tt">我的贷款</label>
+                    <c:if test="${sysuser.isstuidentity == 1 && sysuser.iscreditidentity == 1 && sysuser.loanlimit > 0}">
+                        <p><a href="<%=request.getContextPath()%>/loan/applyloan" target="_blank">申请贷款</a></p>
+                        <p><a href="<%=request.getContextPath()%>/loan/myloan">我的贷款</a></p>
+                        <p><a href="<%=request.getContextPath()%>/loan/repaydetail">全部待还</a></p>
+                    </c:if>
                 </div>
             </div>
             <div class="regedit-content rightInfo infoDetail col-lg-8 col-md-8 col-sm-8 col-xs-8">

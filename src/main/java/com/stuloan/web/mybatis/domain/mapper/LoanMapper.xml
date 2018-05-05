@@ -27,6 +27,7 @@
       <arg column="loanage" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="ispayoff" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="orderno" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="loanoutdate" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
@@ -36,6 +37,7 @@
     -->
     id, userid, loanamount, isstage, repayreal, stagenum, repayyet, stagenumyet, createdate, 
     updatedate, state, auditid, auditman, auditdate, auditmsg, remark, loanpurpose, loanage, ispayoff, orderno
+    , loanoutdate
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
@@ -140,7 +142,7 @@
       repayyet, stagenumyet, createdate, 
       updatedate, state, auditid, 
       auditman, auditdate, auditmsg, 
-      remark, loanpurpose, loanage, ispayoff, orderno
+      remark, loanpurpose, loanage, ispayoff, orderno, loanoutdate
       )
     values (#{id,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{loanamount,jdbcType=DECIMAL}, 
       #{isstage,jdbcType=CHAR}, #{repayreal,jdbcType=DECIMAL}, #{stagenum,jdbcType=INTEGER}, 
@@ -148,7 +150,7 @@
       #{updatedate,jdbcType=TIMESTAMP}, #{state,jdbcType=CHAR}, #{auditid,jdbcType=VARCHAR},
       #{auditman,jdbcType=VARCHAR}, #{auditdate,jdbcType=TIMESTAMP}, #{auditmsg,jdbcType=VARCHAR},
       #{remark,jdbcType=VARCHAR}, #{loanpurpose,jdbcType=VARCHAR}, #{loanage,jdbcType=INTEGER}
-      , #{ispayoff,jdbcType=CHAR}, #{orderno,jdbcType=VARCHAR}
+      , #{ispayoff,jdbcType=CHAR}, #{orderno,jdbcType=VARCHAR}, #{loanoutdate,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.stuloan.web.mybatis.domain.Loan">
@@ -216,7 +218,10 @@
         ispayoff,
       </if>
       <if test="orderno != null">
-        orderno
+        orderno,
+      </if>
+      <if test="loanoutdate != null">
+        loanoutdate
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -278,7 +283,10 @@
         #{ispayoff,jdbcType=CHAR},
       </if>
       <if test="orderno != null">
-        #{orderno,jdbcType=VARCHAR}
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="loanoutdate != null">
+        #{loanoutdate,jdbcType=TIMESTAMP}
       </if>
     </trim>
   </insert>
@@ -344,7 +352,10 @@
         ispayoff = #{ispayoff,jdbcType=CHAR},
       </if>
       <if test="orderno != null">
-        orderno = #{orderno,jdbcType=VARCHAR}
+        orderno = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="loanoutdate != null">
+        loanoutdate = #{loanoutdate,jdbcType=TIMESTAMP}
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -373,7 +384,8 @@
       loanpurpose = #{loanpurpose,jdbcType=VARCHAR}
       loanage = #{loanage,jdbcType=INTEGER},
       ispayoff = #{ispayoff,jdbcType=CHAR},
-      orderno = #{orderno,jdbcType=VARCHAR}
+      orderno = #{orderno,jdbcType=VARCHAR},
+    loanoutdate = #{loanoutdate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -388,7 +400,7 @@
   <select id="moneystatistics" parameterType="java.lang.String" resultType="java.util.Map">
     select a.moneydate,a.disburse,b.income
     from
-    (select DATE_FORMAT(auditdate,#{format}) as moneydate,sum(loanamount) as disburse
+    (select DATE_FORMAT(loanoutdate,#{format}) as moneydate,sum(loanamount) as disburse
     from loan
     where state='1'
     group by moneydate) a

@@ -58,8 +58,11 @@ public class ConsoleController {
     @ResponseBody
     public Map<String,Object> getUserList(@RequestParam Map<String,Object> params){
         Map<String,Object> result = new HashMap<String,Object>();
+        int totalusercount = consoleService.gettotalusercount(params);
+        result.put("total",totalusercount);
         List<Sysuser> list = consoleService.getUserList(params);
-        result.put("dataList",list);
+        result.put("rows",list);
+//        result.put("dataList",list);
         return result;
     }
 
@@ -72,43 +75,52 @@ public class ConsoleController {
     @ResponseBody
     public Map<String,Object> saveUserBase(HttpServletRequest request,HttpServletResponse response, Sysuser sysuser) throws Exception{
         Map<String,Object> result = new HashMap<String,Object>();
+        result.put("msg","保存失败!");
+        result.put("code",0);
         int i = 0;
 
         JSONObject consolesUser = CookieUtil.cookieValueToJsonObject(request, Userutils.CONSOLE_COOKIE_NAME);
-        String userName = consolesUser.get("userName") + "";
+        String userName = consolesUser.get("loginname") + "";
 
         Map<String,Object> params = new HashMap<String,Object>();
         
-        if(CommonUtil.isBlank(sysuser.getId()) || "0".equals(sysuser.getId())){//新建用户，需要设置加密密码
-            //检查用户名是否已经存在了
-            params.put("loginname", sysuser.getLoginname());
-            List<Sysuser> list = consoleService.getUserList(params);
-            if(list != null && list.size() > 0){
-                result.put("msg","该用户已存在!");
-                result.put("cartoonuser", sysuser);
-                result.put("code",99);
-                return result;
+        try {
+            if(CommonUtil.isBlank(sysuser.getId()) || "0".equals(sysuser.getId())){//新建用户，需要设置加密密码
+                //检查用户名是否已经存在了
+                params.put("loginname", sysuser.getLoginname());
+                List<Sysuser> list = consoleService.getUserList(params);
+                if(list != null && list.size() > 0){
+                    result.put("msg","该用户已存在!");
+                    result.put("cartoonuser", sysuser);
+                    result.put("code",99);
+                    return result;
+                }
+                sysuser.setUserfrom(2);
+                sysuser.setPassword(CommonUtil.string2MD5(sysuser.getPassword()));
+                sysuser.setCreateman(userName);
+                sysuser.setCreatedate(CommonUtil.getDateLong());
+                sysuser.setId(CommonUtil.uuid());
+
+            }else{//修改用户，不修改密码
+                params = new HashMap<String,Object>();
+                params.put("id", sysuser.getId());
+                List<Sysuser> list = consoleService.getUserList(params);
+                sysuser.setCreateman(list.get(0).getCreateman());
+                sysuser.setCreatedate(list.get(0).getCreatedate());
+                sysuser.setUserfrom(CommonUtil.parseInt(list.get(0).getUserfrom()));
+                sysuser.setPassword(consolesUser.get("password") + "");
             }
-            sysuser.setUserfrom(2);
-            sysuser.setPassword(CommonUtil.string2MD5(sysuser.getPassword()));
-            sysuser.setCreateman(userName);
-            sysuser.setCreatedate(CommonUtil.getDateLong());
-            sysuser.setId(CommonUtil.uuid());
-
-        }else{//修改用户，不修改密码
-            params = new HashMap<String,Object>();
-            params.put("id", sysuser.getId());
-            List<Sysuser> list = consoleService.getUserList(params);
-            sysuser.setCreateman(list.get(0).getCreateman());
-            sysuser.setCreatedate(list.get(0).getCreatedate());
-            sysuser.setUserfrom(CommonUtil.parseInt(list.get(0).getUserfrom()));
-            sysuser.setPassword(consolesUser.get("password") + "");
+            consoleService.saveUser(sysuser);
+            result.put("msg","保存成功!");
+            result.put("sysuser", sysuser);
+            result.put("code",1);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.put("msg","保存失败!");
+            result.put("code",0);
         }
-        consoleService.saveUser(sysuser);
 
-        result.put("msg","保存成功!");
-        result.put("cartoonuser", sysuser);
-        result.put("code",i);
+
         return result;
     }
 
@@ -173,7 +185,7 @@ public class ConsoleController {
         List<Resource> list = consoleService.getResourceList(params);
 
         Map<String,Object> params1 = new HashMap<>();
-        params1.put("userid",params.get("userId"));
+        params1.put("userid",params.get("userid"));
         List<Userresource> list1 = consoleService.getUserResource(params);
 
         List<Map<String,Object>> resultList = new ArrayList<Map<String,Object>>();
@@ -190,7 +202,7 @@ public class ConsoleController {
             temp.put("state","open");
             temp.put("open",true);
             for(Userresource tt1 : list1){
-                if(tt1.getResourceid() == tt.getId()){
+                if(tt1.getResourceid().equals(tt.getId())){
                     temp.put("checked",true);
                     break;
                 }

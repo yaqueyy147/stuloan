@@ -69,6 +69,7 @@ public class ToGetOrderStatusTask {
                             if(loanlist != null && loanlist.size() >0){
                                 for(Loan loan : loanlist){
                                     loan.setState("1");
+                                    loan.setLoanoutdate(new Date());
                                     loanMapper.updateByPrimaryKeySelective(loan);
                                     Repaydetail repaydetail = new Repaydetail();
                                     repaydetail.setLoanid(loan.getId());

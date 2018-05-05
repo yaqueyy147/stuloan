@@ -9,23 +9,13 @@ $(function () {
 
     $("#doSearch").click(function () {
         var params = {};
-        params.loginName = $("#loginName4Search").val();
-        params.userName = $("#userName4Search").val();
+        params.loginname = $("#loginName4Search").val();
         params.province = $("#province4Search").val();
         params.city = $("#city4Search").val();
         params.district = $("#district4Search").val();
+        params.usertype = $("#usertype4Search").val();
         loadDataGrid(params);
     });
-
-    $("#doSearch2").click(function () {
-        var params = {};
-        params.familyName = $("#familyName4Search2").val();
-        params.province = $("#province4Search2").val();
-        params.city = $("#city4Search2").val();
-        params.district = $("#district4Search2").val();
-        loadFamilyList(params);
-    });
-
     var params = {};
     loadDataGrid(params);
 
@@ -40,26 +30,16 @@ $(function () {
                 "text":"提交",
                 handler:function(){
                     var loginName = $("#loginname").val();
-                    var userName = $("#username").val();
                     var password = $("#password").val();
                     var passwordAffirm = $("#passwordAffirm").val();
-                    var idCard = $("#idcard").val();
-                    var idCardPhoto = $("#idcardphoto").val();
                     var phone = $("#phone").val();
                     var province = $("#province").val();
                     var city = $("#city").val();
                     var district = $("#district").val();
 
-                    var checkCode = $("#checkCode").val();
-
                     if($.trim(loginName).length <= 0){
                         alert("登录名不能为空！");
                         // $("#loginName").parent().addClass("has-error");
-                        return ;
-                    }
-                    if($.trim(userName).length <= 0){
-                        alert("用户名不能为空！");
-                        // $("#userName").parent().addClass("has-error");
                         return ;
                     }
                     if($.trim(password).length <= 0){
@@ -74,14 +54,6 @@ $(function () {
                         alert("密码输入不一致！");
                         return;
                     }
-                    // if($.trim(idCard).length != 18 && $.trim(idCard).length != 15){
-                    //     alert("身份证号输入有误！");
-                    //     return ;
-                    // }
-                    // if($.trim(idCardPhoto).length <= 0){
-                    //     alert("请上传身份证照片！");
-                    //     return ;
-                    // }
                     if($.trim(province).length <= 0){
                         alert("请选择省！");
                         return ;
@@ -152,7 +124,7 @@ $(function () {
             {
                 "text":"提交",
                 handler:function(){
-                    var userId = $("#userId4Tree").val();
+                    var userid = $("#userId4Tree").val();
                     var treeObj = $.fn.zTree.getZTreeObj("resourceTree");
                     var nodes = treeObj.getCheckedNodes(true);
                     var selectIds = "";
@@ -168,7 +140,7 @@ $(function () {
                         url: projectUrl + "/consoles/saveAuth",
                         // async:false,
                         dataType:'json',
-                        data:{userId:userId,sourceIds:selectIds},
+                        data:{userid:userid,sourceIds:selectIds},
                         success:function (data) {
 
                             alert(data.msg);
@@ -256,11 +228,61 @@ $(function () {
         ]
     });
 
+    $("#loanlimitDialog").dialog({
+        width: 400,
+        height: 200,
+        closed: true,
+        cache: false,
+        modal: true,
+        "buttons":[
+            {
+                "text":"提交",
+                handler:function(){
+                    var userid = $("#userId4loanlimit").val();
+                    var loanlimit = $("#loanlimit").val();
+                    if($.trim(loanlimit).length <= 0){
+                        $.messager.alert('提示',"请输入贷款额度")
+                        return;
+                    }
+                    $.ajax({
+                        type:'post',
+                        url: projectUrl + "/consoles/loanlimitset",
+                        // async:false,
+                        dataType:'json',
+                        data:{userid:userid,loanlimit:loanlimit},
+                        success:function (data) {
+                            $.messager.alert('提示',data.message);
+                            if(data.code >= 1){
+                                $("#loanlimitDialog").dialog("close");
+                            }
+                            var params = {};
+                            loadDataGrid(params);
+                        },
+                        error:function (data) {
+                            var responseText = data.responseText;
+                            if(responseText.indexOf("登出跳转页面") >= 0){
+                                ajaxErrorToLogin();
+                            }else{
+                                alert(JSON.stringify(data));
+                            }
+                        }
+                    });
+                }
+            },
+            {
+                "text":"取消",
+                handler:function () {
+                    $("#loanlimitDialog").dialog("close");
+                }
+            }
+        ]
+    });
+
     $("#toAdd").click(function () {
 
         $("#userInfoForm").form('clear');
         $("#state").combobox("setValue",1);
-        $("#isfront").combobox("setValue",1);
+        $("#isfront").combobox("setValue",0);
         $("#isconsole").combobox("setValue",1);
         $("#isvolunteer").combobox("setValue",1);
         $("#userId").val(0);
@@ -298,7 +320,7 @@ $(function () {
             return;
         }
         $("#userId4Tree").val(selectRows[0].id);
-        var params = {userId:selectRows[0].id};
+        var params = {userid:selectRows[0].id};
         var dataList = getData("/consoles/userResourceList",params).resourceList;
         $.fn.zTree.init($("#resourceTree"), setting, dataList);
 
@@ -347,7 +369,7 @@ $(function () {
         for(var i=0;i<selectRows.length;i++){
             var ii = selectRows[i];
             selectIds += "," + ii.id;
-            selectNames.push(ii.username);
+            selectNames.push(ii.loginname);
         }
         selectIds = selectIds.substring(1);
         $.messager.confirm('提示','确定要删除用户(' + selectNames + ')  吗?',function(r){
@@ -386,10 +408,15 @@ function closeDialog(dialogId){
 }
 
 function loadDataGrid(params) {
-    var dataList = getData("/consoles/userList",params).dataList;
-    dataList = formatDataList(dataList);
+    params.pageNumber = 1;
+    params.pageSize = 10;
+    params.orderby = "createdate desc";
+    // var dataList = getData("/consoles/userList",params).dataList;
+    // dataList = formatDataList(dataList);
     $("#userList").datagrid({
-        data:dataList,
+        // data:dataList,
+        url:"/consoles/userList",
+        queryParams:params,
         loadMsg:"加载中...",
         selectOnCheck:true,
         singleSelect:false,
@@ -397,7 +424,7 @@ function loadDataGrid(params) {
             {field:"ck",checkbox:"true"},
             {field:"id",title:"用户Id",width:"80",hidden:true},
             {field:"loginname",title:"用户账号",width:"120"},
-            {field:"username",title:"用户昵称",width:"120"},
+            {field:"username",title:"用户昵称",width:"120",hidden:true},
             {field:"password",title:"密码",width:"80",hidden:true},
             {field:"phone",title:"电话",width:"120"},
             {field:"qqnum",title:"QQ",width:"100"},
@@ -417,15 +444,50 @@ function loadDataGrid(params) {
                     return '<span title='+ address + '>'+address+'</span>';
                 }},
             {field:"createman",title:"创建人",width:"120"},
-            {field:"createtime",title:"创建时间",width:"150",
+            {field:"createdate",title:"创建时间",width:"150",
                 formatter: function(value,row,index){
                     if($.trim(value).length > 0){
                         return value;
                     }
                     return '';
                 }},
-            {field:"statedesc",title:"状态",width:"80"},
-            {field:"state",title:"状态",width:"180",hidden:true},
+            {field:"state",title:"状态",width:"80",
+                formatter: function(value,row,index){
+                    if(value == 1){
+                        return "可用";
+                    }
+                    return '不可用';
+                }},
+            {field:"isstuidentity",title:"是否已通过学生认证",width:"80",
+                formatter: function(value,row,index){
+                    if(value == 1){
+                        return "已通过";
+                    }
+                    return '未通过';
+                }},
+            {field:"iscreditidentity",title:"是否已通过信用认证",width:"80",
+                formatter: function(value,row,index){
+                    if(value == 1){
+                        return "已通过";
+                    }
+                    return '未通过';
+                }},
+            {field:"loanlimit",title:"贷款额度",width:"120",
+                formatter: function(value,row,index){
+                    if(row.isfront == 1){
+                        var hh = "";
+                        if(value){
+                            hh += value + "元";
+                        }else{
+                            hh += "0.0元";
+                        }
+                        if(row.iscreditidentity == 1 && row.isstuidentity == 1){
+                            hh += "&nbsp;&nbsp;<a href='javascript:void 0' onclick=\"setloanlimit('" + row.id + "', '" + value + "')\">设置</a>";
+                        }
+                        return hh;
+                    }
+                    return '0.0元';
+                }},
             {field:"userfrom",title:"用户来源",width:"120",
                 formatter: function(value,row,index){
                     if(value == 1){
@@ -446,13 +508,6 @@ function loadDataGrid(params) {
                         return "是";
                     }
                     return '否';
-                }},
-            {field:"isvolunteer",title:"是否可修族谱",width:"100",
-                formatter: function(value,row,index){
-                    if(value == 1){
-                        return "是";
-                    }
-                    return '否';
                 }}
             // {field:"operate",title:"操作",width:"120"}
         ]],
@@ -460,37 +515,20 @@ function loadDataGrid(params) {
     });
 }
 
-function formatDataList(data){
-    if(data){
-
-        for(var i=0;i<data.length;i++){
-            // data[i].userCode = "<a href=\"javascript:void 0;\" onclick=\"editUser('"+ data[i].id +"')\">" + data[i].userCode +" </a>";
-            // data[i].createTime = new Date(data[i].createTime).Format("yyyy-MM-dd hh:mm:ss");
-
-
-            if(data[i].state == 1){
-                data[i].stateDesc = "可用";
-            }else{
-                data[i].stateDesc = "不可用";
-            }
-
-            // data[i].operate = "<a href=\"javascript:void 0;\" class=\"easyui-linkbutton\" iconCls=\"icon-edit\" plain=\"true\" onclick=\"toEdit('" + data[i].id + "')\">编辑</a>";
-            // data[i].operate += "&nbsp;&nbsp;<a href=\"javascript:void 0;\" class=\"easyui-linkbutton\" iconCls=\"icon-remove\" plain=\"true\" onclick=\"toDel('" + data[i].id + "')\">删除</a>";
-        }
-    }
-    return data;
+function setloanlimit(userid,loanlimit) {
+    $("#userId4loanlimit").val(userid);
+    $("#loanlimit").val(loanlimit);
+    $("#loanlimitDialog").dialog("open");
 }
 
 function loadDataToForm(data){
     $("#userId").val(data.id);
-    $("#username").val(data.userName);
-    $("#loginname").val(data.loginName);
+    $("#loginname").val(data.loginname);
     $("#loginname").attr("readonly","readonly");
     $("#password").val(data.password);
     $("#passwordAffirm").val(data.password);
-    $("#idcard").val(data.idCard);
     $("#phone").val(data.phone);
-    $("#qqnum").val(data.qqNum);
+    $("#qqnum").val(data.qqnum);
     $("#wechart").val(data.wechart);
     $("#province").val(data.province);
     $("#province").change();
@@ -499,10 +537,10 @@ function loadDataToForm(data){
     $("#district").val(data.district);
 
     $("#state").combobox("setValue",data.state);
-    $("#isfront").combobox("setValue",data.isFront);
-    $("#isconsole").combobox("setValue",data.isConsole);
-    $("#isvolunteer").combobox("setValue",data.isVolunteer);
-    $("#userfrom").val(data.userFrom);
-    $("#userphoto").val(data.userPhoto);
-    $("#idcardphoto").val(data.idCardPhoto);
+    $("#isfront").combobox("setValue",data.isfront);
+    $("#isconsole").combobox("setValue",data.isconsole);
+    $("#isvolunteer").combobox("setValue",data.isvolunteer);
+    $("#userfrom").val(data.userfrom);
+    $("#userphoto").val(data.userphoto);
+    $("#idcardphoto").val(data.idcardphoto);
 }

@@ -4,21 +4,11 @@
 $(function () {
 
     $("#regedit").click(function () {
-        var idCard = $("#idCard").val();
-        var idCardPhoto = $("#idCardPhoto").val();
         var phone = $("#phone").val();
         var province = $("#province").val();
         var city = $("#city").val();
         var district = $("#district").val();
 
-        if($.trim(idCard).length != 18 && $.trim(idCard).length != 15){
-            alert("身份证号输入有误！");
-            return ;
-        }
-        if($.trim(idCardPhoto).length <= 0){
-            alert("请上传身份证照片！");
-            return ;
-        }
         if($.trim(province).length <= 0){
             alert("请选择省！");
             return ;

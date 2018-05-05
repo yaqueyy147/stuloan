@@ -22,8 +22,8 @@
         <a href="<%=request.getContextPath()%>/fronts/index" class="zm_cura">首页</a>
         <%--<a href="invest.html">我要投资</a>--%>
         <a href="<%=request.getContextPath()%>/loan/applyloan">我要借款</a>
-        <a href="javascript:void 0;" id="stuidentity">学生认证</a>
-        <a href="javascript:void 0;" id="creditidentity">信用认证</a>
+        <%--<a href="javascript:void 0;" id="stuidentity">学生认证</a>--%>
+        <%--<a href="javascript:void 0;" id="creditidentity">信用认证</a>--%>
         <a href="<%=request.getContextPath()%>/fronts/personalInfo?xxx=1" style="margin-right:0;">个人中心</a>
     </div>
 </div>

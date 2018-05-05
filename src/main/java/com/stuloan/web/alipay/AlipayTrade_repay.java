@@ -159,9 +159,9 @@ public class AlipayTrade_repay {
         // 创建扫码支付请求builder，设置请求参数
         AlipayTradePrecreateRequestBuilder builder = new AlipayTradePrecreateRequestBuilder()
             .setSubject(order.getOrdertitle()).setTotalAmount(order.getTotalamount() + "").setOutTradeNo(order.getOrderno())
-            .setUndiscountableAmount(order.getUndiscountableAmount()).setSellerId(order.getSellerid()).setBody(order.getOrderdesc())
+            .setUndiscountableAmount(order.getUndiscountableamount()).setSellerId(order.getSellerid()).setBody(order.getOrderdesc())
             .setOperatorId(order.getOperatorid()).setStoreId(order.getStoreid()).setExtendParams(extendParams)
-            .setTimeoutExpress(order.getTimeoutExpress())
+            .setTimeoutExpress(order.getTimeoutexpress())
             .setGoodsDetailList(goodsDetailList);
 
         AlipayF2FPrecreateResult result = tradeService.tradePrecreate(builder);

@@ -15,12 +15,41 @@ public class Repayorder {
     private String orderdesc;
     private String ordertitle;
     private Double totalamount;
-    private String timeoutExpress="120m";
+    private String timeoutexpress="120m";
     private String sellerid="";
     private String operatorid="test_operator_id";
     private String storeid="test_store_id";
-    private String undiscountableAmount="0";
+    private String undiscountableamount="0";
     private String remark;
+
+    public Repayorder() {
+    }
+
+    public Repayorder(String id) {
+        this.id = id;
+    }
+
+    public Repayorder(String id, String orderno, String orderqrimage, String orderstate,
+                      Date paydate, Date createdate, String orderdesc, String ordertitle,
+                      Double totalamount, String timeoutexpress, String sellerid,
+                      String operatorid, String storeid, String undiscountableamount,
+                      String remark) {
+        this.id = id;
+        this.orderno = orderno;
+        this.orderqrimage = orderqrimage;
+        this.orderstate = orderstate;
+        this.paydate = paydate;
+        this.createdate = createdate;
+        this.orderdesc = orderdesc;
+        this.ordertitle = ordertitle;
+        this.totalamount = totalamount;
+        this.timeoutexpress = timeoutexpress;
+        this.sellerid = sellerid;
+        this.operatorid = operatorid;
+        this.storeid = storeid;
+        this.undiscountableamount = undiscountableamount;
+        this.remark = remark;
+    }
 
     public String getId() {
         return id;
@@ -94,14 +123,6 @@ public class Repayorder {
         this.totalamount = totalamount;
     }
 
-    public String getTimeoutExpress() {
-        return timeoutExpress;
-    }
-
-    public void setTimeoutExpress(String timeoutExpress) {
-        this.timeoutExpress = timeoutExpress;
-    }
-
     public String getSellerid() {
         return sellerid;
     }
@@ -126,14 +147,6 @@ public class Repayorder {
         this.storeid = storeid;
     }
 
-    public String getUndiscountableAmount() {
-        return undiscountableAmount;
-    }
-
-    public void setUndiscountableAmount(String undiscountableAmount) {
-        this.undiscountableAmount = undiscountableAmount;
-    }
-
     public String getRemark() {
         return remark;
     }
@@ -142,5 +155,19 @@ public class Repayorder {
         this.remark = remark;
     }
 
+    public String getTimeoutexpress() {
+        return timeoutexpress;
+    }
 
+    public void setTimeoutexpress(String timeoutexpress) {
+        this.timeoutexpress = timeoutexpress;
+    }
+
+    public String getUndiscountableamount() {
+        return undiscountableamount;
+    }
+
+    public void setUndiscountableamount(String undiscountableamount) {
+        this.undiscountableamount = undiscountableamount;
+    }
 }

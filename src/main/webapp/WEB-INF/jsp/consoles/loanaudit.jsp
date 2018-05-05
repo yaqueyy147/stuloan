@@ -13,7 +13,7 @@
 </head>
 <body>
 <table id="loanList" class="easyui-datagrid" style="width:100%;height:100%"
-       title="贷款列表" toolbar="#tb" data-options="
+       title="贷款申请列表" toolbar="#tb" data-options="
 				rownumbers:true,
 				singleSelect:true,
 				pagination:true,
@@ -21,15 +21,8 @@
 
 </table>
 <div id="tb">
-    <span>状态:</span>
-    <select id="loanstate">
-        <option value="">全部</option>
-        <option value="0">申请待审核</option>
-        <option value="1">已放款</option>
-        <option value="2">审核未通过</option>
-        <option value="5">审核通过待放款</option>
-    </select>
-    <a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" id="doSearch">查询</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" name="audit" data-state="5">批量同意</a>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" name="audit" data-state="2">批量不同意</a>
 </div>
 
 <div id="repaydetailDialog" class="easyui-dialog" title="还款明细" style="width:400px;height:200px;padding:10px;top: 10%;left: 10%;text-align: center">
@@ -45,6 +38,6 @@
 
 <%@include file="common/springUrl.jsp"%>
 <%@include file="common/commonJs.jsp"%>
-<script type="text/javascript" src="<%=request.getContextPath()%>/static/consoleJs/loan.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/static/consoleJs/loanaudit.js"></script>
 </body>
 </html>

@@ -1,9 +1,6 @@
 
 body{
-    background: url("../../images/bg-front.jpg") no-repeat;
-    filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
-    -moz-background-size:100% 100%;
-    background-size:cover;
+    background-color: #f3f3f3;
 }
 .box {
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6699FF', endColorstr='#6699FF'); /*  IE */
@@ -24,7 +21,7 @@ body{
 }
 .form {
     width: 100%;
-    max-width:500px;
+    max-width:600px;
     height: 275px;
     margin: 5px auto 0px auto;
     padding-top: 25px;
@@ -44,9 +41,9 @@ body{
     height: 34px;
 }
 
-.form-group {
-    margin-bottom: 0px !important;
-}
+/*.form-group {*/
+    /*margin-bottom: 0px !important;*/
+/*}*/
 .regedit-title {
     padding: 5px 5px;
     background-color: #A7F43D;
@@ -117,4 +114,18 @@ body{
 }
 .col-lg-4,.col-md-4,.col-sm-4,.col-xs-4,.col-sm-10{
     padding: 0px !important;
+}
+
+.menu1{
+    border: 1px solid #f5f5f5;
+}
+.menu1 .tt{
+    display: block;
+    height: 30px;
+    background-color: #f5f5f5;
+    line-height: 30px;
+    padding-left: 10px;
+}
+.menu1 p{
+    padding-left: 20px;
 }

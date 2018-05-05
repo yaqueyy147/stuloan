@@ -207,7 +207,7 @@ public class RepayFrontController {
                 Repaydetail repaydetail = repaydetailMapper.selectByPrimaryKey(repaydetailid);
                 repayamount += repaydetail.getRepaymoney();
             }
-
+            repayamount = CommonUtil.parseDouble(CommonUtil.get2DotStrFrmDouble(repayamount));
             Repayorder order = new Repayorder();
             order.setId(CommonUtil.uuid());
             order.setOrderno("repay_" + order.getId());

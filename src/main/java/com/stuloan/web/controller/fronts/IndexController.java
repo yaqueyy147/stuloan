@@ -1,8 +1,10 @@
 package com.stuloan.web.controller.fronts;
 
 import com.stuloan.web.mybatis.domain.Creditscore;
+import com.stuloan.web.mybatis.domain.Studentinfo;
 import com.stuloan.web.mybatis.domain.Sysuser;
 import com.stuloan.web.mybatis.domain.inte.CreditscoreMapper;
+import com.stuloan.web.mybatis.domain.inte.StudentinfoMapper;
 import com.stuloan.web.mybatis.domain.inte.SysuserMapper;
 import com.stuloan.web.util.CommonUtil;
 import com.stuloan.web.util.CookieUtil;
@@ -31,6 +33,9 @@ public class IndexController {
 
     @Autowired
     private SysuserMapper sysuserMapper;
+
+    @Autowired
+    private StudentinfoMapper studentinfoMapper;
 
     /**
      * 前台首页
@@ -61,6 +66,9 @@ public class IndexController {
             sysuser = sysuserMapper.selectByPrimaryKey(sysuser.getId());
             model.addAttribute("sysuser", sysuser);
             model.addAttribute(Userutils.FRONG_COOKIE_NAME, sysuser);
+
+            Studentinfo studentinfo = studentinfoMapper.selectByuserid(sysuser.getId());
+            model.addAttribute("studentinfo",studentinfo);
 
             Creditscore creditscore = creditscoreMapper.selectByuserid(sysuser.getId());
             model.addAttribute("creditscore",creditscore);

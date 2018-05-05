@@ -2,6 +2,21 @@
  * Created by suyx on 2017/1/12.
  */
 $(function () {
+    $("#payqrcodeDialog").dialog({
+        width: 400,
+        height: 300,
+        closed: true,
+        cache: false,
+        modal: true,
+        "buttons":[
+            {
+                "text":"关闭",
+                handler:function () {
+                    closeDialog("payqrcodeDialog");
+                }
+            }
+        ]
+    });
 
     $("#repaydetailDialog").dialog({
         width: 800,
@@ -19,12 +34,6 @@ $(function () {
         ]
     });
 
-    $("#doSearch").click(function () {
-        var loanstate = $("#loanstate").val();
-        var params = {state:loanstate};
-        loadDataGrid(params);
-    });
-
     var params = {};
     loadDataGrid(params);
 
@@ -38,6 +47,7 @@ function closeDialog(dialogId){
 function loadDataGrid(params) {
     params.pageNumber = 1;
     params.pageSize = 10;
+    params.state = 5;
     // var dataList = getData("/consoles/roleList",params).dataList;
     // dataList = formatDataList(dataList);
     $("#loanList").datagrid({
@@ -55,13 +65,6 @@ function loadDataGrid(params) {
                 formatter: function(value,row,index){
                     if(value){
                         return value + "元";
-                    }
-                    return '';
-                }},
-            {field:"loanoutdate",title:"贷款时间",width:"80",
-                formatter: function(value,row,index){
-                    if(value){
-                        return new Date(value).Format("yyyy-MM-dd");
                     }
                     return '';
                 }},
@@ -86,28 +89,22 @@ function loadDataGrid(params) {
                     }
                     return '';
                 }},
-            {field:"updatedate  ",title:"最近还款时间",width:"80",
-                formatter: function(value,row,index){
-                    if(value){
-                        return new Date(value).Format("yyyy-MM-dd");
-                    }
-                    return '';
-                }},
             {field:"state",title:"状态",width:"200",
                 formatter: function(value,row,index){
                 if(value == 1){
                     return "已放款";
                 }
                 if(value == 0){
-                    return "贷款申请待审核";
-                }
-                if(value == 2){
-                    return "贷款申请未通过";
+                    var audit = "<a href='javascript:void 0;' onclick=\"toloanout(this,'" + row.id + "','1')\">放款</a>&nbsp;&nbsp;";
+                    audit += "&nbsp;&nbsp;<a href='javascript:void 0;' onclick=\"toloanout(this,'" + row.id + "','2')\">不同意贷款</a>";
+                    return audit;
                 }
                 if(value == 5){
-                    return "已同意，待放款";
+                    var html = "已同意，待";
+                    html += "<a href='javascript:void 0;' onclick=\"toloanout(this,'" + row.id + "','1')\">放款</a>";
+                    return html;
                 }
-                return '未知';
+                return '不同意';
             }},
             {field:"ispayoff",title:"是否已还清",width:"80",
                 formatter: function(value,row,index){
@@ -125,23 +122,23 @@ function loadDataGrid(params) {
     });
 }
 
-function toaudit(obj,ids,state) {
+function toloanout(obj,id,state) {
     $.ajax({
         type:'post',
-        url: projectUrl + "/consoles/auditloan",
+        url: projectUrl + "/consoles/getloanqrcode",
         dataType:'json',
-        data:{ids:ids,state:state},
+        data:{id:id,state:state},
         success:function (data) {
-            $.messager.alert('提示',data.message);
+
             if(data.code >= 1){
                 var params = {};
                 loadDataGrid(params);
-                // if(state == 1){
-                //     var qrcodeurl = data.qrcodeurl;
-                //     var qrcode = "<img src=\"" + qrcodeurl + "\" style=\"width:100%;height:100%\" />";
-                //     $("#payqrcodeDialog").html(qrcode);
-                //     $("#payqrcodeDialog").dialog("open");
-                // }
+                if(state == 1){
+                    var qrcodeurl = data.qrcodeurl;
+                    var qrcode = "<img src=\"" + qrcodeurl + "\" style=\"width:100%;height:100%\" />";
+                    $("#payqrcodeDialog").html(qrcode);
+                    $("#payqrcodeDialog").dialog("open");
+                }
             }
         },
         error:function (data) {

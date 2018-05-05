@@ -7,7 +7,8 @@ $(function () {
         var identitystate = $(this).arrr("data-identity");
         var selectRows = $("#stuinfoList").datagrid('getSelections');
         if(selectRows.length < 1){
-            alert("请选择一条数据!");
+            $.messager.alert('提示',"请选择一条数据!");
+            // alert("请选择一条数据!");
             return;
         }
         var selectIds = "";

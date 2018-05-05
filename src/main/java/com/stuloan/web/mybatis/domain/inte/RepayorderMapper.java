@@ -1,5 +1,6 @@
 package com.stuloan.web.mybatis.domain.inte;
 
+import com.stuloan.web.mybatis.domain.Loanorder;
 import com.stuloan.web.mybatis.domain.Repayorder;
 import org.springframework.stereotype.Repository;
 
@@ -60,4 +61,6 @@ public interface RepayorderMapper {
     int updateByPrimaryKey(Repayorder record);
 
     int updatebyorderno(Repayorder record);
+
+    Repayorder selectbyorderno(String orderno);
 }

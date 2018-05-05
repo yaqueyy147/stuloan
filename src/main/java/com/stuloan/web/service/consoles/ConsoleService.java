@@ -14,6 +14,7 @@ public interface ConsoleService {
 
 
     public List<Sysuser> getUserList(Map<String,Object> params);
+    public int gettotalusercount(Map<String,Object> params);
 
     public void saveUser(Sysuser sysuser);
 
