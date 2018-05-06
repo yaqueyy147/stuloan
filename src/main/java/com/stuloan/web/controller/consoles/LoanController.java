@@ -2,11 +2,14 @@ package com.stuloan.web.controller.consoles;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.stuloan.web.alipay.AlipayTrade_loan;
+import com.stuloan.web.alipay.model.result.AlipayF2FQueryResult;
 import com.stuloan.web.mybatis.domain.*;
 import com.stuloan.web.mybatis.domain.inte.*;
 import com.stuloan.web.sms.SmsDemo;
 import com.stuloan.web.util.CommonUtil;
 import com.stuloan.web.util.Userutils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by suyx on 2018-04-21.
@@ -28,6 +28,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/consoles")
 public class LoanController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoanController.class);
 
     private static final String SIGNNAME = "树丫丫的通知";
     private static final String TEMPLATECODE = "SMS_133973146";
@@ -104,11 +106,13 @@ public class LoanController {
             String userphones = "";
             Loan loan = loanMapper.selectByPrimaryKey(id);
             String orderno = loan.getOrderno();
+            String orderid = "";
             Studentinfo studentinfo = studentinfoMapper.selectByuserid(loan.getUserid());
             String qrcodeurl = "";
             if(!CommonUtil.isBlank(orderno)){
                 Loanorder loanorder = loanorderMapper.selectbyorderno(orderno);
                 qrcodeurl = loanorder.getOrderqrimage();
+                orderid = loanorder.getId();
             }else{
                 Loanorder order = new Loanorder();
                 order.setId(CommonUtil.uuid());
@@ -121,6 +125,7 @@ public class LoanController {
                 order.setOrderqrimage(qrcodeurl);
                 ii += loanorderMapper.insertSelective(order);
                 orderno = order.getOrderno();
+                orderid = order.getId();
             }
 
             loan.setOrderno(orderno);
@@ -150,6 +155,8 @@ public class LoanController {
             }
             result.put("code",1);
             result.put("message","放款成功");
+            //查询订单状态
+            this.getorderstatus(orderno,orderid);
         }catch (Exception e){
             e.printStackTrace();
             result.put("code",0);
@@ -287,6 +294,48 @@ public class LoanController {
         }
 
         return result;
+    }
+
+    /**
+     * 延时一分钟查询订单状态
+     * @param orderno
+     */
+    private void getorderstatus(String orderno,String orderid){
+        LOGGER.info("***执行了getorderstatus这个任务***");
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                LOGGER.info("***进来了getorderstatus这个任务的task***");
+                Map<String,Object> params = new HashMap<>();
+                Loanorder loanorder = loanorderMapper.selectByPrimaryKey(orderid);
+                AlipayF2FQueryResult result = AlipayTrade_loan.test_trade_query(orderno);
+                //如果订单状态为成功，则遍历是该订单号的贷款数据，修改状态为已放款
+                if(result.isTradeSuccess()){
+                    params.put("orderno",orderno);
+                    List<Loan> loanlist = loanMapper.selectByParams(params);
+                    if(loanlist != null && loanlist.size() >0){
+                        for(Loan loan : loanlist){
+                            loan.setState("1");
+                            loan.setLoanoutdate(new Date());
+                            loan.setAuditmsg("已放款");
+                            loanMapper.updateByPrimaryKeySelective(loan);
+                            Repaydetail repaydetail = new Repaydetail();
+                            repaydetail.setLoanid(loan.getId());
+                            repaydetail.setState("1");
+                            repaydetailMapper.updatestateByLoanIdSelective(repaydetail);
+                        }
+                    }
+                    //修改当条订单为已还款
+                    loanorder.setOrderstate("1");
+                    loanorderMapper.updatebyorderno(loanorder);
+                }else{
+                    //设置订单状态为2，等待定时任务继续查询订单状态
+                    loanorder.setOrderstate("2");
+                    loanorderMapper.updatebyorderno(loanorder);
+                }
+            }
+        }, 60 * 1000);
     }
 
 }

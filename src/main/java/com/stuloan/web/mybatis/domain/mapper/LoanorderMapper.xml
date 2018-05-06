@@ -233,10 +233,11 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
 
+  <!--and DATE_ADD(createdate,interval 1 minute) &gt; now() -->
   <select id="queryorder" parameterType="java.lang.String" resultType="java.util.Map">
-    (select id, orderno, '0' as tt from loanorder where orderstate='0' order by createdate asc limit 0,${limit})
+    (select id, orderno, '0' as tt from loanorder where orderstate='2' order by createdate asc limit 0,${limit})
     union
-    (select id, orderno, '1' as tt from repayorder where orderstate='0' order by createdate asc limit 0,${limit})
+    (select id, orderno, '1' as tt from repayorder where orderstate='2' order by createdate asc limit 0,${limit})
   </select>
 
   <update id="updatebyorderno" parameterType="java.lang.String">

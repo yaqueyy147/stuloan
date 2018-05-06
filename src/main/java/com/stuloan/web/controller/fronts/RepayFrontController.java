@@ -1,12 +1,16 @@
 package com.stuloan.web.controller.fronts;
 
+import com.stuloan.web.alipay.AlipayTrade_loan;
 import com.stuloan.web.alipay.AlipayTrade_repay;
+import com.stuloan.web.alipay.model.result.AlipayF2FQueryResult;
 import com.stuloan.web.mybatis.domain.*;
 import com.stuloan.web.mybatis.domain.inte.*;
 import com.stuloan.web.util.CommonUtil;
 import com.stuloan.web.util.PageUtil;
 import com.stuloan.web.util.Userutils;
 import com.stuloan.web.util.Userutils4mybatis;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by suyx on 2018-04-22.
@@ -29,6 +30,8 @@ import java.util.Map;
 @Controller
 @RequestMapping(value = "/loan")
 public class RepayFrontController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RepayFrontController.class);
+
     private static final int PAGE_SIZE = 10;
     private static final int PAGE_NUM = 1;
 
@@ -201,16 +204,20 @@ public class RepayFrontController {
             Studentinfo studentinfo = studentinfoMapper.selectByuserid(userid);
             int ii = 0;
             double repayamount = 0.0;
+            String orderid = CommonUtil.uuid();
+            String orderno = "repay_" + orderid;
             for(int i=0;i<repayarr.length;i++){
                 String repay = repayarr[i];
                 String repaydetailid = repay.split("::")[1];
                 Repaydetail repaydetail = repaydetailMapper.selectByPrimaryKey(repaydetailid);
                 repayamount += repaydetail.getRepaymoney();
+                repaydetail.setOrderno(orderno);
+                repaydetailMapper.updateByPrimaryKeySelective(repaydetail);
             }
             repayamount = CommonUtil.parseDouble(CommonUtil.get2DotStrFrmDouble(repayamount));
             Repayorder order = new Repayorder();
-            order.setId(CommonUtil.uuid());
-            order.setOrderno("repay_" + order.getId());
+            order.setId(orderid);
+            order.setOrderno(orderno);
             order.setCreatedate(new Date());
             order.setOrderdesc(studentinfo.getStuname() + "的还款,还款金额(" + repayamount + ")");
             order.setTotalamount(repayamount);
@@ -224,6 +231,8 @@ public class RepayFrontController {
             result.put("qrcodeurl",qrcodeurl);
             result.put("code",1);
             result.put("message","订单创建成功!");
+            //查询订单状态
+            this.getorderstatus(orderno,orderid);
         }catch (Exception e){
             e.printStackTrace();
             result.put("code",0);
@@ -289,6 +298,50 @@ public class RepayFrontController {
         }
 
         return result;
+    }
+
+    /**
+     * 延时一分钟查询订单状态
+     * @param orderno
+     */
+    private void getorderstatus(String orderno,String orderid){
+        LOGGER.info("***执行了getorderstatus这个任务***");
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                LOGGER.info("***进来了getorderstatus这个任务的task***");
+                Map<String,Object> params = new HashMap<>();
+                Repayorder repayorder = repayorderMapper.selectByPrimaryKey(orderid);
+                AlipayF2FQueryResult result = AlipayTrade_loan.test_trade_query(orderno);
+                //如果订单状态为成功，则遍历是该订单号的贷款数据，修改状态为已放款
+                if(result.isTradeSuccess()){
+                    params.put("orderno",orderno);
+                    List<Repaydetail> repaydetaillist = repaydetailMapper.selectByParams(params);
+                    if(repaydetaillist != null && repaydetaillist.size() >0){
+                        for(Repaydetail repaydetail : repaydetaillist){
+                            //修改当条还款为已还款
+                            repaydetail.setIsrepay("1");
+                            repaydetail.setRepaydatereal(new Date());
+                            repaydetailMapper.updateByPrimaryKeySelective(repaydetail);
+                            //修改贷款表的还款金额和期数和时间
+                            Loan loan = loanMapper.selectByPrimaryKey(repaydetail.getLoanid());
+                            loan.setRepayyet(loan.getRepayyet() + repaydetail.getRepaymoney());
+                            loan.setStagenumyet(repaydetail.getStagenum());
+                            loan.setUpdatedate(new Date());
+                            loanMapper.updateByPrimaryKeySelective(loan);
+                        }
+                    }
+                    //修改当条订单为已还款
+                    repayorder.setOrderstate("1");
+                    repayorderMapper.updatebyorderno(repayorder);
+                }else{
+                    //设置订单状态为2，等待定时任务继续查询订单状态
+                    repayorder.setOrderstate("2");
+                    repayorderMapper.updatebyorderno(repayorder);
+                }
+            }
+        }, 60 * 1000);
     }
 
 }

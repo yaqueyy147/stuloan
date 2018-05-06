@@ -46,7 +46,7 @@ public class ToGetOrderStatusTask {
     @Autowired
     private RepaydetailMapper repaydetailMapper;
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void dogetorderstatus(){
         System.out.println("********执行了一次dogetorderstatus。。。。。********");
         try {
@@ -104,6 +104,7 @@ public class ToGetOrderStatusTask {
                         Repayorder repayorder = repayorderMapper.selectByPrimaryKey(id);
                         //如果订单状态为成功，则遍历该订单号的还款数据，修改状态为已还款，并修改贷款表的已还款总金额、还款期数和最近还款时间
                         if(result.isTradeSuccess()){
+                            map.put("id","");
                             List<Repaydetail> repaydetaillist = repaydetailMapper.selectByParams(map);
                             if(repaydetaillist != null && repaydetaillist.size() >0){
                                 for(Repaydetail repaydetail : repaydetaillist){

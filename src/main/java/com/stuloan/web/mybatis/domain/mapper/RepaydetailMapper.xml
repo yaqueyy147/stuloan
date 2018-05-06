@@ -312,7 +312,7 @@
 
   <update id="updatebyorderno"  parameterType="com.stuloan.web.mybatis.domain.Repaydetail">
     update repaydetail set isrepay=#{isrepay}
-    ,ordeno=#{ordernonew}
+    ,orderno=#{ordernonew}
     <if test="repaydatereal != null and repaydatereal != ''">
       , repaydatereal=#{repaydatereal}
     </if>
