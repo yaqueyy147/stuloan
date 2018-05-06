@@ -61,7 +61,7 @@ function loadDataGrid(params) {
             {field:"operate",title:"操作",width:"120",
                 formatter: function(value,row,index){
                     var hh = "";
-                    hh += "&nbsp;&nbsp;<a href=\"javascript:void 0;\" onclick=\"frozenuser('" + row.id + "','" + row.userid + "')\">冻结账号</a>";
+                    hh += "&nbsp;&nbsp;<a href=\"javascript:void 0;\" onclick=\"frozenuser('" + row.id + "','" + row.loginname + "')\">冻结账号</a>";
                     return hh;
                 }}
         ]],
@@ -69,32 +69,30 @@ function loadDataGrid(params) {
     });
 }
 
-function frozenuser(loanid,userid) {
-    $.ajax({
-        type:'post',
-        url: projectUrl + "/consoles/frozenuser",
-        dataType:'json',
-        data:{userid:userid},
-        success:function (data) {
-            $.messager.alert('提示',data.message);
-            if(data.code >= 1){
-                var params = {};
-                loadDataGrid(params);
-                // if(state == 1){
-                //     var qrcodeurl = data.qrcodeurl;
-                //     var qrcode = "<img src=\"" + qrcodeurl + "\" style=\"width:100%;height:100%\" />";
-                //     $("#payqrcodeDialog").html(qrcode);
-                //     $("#payqrcodeDialog").dialog("open");
-                // }
-            }
-        },
-        error:function (data) {
-            var responseText = data.responseText;
-            if(responseText.indexOf("登出跳转页面") >= 0){
-                ajaxErrorToLogin();
-            }else{
-                alert(JSON.stringify(data));
-            }
+function frozenuser(userid,loginname) {
+    $.messager.confirm('提示','确定要冻结账号(' + loginname + ')  吗?',function(r) {
+        if (r) {
+            $.ajax({
+                type: 'post',
+                url: projectUrl + "/consoles/frozenuser",
+                dataType: 'json',
+                data: {userid: userid},
+                success: function (data) {
+                    $.messager.alert('提示', data.message);
+                    if (data.code >= 1) {
+                        var params = {};
+                        loadDataGrid(params);
+                    }
+                },
+                error: function (data) {
+                    var responseText = data.responseText;
+                    if (responseText.indexOf("登出跳转页面") >= 0) {
+                        ajaxErrorToLogin();
+                    } else {
+                        alert(JSON.stringify(data));
+                    }
+                }
+            });
         }
     });
 }

@@ -422,11 +422,9 @@
   </update>
   
   <update id="updatebyorderno"  parameterType="com.stuloan.web.mybatis.domain.Loan">
-    update loan set state=#{state}
-    <if test="state != 1">
-      ,orderno = ''
-    </if>
-    where orderno=#{orderno}
+    update loan set state=#{state},auditmsg=#{auditmsg}
+    ,orderno = #{ordernonew}
+    where orderno=#{ordernoold}
   </update>
   
   <select id="moneystatistics" parameterType="java.lang.String" resultType="java.util.Map">

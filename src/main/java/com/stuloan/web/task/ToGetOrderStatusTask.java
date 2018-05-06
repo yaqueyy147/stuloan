@@ -46,7 +46,7 @@ public class ToGetOrderStatusTask {
     @Autowired
     private RepaydetailMapper repaydetailMapper;
 
-    @Scheduled(cron = "0/20 * * * * ?")
+    @Scheduled(cron = "0 0/1 * * * ?")
     public void dogetorderstatus(){
         System.out.println("********执行了一次dogetorderstatus。。。。。********");
         try {
@@ -60,16 +60,19 @@ public class ToGetOrderStatusTask {
                     String tt = map.get("tt") + "";
                     String id = map.get("id") + "";
                     if("0".equals(tt)){//tt为0，表示是贷款表的订单，对贷款表进行相应的操作
+                        //查看订单
+                        Loanorder loanorder = loanorderMapper.selectByPrimaryKey(id);
                         //根据订单号查询订单状态
                         AlipayF2FQueryResult result = AlipayTrade_loan.test_trade_query(orderno);
-                        Loanorder loanorder = loanorderMapper.selectByPrimaryKey(id);
                         //如果订单状态为成功，则遍历是该订单号的贷款数据，修改状态为已放款
                         if(result.isTradeSuccess()){
+                            map.put("id","");
                             List<Loan> loanlist = loanMapper.selectByParams(map);
                             if(loanlist != null && loanlist.size() >0){
                                 for(Loan loan : loanlist){
                                     loan.setState("1");
                                     loan.setLoanoutdate(new Date());
+                                    loan.setAuditmsg("已放款");
                                     loanMapper.updateByPrimaryKeySelective(loan);
                                     Repaydetail repaydetail = new Repaydetail();
                                     repaydetail.setLoanid(loan.getId());
@@ -80,12 +83,21 @@ public class ToGetOrderStatusTask {
                             //修改当条订单为已还款
                             loanorder.setOrderstate("1");
                             loanorderMapper.updatebyorderno(loanorder);
-                        }else{//否则根据订单号批量修改贷款状态为未审核状态，需要重新审核生成订单。
-                            Loan loan = new Loan();
-                            loan.setState("0");
-                            loanMapper.updatebyorderno(orderno);
-                            loanorder.setOrderstate("2");
-                            loanorderMapper.updatebyorderno(loanorder);
+                        }else{//否则根据订单号批量修改贷款状态为待放款状态，需要重新生成订单。
+//                            Loan loan = new Loan();
+//                            loan.setState("0");
+//                            loan.setOrderno("");
+//                            loan.setAuditmsg("贷款申请待审核");
+                            Map<String,String> loan = new HashMap<>();
+                            loan.put("state","5");
+                            loan.put("auditmsg","已同意，待放款");
+                            loan.put("ordernonew","");
+                            loan.put("ordernoold",orderno);
+                            loanMapper.updatebyorderno(loan);
+                            //删除本条订单
+                            loanorderMapper.deleteByPrimaryKey(id);
+//                            loanorder.setOrderstate("2");
+//                            loanorderMapper.updatebyorderno(loanorder);
                         }
                     }else{//tt不为0，表示是还款表的订单，对还款表进行相应的操作
                         AlipayF2FQueryResult result = AlipayTrade_repay.test_trade_query(orderno);
@@ -108,12 +120,18 @@ public class ToGetOrderStatusTask {
                             }
                             repayorder.setOrderstate("1");
                             repayorderMapper.updatebyorderno(repayorder);
-                        }else{//否则，批量修改还款状态为未还款状态，需要冲洗生产订单
-                            Repaydetail repaydetail = new Repaydetail();
-                            repaydetail.setIsrepay("0");
-                            repaydetailMapper.updatebyorderno(orderno);
-                            repayorder.setOrderstate("2");
-                            repayorderMapper.updatebyorderno(repayorder);
+                        }else{//否则，批量修改还款状态为未还款状态，需要重新生产订单
+//                            Repaydetail repaydetail = new Repaydetail();
+//                            repaydetail.setIsrepay("0");
+                            Map<String,String> repaydetail = new HashMap<>();
+                            repaydetail.put("isrepay","0");
+                            repaydetail.put("ordernonew","");
+                            repaydetail.put("ordernoold",orderno);
+                            repaydetailMapper.updatebyorderno(repaydetail);
+                            //删除本条订单
+                            repayorderMapper.deleteByPrimaryKey(id);
+//                            repayorder.setOrderstate("2");
+//                            repayorderMapper.updatebyorderno(repayorder);
                         }
                     }
                 }
@@ -121,6 +139,7 @@ public class ToGetOrderStatusTask {
             }
 
         }catch (Exception e){
+            e.printStackTrace();
             LOGGER.info(e.getMessage());
         }
     }

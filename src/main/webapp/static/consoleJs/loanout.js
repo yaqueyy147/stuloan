@@ -4,7 +4,7 @@
 $(function () {
     $("#payqrcodeDialog").dialog({
         width: 400,
-        height: 300,
+        height: 400,
         closed: true,
         cache: false,
         modal: true,
@@ -75,20 +75,20 @@ function loadDataGrid(params) {
                     }
                     return '';
                 }},
-            {field:"repayyet",title:"已还款金额",width:"80",
-                formatter: function(value,row,index){
-                    if(value){
-                        return value + "元";
-                    }
-                    return '';
-                }},
-            {field:"stagenumyet",title:"已还款期数",width:"80",
-                formatter: function(value,row,index){
-                    if(value){
-                        return value + "月";
-                    }
-                    return '';
-                }},
+            // {field:"repayyet",title:"已还款金额",width:"80",
+            //     formatter: function(value,row,index){
+            //         if(value){
+            //             return value + "元";
+            //         }
+            //         return '';
+            //     }},
+            // {field:"stagenumyet",title:"已还款期数",width:"80",
+            //     formatter: function(value,row,index){
+            //         if(value){
+            //             return value + "月";
+            //         }
+            //         return '';
+            //     }},
             {field:"state",title:"状态",width:"200",
                 formatter: function(value,row,index){
                 if(value == 1){
@@ -105,18 +105,19 @@ function loadDataGrid(params) {
                     return html;
                 }
                 return '不同意';
-            }},
-            {field:"ispayoff",title:"是否已还清",width:"80",
-                formatter: function(value,row,index){
-                    if(value == 1){
-                        return "已还清";
-                    }
-                    return '未还清';
-                }},
-            {field:"operate",title:"操作",width:"120",
-                formatter: function(value,row,index){
-                    return "<a href=\"javascript:void 0;\" onclick=\"viewrepay('" + row.id + "')\">查看还款明细</a>";
-                }}
+            }}
+            // ,
+            // {field:"ispayoff",title:"是否已还清",width:"80",
+            //     formatter: function(value,row,index){
+            //         if(value == 1){
+            //             return "已还清";
+            //         }
+            //         return '未还清';
+            //     }},
+            // {field:"operate",title:"操作",width:"120",
+            //     formatter: function(value,row,index){
+            //         return "<a href=\"javascript:void 0;\" onclick=\"viewrepay('" + row.id + "')\">查看还款明细</a>";
+            //     }}
         ]],
         loadFilter:pagerFilter
     });
@@ -135,7 +136,7 @@ function toloanout(obj,id,state) {
                 loadDataGrid(params);
                 if(state == 1){
                     var qrcodeurl = data.qrcodeurl;
-                    var qrcode = "<img src=\"" + qrcodeurl + "\" style=\"width:100%;height:100%\" />";
+                    var qrcode = "<img src=\"" + qrcodeurl + "\" style=\"width:256px;height:256px\" />";
                     $("#payqrcodeDialog").html(qrcode);
                     $("#payqrcodeDialog").dialog("open");
                 }

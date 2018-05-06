@@ -311,11 +311,12 @@
   </update>
 
   <update id="updatebyorderno"  parameterType="com.stuloan.web.mybatis.domain.Repaydetail">
-    update repaydetail set isrepay=#{isrepay}, repaydatereal=now()
-    <if test="isrepay != 1">
-      , ordeno=''
+    update repaydetail set isrepay=#{isrepay}
+    ,ordeno=#{ordernonew}
+    <if test="repaydatereal != null and repaydatereal != ''">
+      , repaydatereal=#{repaydatereal}
     </if>
-    where orderno=#{orderno}
+    where orderno=#{ordernoold}
   </update>
 
   <select id="queryoverdue" parameterType="java.util.Date" resultMap="BaseResultMap">

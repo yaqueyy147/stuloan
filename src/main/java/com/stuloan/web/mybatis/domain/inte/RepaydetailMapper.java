@@ -67,7 +67,7 @@ public interface RepaydetailMapper {
     int updateByPrimaryKey(Repaydetail record);
 
     int updatesmsstate(String ids);
-    int updatebyorderno(String orderno);
+    int updatebyorderno(Map<String,String> repaydetail);
     List<Repaydetail> queryoverdue(Date date);
     int updateoverdue(Date date);
 }

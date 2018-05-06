@@ -103,20 +103,20 @@ function loadDataGrid(params) {
                     }
                     return '';
                 }},
-            {field:"repayyet",title:"已还款金额",width:"80",
-                formatter: function(value,row,index){
-                    if(value){
-                        return value + "元";
-                    }
-                    return '';
-                }},
-            {field:"stagenumyet",title:"已还款期数",width:"80",
-                formatter: function(value,row,index){
-                    if(value){
-                        return value + "月";
-                    }
-                    return '';
-                }},
+            // {field:"repayyet",title:"已还款金额",width:"80",
+            //     formatter: function(value,row,index){
+            //         if(value){
+            //             return value + "元";
+            //         }
+            //         return '';
+            //     }},
+            // {field:"stagenumyet",title:"已还款期数",width:"80",
+            //     formatter: function(value,row,index){
+            //         if(value){
+            //             return value + "月";
+            //         }
+            //         return '';
+            //     }},
             {field:"state",title:"状态",width:"200",
                 formatter: function(value,row,index){
                 if(value == 1){
@@ -131,18 +131,19 @@ function loadDataGrid(params) {
                     return "已同意，待放款";
                 }
                 return '不同意';
-            }},
-            {field:"ispayoff",title:"是否已还清",width:"80",
-                formatter: function(value,row,index){
-                    if(value == 1){
-                        return "已还清";
-                    }
-                    return '未还清';
-                }},
-            {field:"operate",title:"操作",width:"120",
-                formatter: function(value,row,index){
-                    return "<a href=\"javascript:void 0;\" onclick=\"viewrepay('" + row.id + "')\">查看还款明细</a>";
-                }}
+            }}
+            // ,
+            // {field:"ispayoff",title:"是否已还清",width:"80",
+            //     formatter: function(value,row,index){
+            //         if(value == 1){
+            //             return "已还清";
+            //         }
+            //         return '未还清';
+            //     }},
+            // {field:"operate",title:"操作",width:"120",
+            //     formatter: function(value,row,index){
+            //         return "<a href=\"javascript:void 0;\" onclick=\"viewrepay('" + row.id + "')\">查看还款明细</a>";
+            //     }}
         ]],
         loadFilter:pagerFilter
     });

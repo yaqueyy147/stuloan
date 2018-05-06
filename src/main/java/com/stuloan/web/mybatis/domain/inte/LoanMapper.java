@@ -64,7 +64,7 @@ public interface LoanMapper {
      */
     int updateByPrimaryKey(Loan record);
 
-    int updatebyorderno(String orderno);
+    int updatebyorderno(Map<String,String> loan);
 
     List<Map<String,Object>> moneystatistics(Map<String,Object> params);
 }

@@ -97,12 +97,13 @@ public class AlipayTrade_loan {
 
         // 测试当面付2.0生成支付二维码
 //        test_trade_precreate();
+        test_trade_query();
     }
 
     // 测试当面付2.0查询订单
-    public void test_trade_query() {
+    public static void test_trade_query() {
         // (必填) 商户订单号，通过此商户订单号查询当面付的交易状态
-        String outTradeNo = "tradepay14817938139942440181";
+        String outTradeNo = "loan_56d8f0ae62d94af882457c73750445a0";
 
         // 创建查询请求builder，设置请求参数
         AlipayTradeQueryRequestBuilder builder = new AlipayTradeQueryRequestBuilder()
