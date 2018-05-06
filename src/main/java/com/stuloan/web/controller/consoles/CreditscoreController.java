@@ -64,15 +64,20 @@ public class CreditscoreController {
             for(int i=0;i<idarr.length;i++){
                 String id = idarr[i];
                 Creditscore creditscore = creditscoreMapper.selectByPrimaryKey(id);
-                creditscore.setState(state);
-                creditscoreMapper.updateByPrimaryKeySelective(creditscore);
+
                 if("1".equals(state)){
+                    creditscore.setState(state);
+                    creditscoreMapper.updateByPrimaryKeySelective(creditscore);
+
+                    params.put("score",creditscore.getCreditscoretotal());
                     Double maxloanmoney = creditmoneyMapper.selectloanmoneyByParams(params);
                     Sysuser sysuser = new Sysuser();
                     sysuser.setId(creditscore.getUserid());
                     sysuser.setLoanlimit(maxloanmoney);
                     ii += sysuserMapper.updateByPrimaryKeySelective(sysuser);
                 }else{
+                    creditscoreMapper.deleteByPrimaryKey(id);
+
                     Sysuser sysuser = new Sysuser();
                     sysuser.setId(creditscore.getUserid());
                     sysuser.setIscreditidentity(state);
@@ -82,6 +87,7 @@ public class CreditscoreController {
             result.put("code",1);
             result.put("message","操作完成!");
         }catch (Exception e){
+            e.printStackTrace();
             result.put("code",0);
             result.put("message","系统错误，请联系管理员!");
         }

@@ -29,8 +29,8 @@ import java.util.Map;
 @RequestMapping(value = "/loan")
 public class LoanFrontController {
 
-    private static final  String STU_IDENTITY_URL = "http://10.2.12.58:8082/student/api/identity/stuidentity";
-    private static final  String CREDIT_IDENTITY_URL = "http://10.2.12.58:8082/student/api/identity/creditidentity";
+    private static final  String STU_IDENTITY_URL = "http://192.168.31.156:8082/student/api/identity/stuidentity";
+    private static final  String CREDIT_IDENTITY_URL = "http://192.168.31.156:8082/student/api/identity/creditidentity";
 
     @Autowired
     private LoanMapper loanMapper;
@@ -150,13 +150,16 @@ public class LoanFrontController {
             Studentinfo studentinfo1 = studentinfoMapper.selectByuserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
             if(studentinfo1 != null && !CommonUtil.isBlank(studentinfo1.getId()) ){
                 studentinfo.setId(studentinfo1.getId());
+                studentinfo.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+                studentinfo.setIsstuidentity("5");
+                i += studentinfoMapper.updateByPrimaryKeySelective(studentinfo);
             }else{
                 studentinfo.setId(CommonUtil.uuid());
+                studentinfo.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+                studentinfo.setIsstuidentity("5");
+                i += studentinfoMapper.insertSelective(studentinfo);
             }
 
-            studentinfo.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
-            studentinfo.setIsstuidentity("5");
-            i += studentinfoMapper.insertSelective(studentinfo);
             sysuser.setIsstuidentity("5");
             i += sysuserMapper.updateByPrimaryKeySelective(sysuser);
             result.put("code",1);
@@ -182,7 +185,7 @@ public class LoanFrontController {
             Sysuser sysuser = Userutils4mybatis.getcookieuser(request,Userutils4mybatis.FRONG_COOKIE_NAME);
             if(sysuser == null || CommonUtil.isBlank(sysuser.getId())){
                 result.put("code",-2);
-                result.put("message","请先登录再进行学生认证!");
+                result.put("message","请先登录再进行信用认证!");
                 return result;
             }
             Creditscore creditscore = new Creditscore();
@@ -199,12 +202,15 @@ public class LoanFrontController {
             Creditscore creditscores1 = creditscoreMapper.selectByuserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
             if(creditscores1 != null && !CommonUtil.isBlank(creditscores1.getId()) ){
                 creditscore.setId(creditscores1.getId());
+                creditscore.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+                creditscore.setState("5");
+                i += creditscoreMapper.updateByPrimaryKeySelective(creditscore);
             }else{
                 creditscore.setId(CommonUtil.uuid());
+                creditscore.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+                creditscore.setState("5");
+                i += creditscoreMapper.insertSelective(creditscore);
             }
-            creditscore.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
-            creditscore.setState("5");
-            i += creditscoreMapper.insertSelective(creditscore);
 
             sysuser.setIscreditidentity("5");
             i += sysuserMapper.updateByPrimaryKeySelective(sysuser);

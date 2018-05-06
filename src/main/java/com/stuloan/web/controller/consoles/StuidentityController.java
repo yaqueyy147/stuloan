@@ -61,13 +61,22 @@ public class StuidentityController {
             int ii = 0;
             for(int i=0;i<idarr.length;i++){
                 String id = idarr[i];
+
                 Studentinfo studentinfo = studentinfoMapper.selectByPrimaryKey(id);
-                studentinfo.setIsstuidentity(state);
-                ii += studentinfoMapper.updateByPrimaryKeySelective(studentinfo);
+//                studentinfo.setIsstuidentity(state);
+//                ii += studentinfoMapper.updateByPrimaryKeySelective(studentinfo);
                 Sysuser sysuser = new Sysuser();
                 sysuser.setId(studentinfo.getUserid());
                 sysuser.setIsstuidentity(state);
                 ii += sysuserMapper.updateByPrimaryKeySelective(sysuser);
+
+                if("1".equals(state)){
+                    studentinfo.setIsstuidentity(state);
+                    ii += studentinfoMapper.updateByPrimaryKeySelective(studentinfo);
+                }else{
+                    studentinfoMapper.deleteByPrimaryKey(id);
+                }
+
             }
             result.put("code",1);
             result.put("message","操作完成!");
