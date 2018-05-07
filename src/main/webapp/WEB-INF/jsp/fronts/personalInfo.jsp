@@ -49,13 +49,13 @@
                     </c:when>
                     <c:when test="${sysuser.isstuidentity == 2}">
                     学生认证未通过&nbsp;
-                    <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
+                    <a href="javascript:void 0;" id="stuidentity" >申请学生认证</a>
                     </c:when>
                     <c:when test="${sysuser.isstuidentity == 5}">
                     <span>已申请学生认证，请等待审核！</span>
                     </c:when>
                     <c:otherwise>
-                    <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
+                    <a href="javascript:void 0;" id="stuidentity" >申请学生认证</a>
                     </c:otherwise>
 
                     </c:choose>
@@ -69,13 +69,13 @@
                     </c:when>
                     <c:when test="${sysuser.iscreditidentity == 2}">
                     信用认证未通过&nbsp;
-                    <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
+                    <a href="javascript:void 0;" id="creditidentity" >申请信用认证</a>
                     </c:when>
                     <c:when test="${sysuser.iscreditidentity == 5}">
                     <span>已申请信用认证，请等待审核！</span>
                     </c:when>
                     <c:otherwise>
-                    <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
+                    <a href="javascript:void 0;" id="creditidentity" >申请信用认证</a>
                     </c:otherwise>
 
                     </c:choose>
@@ -105,7 +105,7 @@
                     </div>
                 </div>
                 <p id="modifyPhotoBox" style="text-align: center; border-bottom: 2px solid #cccccc">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#photoModal">修改头像</button>
+                    <%--<button type="button" class="btn btn-default" data-toggle="modal" data-target="#photoModal">修改头像</button>--%>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifyModal">修改密码</button>
                 </p>
                 <div class="form active" id="personalRegedit">

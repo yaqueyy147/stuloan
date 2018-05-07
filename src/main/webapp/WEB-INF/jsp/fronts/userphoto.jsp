@@ -22,7 +22,6 @@
         .tips{
             color: #ff0000;
             font-size: 16px;
-            z-index: 9999;
             display: inline-block;
             position: absolute;
             margin-top: 80px;
@@ -59,13 +58,13 @@
                     </c:when>
                     <c:when test="${sysuser.isstuidentity == 2}">
                     学生认证未通过&nbsp;
-                    <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
+                    <a href="#stuidentityModal" id="stuidentity" data-toggle="modal" data-target="#stuidentityModal">申请学生认证</a>
                     </c:when>
                     <c:when test="${sysuser.isstuidentity == 5}">
                     <span>已申请学生认证，请等待审核！</span>
                     </c:when>
                     <c:otherwise>
-                    <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
+                    <a href="#stuidentityModal" id="stuidentity" data-toggle="modal" data-target="#stuidentityModal">申请学生认证</a>
                     </c:otherwise>
 
                     </c:choose>
@@ -79,13 +78,13 @@
                     </c:when>
                     <c:when test="${sysuser.iscreditidentity == 2}">
                     信用认证未通过&nbsp;
-                    <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
+                    <a href="#creditidentityModal" id="creditidentity" data-toggle="modal" data-target="#creditidentityModal" >申请信用认证</a>
                     </c:when>
                     <c:when test="${sysuser.iscreditidentity == 5}">
                     <span>已申请信用认证，请等待审核！</span>
                     </c:when>
                     <c:otherwise>
-                    <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
+                    <a href="#creditidentityModal" id="creditidentity" data-toggle="modal" data-target="#creditidentityModal">申请信用认证</a>
                     </c:otherwise>
 
                     </c:choose>
@@ -146,6 +145,202 @@
                     <span class="tips" id="stuidcard-tips">请上传正确的jpg或者png格式的学生证照!</span>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--学生认证-->
+<div class="modal fade" id="stuidentityModal" tabindex="-1" role="dialog" aria-labelledby="stuidentityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="stuidentitytitle">学生认证</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="stuidetityform" action="" method="post">
+                    <div class="form-group">
+                        <label for="school" class="col-sm-2 control-label">学校</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="school" name="school" placeholder="请输入完整的学校名">
+                        </div>
+                        <span id="schooltips" style="color: #ff0000;display: none;font-size: 12px">学校不能为空</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="classgrade" class="col-sm-2 control-label">班级</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="classgrade" name="classgrade" placeholder="班级">
+                        </div>
+                        <span id="classgradetips" style="color: #ff0000;display: none;font-size: 12px">班级不能为空</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="stunum" class="col-sm-2 control-label">学号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="stunum" name="stunum" placeholder="学号">
+                        </div>
+                        <span id="stunumtips" style="color: #ff0000;display: none;font-size: 12px">学号不能为空</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="tostuidentity">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--信用认证-->
+<div class="modal fade" id="creditidentityModal" tabindex="-1" role="dialog" aria-labelledby="creditidentityModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="creditidentitytitle">信用认证</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="creditidetityform" action="" method="post">
+                    <div class="form-group">
+                        <label for="school" class="col-sm-4 control-label">支付宝账号</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="alipayname" name="alipayname" placeholder="请输入正确的支付宝账号">
+                        </div>
+                        <span id="stuidcardtips" style="color: #ff0000;display: none;font-size: 12px">支付宝账号</span>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="tocreditidentity">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--信用信息-->
+<div class="modal fade" id="creditModal" tabindex="-1" role="dialog" aria-labelledby="creditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="creditModalLabel">我的信用信息</h4>
+            </div>
+            <div class="modal-body" >
+                <div>
+                    <label>信用总分:</label>
+                    ${creditscore.creditscoretotal}
+                </div>
+                <div>
+                    <label>信用分:</label>
+                    ${creditscore.identityscore}
+                </div>
+                <div>
+                    <label>履约分:</label>
+                    ${creditscore.performscore}
+                </div>
+                <div>
+                    <label>历史信用分:</label>
+                    ${creditscore.historyscore}
+                </div>
+                <div>
+                    <label>人脉分:</label>
+                    ${creditscore.peoplekeepscore}
+                </div>
+                <div>
+                    <label>行为分:</label>
+                    ${creditscore.behaviorscore}
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--学生信息-->
+<div class="modal fade bs-example-modal-lg" id="studentModal" tabindex="-1" role="dialog" aria-labelledby="studentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="studentModalLabel">我的学生信息</h4>
+            </div>
+            <div class="modal-body" >
+                <form>
+                    <div class="form-group">
+                        <label class="col-sm-2">姓名:</label>
+                        <span class="col-sm-4">${studentinfo.stuname}</span>
+                        <label class="col-sm-2">性别:</label>
+                        <span>
+                        <c:choose>
+                            <c:when test="${studentinfo.stusex == 1}">
+                                男
+                            </c:when>
+                            <c:otherwise>女</c:otherwise>
+                        </c:choose>
+                    </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">身份证号:</label>
+                        <span class="col-sm-4">${studentinfo.stuidcard}</span>
+                        <label class="col-sm-2">学校:</label>
+                        <span>${studentinfo.school}</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">学历层次:</label>
+                        <span class="col-sm-4">${studentinfo.edulevel}</span>
+                        <label class="col-sm-2">专业:</label>
+                        <span>${studentinfo.major}</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">学制:</label>
+                        <span class="col-sm-4">${studentinfo.edusystem}</span>
+                        <label class="col-sm-2">学历类别:</label>
+                        <span>${studentinfo.edutype}</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">学习形式:</label>
+                        <span class="col-sm-4">${studentinfo.edumode}</span>
+                        <label class="col-sm-2">分院:</label>
+                        <span>${studentinfo.branch}</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">班级:</label>
+                        <span class="col-sm-4">${studentinfo.classgrade}</span>
+                        <label class="col-sm-2">学号:</label>
+                        <span>${studentinfo.stunum}</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">入学时间:</label>
+                        <span class="col-sm-4">
+                            <fmt:formatDate value="${studentinfo.admissiondate}" pattern="yyyy-MM-dd"></fmt:formatDate>
+                        </span>
+                        <label class="col-sm-2">离校时间:</label>
+                        <span>
+                            <fmt:formatDate value="${studentinfo.leavedate}" pattern="yyyy-MM-dd"></fmt:formatDate>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2">学籍状态:</label>
+                        <span>
+                    <c:choose>
+                        <c:when test="${studentinfo.stustate == 1}">
+                            在籍
+                        </c:when>
+                        <c:otherwise>不在籍</c:otherwise>
+                    </c:choose>
+                    </span>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div>
     </div>
@@ -269,6 +464,76 @@
                 });
             }
 
+        });
+
+        $("#tocreditidentity").click(function () {
+            var alipayname = $("#alipayname").val();
+            if($.trim(alipayname).length <= 0){
+                $("#stuidcardtips").show();
+                return;
+            }
+            $.ajax({
+                type:'post',
+                url: projectUrl + '/loan/tocreditidentity',
+                dataType: 'json',
+                data:{alipayname:alipayname},
+                // async:false,
+                success:function (data) {
+                    if(data.code >= 1){
+                        alert(data.message);
+                        $("#creditopera").replaceWith("<span>已申请信用认证，请等待审核！</span>");
+                        $("#creditidentityModal").modal("hide");
+                    }
+                },
+                error:function (data) {
+                    var responseText = data.responseText;
+                    if(responseText.indexOf("登出跳转页面") >= 0){
+                        ajaxErrorToLogin();
+                    }else{
+                        alert(JSON.stringify(data));
+                    }
+                }
+            });
+        });
+
+        $("#tostuidentity").click(function () {
+            var school = $("#school").val();
+            var classgrade = $("#classgrade").val();
+            var stunum = $("#stunum").val();
+            if($.trim(school).length <= 0){
+                $("#schooltips").show();
+                return;
+            }
+            if($.trim(classgrade).length <= 0){
+                $("#classgradetips").show();
+                return;
+            }
+            if($.trim(stunum).length <= 0){
+                $("#stunumtips").show();
+                return;
+            }
+            $.ajax({
+                type:'post',
+                url: projectUrl + '/loan/tostuidentity',
+                dataType: 'json',
+                data:{school:school,classgrade:classgrade,stunum:stunum},
+                // async:false,
+                success:function (data) {
+                    if(data.code >= 1){
+                        alert(data.message);
+                        $("#loanopera").replaceWith("<span>已申请学生认证，请等待审核！</span>");
+                        $("#stuidentityModal").modal("hide");
+                    }
+                },
+                error:function (data) {
+                    var responseText = data.responseText;
+                    if(responseText.indexOf("登出跳转页面") >= 0){
+                        ajaxErrorToLogin();
+                    }else{
+                        alert(JSON.stringify(data));
+                    }
+                }
+            });
         });
 
     });

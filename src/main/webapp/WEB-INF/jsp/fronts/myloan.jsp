@@ -61,13 +61,13 @@
                             </c:when>
                             <c:when test="${sysuser.isstuidentity == 2}">
                                 学生认证未通过&nbsp;
-                                <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
+                                <a href="javascript:void 0;" id="stuidentity" >申请学生认证</a>
                             </c:when>
                             <c:when test="${sysuser.isstuidentity == 5}">
                                 <span>已申请学生认证，请等待审核！</span>
                             </c:when>
                             <c:otherwise>
-                                <button type="button" class="btn btn-primary" id="stuidentity" >申请学生认证</button>
+                                <a href="javascript:void 0;" id="stuidentity" >申请学生认证</a>
                             </c:otherwise>
 
                         </c:choose>
@@ -81,13 +81,13 @@
                             </c:when>
                             <c:when test="${sysuser.iscreditidentity == 2}">
                                 信用认证未通过&nbsp;
-                                <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
+                                <a href="javascript:void 0;" id="creditidentity" >申请信用认证</a>
                             </c:when>
                             <c:when test="${sysuser.iscreditidentity == 5}">
                                 <span>已申请信用认证，请等待审核！</span>
                             </c:when>
                             <c:otherwise>
-                                <button type="button" class="btn btn-primary" id="creditidentity" >申请信用认证</button>
+                                <a href="#creditidentity" id="creditidentity" >申请信用认证</a>
                             </c:otherwise>
 
                         </c:choose>
