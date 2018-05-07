@@ -6,6 +6,11 @@ $(function () {
     checkCodePre = drawPic();
     $("#regedit").click(function () {
 
+        if(isfrozen == 1){
+            alert("您的账号已被冻结，不能贷款。如需贷款，请联系管理员！");
+            return ;
+        }
+
         var loanpurpose = $("#loanpurpose").val();
         var loanamount = $("#loanamount").val();
         var loanage = $("#loanage").val();

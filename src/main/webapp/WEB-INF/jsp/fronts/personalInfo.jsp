@@ -80,8 +80,9 @@
 
                     </c:choose>
                     </p>
+                    <p><a href="<%=request.getContextPath()%>/loan/userphoto">图片认证</a></p>
                     <label class="tt">我的贷款</label>
-                    <c:if test="${sysuser.isstuidentity == 1 && sysuser.iscreditidentity == 1 && sysuser.loanlimit > 0}">
+                    <c:if test="${sysuser.isstuidentity == 1 && sysuser.iscreditidentity == 1 && sysuser.loanlimit > 0 && sysuser.photostate == 1}">
                     <p><a href="<%=request.getContextPath()%>/loan/applyloan" target="_blank">申请贷款</a></p>
                     <p><a href="<%=request.getContextPath()%>/loan/myloan">我的贷款</a></p>
                     <p><a href="<%=request.getContextPath()%>/loan/repaydetail">全部待还</a></p>
@@ -92,12 +93,14 @@
                 <div class="row">
                     <div class="col-xs-6 col-xs-offset-3 col-md-3 col-md-offset-5">
                         <a href="javascript:void(0)" id="userPhotoBox" class="thumbnail">
-                            <c:if test="${sysuser.userphoto == null || sysuser.userphoto == '' || sysuser.userphoto == 'null'}">
-                                <img src="<%=request.getContextPath()%>/static/images/defaultMan.png" height="150px" width="150px" />
-                            </c:if>
-                            <c:if test="${sysuser.userphoto != null && sysuser.userphoto != '' && sysuser.userphoto != 'null'}">
-                                <img src="${sysuser.userphoto}"  height="150px" width="150px" />
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${userphoto.headstate == 1}">
+                                    <img src="${userphoto.headphoto}"  height="150px" width="150px" />
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="<%=request.getContextPath()%>/static/images/defaultMan.png" height="150px" width="150px" />
+                                </c:otherwise>
+                            </c:choose>
                         </a>
                     </div>
                 </div>

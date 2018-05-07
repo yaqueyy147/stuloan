@@ -2,18 +2,37 @@
 Navicat MySQL Data Transfer
 
 Source Server         : local
-Source Server Version : 50635
-Source Host           : 127.0.0.1:3307
+Source Server Version : 50634
+Source Host           : localhost:3307
 Source Database       : stuloan
 
 Target Server Type    : MYSQL
-Target Server Version : 50635
+Target Server Version : 50634
 File Encoding         : 65001
 
-Date: 2018-05-05 23:09:50
+Date: 2018-05-07 19:53:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for blacklist
+-- ----------------------------
+DROP TABLE IF EXISTS `blacklist`;
+CREATE TABLE `blacklist` (
+  `id` varchar(64) NOT NULL DEFAULT '' COMMENT '主键id',
+  `userid` varchar(64) NOT NULL DEFAULT '' COMMENT '用户id',
+  `overduecount` int(11) DEFAULT '0' COMMENT '逾期次数',
+  `createdate` datetime DEFAULT NULL COMMENT '创建时间',
+  `createid` varchar(64) DEFAULT '' COMMENT '创建人id',
+  `createname` varchar(100) DEFAULT '' COMMENT '创建人账号',
+  `remark` varchar(255) DEFAULT '' COMMENT '备注备用字段',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of blacklist
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for creditmoney
@@ -90,9 +109,11 @@ CREATE TABLE `loan` (
 -- ----------------------------
 -- Records of loan
 -- ----------------------------
+INSERT INTO `loan` VALUES ('0adea96807d14ad4a3a27c544e211fc4', '4f0fde82c40e443195449ef366295422', '1000.00', '1', '1030.00', '1', '0.00', null, '2018-05-07 15:10:17', null, '0', null, null, null, null, null, '其味无穷', '00000000001', null, null, null);
 INSERT INTO `loan` VALUES ('1b12c57b437244d08eb9419c10806984', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11666.55', '5', '0.00', null, '2018-04-22 16:28:40', null, '1', '999', '系统管理员', '2018-04-22 18:04:32', '同意贷款', null, '买包包', '00000000005', null, '', '2018-04-22 18:04:32');
+INSERT INTO `loan` VALUES ('30541cf1be774cf5a595ce033ca329a2', '4f0fde82c40e443195449ef366295422', '1000.00', '1', '1030.00', '1', '0.00', null, '2018-05-07 15:03:17', null, '0', null, null, null, null, null, '啛啛喳喳', '00000000001', null, null, null);
 INSERT INTO `loan` VALUES ('c25b5bdd22c84ed888faf12f66ca7873', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11666.55', '5', '0.00', null, '2018-04-22 16:28:02', null, '1', '999', '系统管理员', '2018-05-05 15:28:33', '同意贷款,待放款', null, '买包包', '00000000005', null, 'loan_aed55efd71f440679fd8d424266118ef', '2018-05-05 17:50:03');
-INSERT INTO `loan` VALUES ('d1710ce208d9423c9ea0aa0ad3b54bff', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '同意贷款', null, '买手机', '00000000009', null, '', '2018-04-22 17:07:01');
+INSERT INTO `loan` VALUES ('d1710ce208d9423c9ea0aa0ad3b54bff', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '5', '999', '系统管理员', '2018-04-22 17:07:01', '已同意，待放款', null, '买手机', '00000000009', null, '', '2018-05-07 10:50:09');
 
 -- ----------------------------
 -- Table structure for loanorder
@@ -183,6 +204,7 @@ CREATE TABLE `repaydetail` (
 -- ----------------------------
 -- Records of repaydetail
 -- ----------------------------
+INSERT INTO `repaydetail` VALUES ('037a62bdbac440c1b95bb7e6e691c8ac', '0adea96807d14ad4a3a27c544e211fc4', '1', '1030.00', '2018-06-07 15:10:17', null, null, null, '0', null, null, null);
 INSERT INTO `repaydetail` VALUES ('0d1ef2d9c44d4b0bb58203134ed42982', '1b12c57b437244d08eb9419c10806984', '3', '2333.31', '2018-07-22 16:28:40', null, null, null, '1', '', null, '');
 INSERT INTO `repaydetail` VALUES ('1a97f7f24fed4a39a60ab953f5c94a00', 'd1710ce208d9423c9ea0aa0ad3b54bff', '1', '1308.63', '2018-05-22 16:22:57', '2018-04-22 17:08:52', '1', null, '1', '', null, '');
 INSERT INTO `repaydetail` VALUES ('3964ee5a446b44b69ef2b20b7e6bc3ae', 'd1710ce208d9423c9ea0aa0ad3b54bff', '7', '1308.63', '2018-11-22 16:22:58', '2018-04-22 17:44:58', '1', null, '1', '', null, '');
@@ -195,6 +217,7 @@ INSERT INTO `repaydetail` VALUES ('85c0bb6f20834666a3155e5b44b792a7', 'd1710ce20
 INSERT INTO `repaydetail` VALUES ('98f113b8c7a246d5b79ecacb15c4b844', 'd1710ce208d9423c9ea0aa0ad3b54bff', '3', '1308.63', '2018-07-22 16:22:57', '2018-04-22 17:30:56', '1', null, '1', '', null, '');
 INSERT INTO `repaydetail` VALUES ('bfeff59a48294a2e9e9689a97c4f8e28', '1b12c57b437244d08eb9419c10806984', '4', '2333.31', '2018-08-22 16:28:40', null, null, null, '1', '', null, '');
 INSERT INTO `repaydetail` VALUES ('c57ff6fef4cc4eb2ac5dd5f3bc23bbfd', 'd1710ce208d9423c9ea0aa0ad3b54bff', '5', '1308.63', '2018-09-22 16:22:58', '2018-04-22 17:44:52', '1', null, '1', '', null, '');
+INSERT INTO `repaydetail` VALUES ('d592e8ddfff1461092e9fb2362d4141c', '30541cf1be774cf5a595ce033ca329a2', '1', '1030.00', '2018-06-07 15:03:16', null, null, null, '0', null, null, null);
 INSERT INTO `repaydetail` VALUES ('d7db95e9b65f401db061f4234f75f1e2', '1b12c57b437244d08eb9419c10806984', '1', '2333.31', '2018-05-22 16:28:40', null, null, null, '1', '', null, '');
 INSERT INTO `repaydetail` VALUES ('eb635d5824644e7bbbda37d25f510ba2', 'd1710ce208d9423c9ea0aa0ad3b54bff', '2', '1308.63', '2018-06-22 16:22:57', '2018-04-22 17:30:56', '1', null, '1', '', null, '');
 
@@ -257,17 +280,20 @@ CREATE TABLE `resource` (
 -- ----------------------------
 INSERT INTO `resource` VALUES ('1000', null, '用户管理', '用户管理', '0', '0', '/', '0', null, '1');
 INSERT INTO `resource` VALUES ('1001', null, '用户设置', '用户设置', '0', '0', '/consoles/user', '1000', null, '1');
+INSERT INTO `resource` VALUES ('1002', null, '黑名单', '黑名单', '0', '0', '/consoles/blacklist', '1000', null, '1');
 INSERT INTO `resource` VALUES ('2000', null, '认证管理', '认证管理', '0', '0', '/', '0', null, '1');
 INSERT INTO `resource` VALUES ('2001', null, '学生认证', '学生认证', '0', '0', '/consoles/stuinfo', '2000', null, '1');
 INSERT INTO `resource` VALUES ('2002', null, '信用认证', '信用认证', '0', '0', '/consoles/creditscore', '2000', null, '1');
 INSERT INTO `resource` VALUES ('3000', null, '审核管理', '审核管理', '0', '0', '/', '0', null, '1');
 INSERT INTO `resource` VALUES ('3001', null, '贷款审核', '贷款审核', '0', '0', '/consoles/loanaudit', '3000', null, '1');
+INSERT INTO `resource` VALUES ('3002', null, '图片审核', '图片审核', '0', '0', '/consoles/photoaudit', '3000', null, '1');
 INSERT INTO `resource` VALUES ('4000', null, '放款管理', '放款管理', '0', '0', '/', '0', null, '1');
 INSERT INTO `resource` VALUES ('4001', null, '贷款放款', '贷款放款', '0', '0', '/consoles/loanout', '4000', null, '1');
 INSERT INTO `resource` VALUES ('5000', null, '财务管理', '财务管理', '0', '0', '/', '0', null, '1');
 INSERT INTO `resource` VALUES ('5001', null, '财务统计', '财务统计', '0', '0', '/consoles/moneystatistics', '5000', null, '1');
 INSERT INTO `resource` VALUES ('5002', null, '贷款列表', '贷款列表', '0', '0', '/consoles/loan', '5000', null, '1');
 INSERT INTO `resource` VALUES ('5003', null, '逾期管理', '逾期管理', '0', '0', '/consoles/overdue', '5000', null, '1');
+INSERT INTO `resource` VALUES ('5004', null, '未还款列表', '未还款列表', '0', '0', '/consoles/notrepay', '5000', null, '1');
 INSERT INTO `resource` VALUES ('99000', null, '系统管理', '系统管理', '0', '0', '/', '0', null, '1');
 INSERT INTO `resource` VALUES ('99001', null, '费率设置', '费率设置', '0', '0', '/consoles/stagefee', '99000', null, '1');
 INSERT INTO `resource` VALUES ('99002', null, '资源设置', '资源设置', '0', '0', '/consoles/resource', '99000', null, '1');
@@ -318,6 +344,7 @@ CREATE TABLE `sms` (
 -- ----------------------------
 INSERT INTO `sms` VALUES ('07a2c51df5ad4756a2f485cb1b182a0c', '1', '15223653995', '3455', '', '2018-05-03 22:24:56', '2018-05-03 22:29:56', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"3455\"}');
 INSERT INTO `sms` VALUES ('17e587bc374b41ecaaa8042e1a45b7fa', '1', '15223653995', '6944', '', '2018-05-03 15:31:22', '2018-05-03 15:36:22', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"6944\"}');
+INSERT INTO `sms` VALUES ('1c424cd9568941cb9977ac3707a59916', '2', ',11111111111', '', '', '2018-05-07 10:50:09', null, '1', '短信提醒已放款', '', '树丫丫的通知', 'SMS_133973146', '');
 INSERT INTO `sms` VALUES ('1c76004aa7d043c89550b8fc9b14ca2b', '1', '15223653995', '2371', '', '2018-05-03 15:35:06', '2018-05-03 15:40:06', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"2371\"}');
 INSERT INTO `sms` VALUES ('2aae787ec321459c8d442f3c5f3e44d5', '2', ',11111111111', '', '', '2018-05-05 15:37:51', null, '1', '短信提醒已放款', '', '树丫丫的通知', 'SMS_133973146', '');
 INSERT INTO `sms` VALUES ('352e4a00c07d4430a71d4d17f2fb248b', '2', ',11111111111', '', '', '2018-05-03 23:04:53', null, '1', '短信提示还款时间即将到期', '', '树丫丫的通知', 'SMS_133973146', '');
@@ -418,18 +445,42 @@ CREATE TABLE `sysuser` (
   `isstuidentity` char(1) DEFAULT '0' COMMENT '是否已通过学生认证:1、已认证',
   `loanlimit` decimal(18,2) DEFAULT '0.00' COMMENT '贷款额度',
   `iscreditidentity` char(1) DEFAULT '0' COMMENT '是否通过信用认证',
+  `isfrozen` char(1) DEFAULT '0' COMMENT '是否冻结：1、是',
+  `photostate` char(1) DEFAULT '0' COMMENT '图片状态：1、图片都合格',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of sysuser
 -- ----------------------------
-INSERT INTO `sysuser` VALUES ('10ab38914bc34a43813e86888e540b27', null, 'test02', '96e79218965eb72c92a549dd5a330112', null, '15223653995', null, null, null, 'test02', '2018-05-03 15:35:14', null, null, null, null, null, null, null, null, '1', null, '1', '1', null, null, null);
-INSERT INTO `sysuser` VALUES ('42e4d707a11447b69c2ea8da0351ddee', null, 'testbak02', '96e79218965eb72c92a549dd5a330112', null, '12345678901', '', '123456789', null, 'admin', '2018-05-05 14:45:44', '重庆市', '重庆市市辖区', '江北区', null, null, null, '', '', '1', '1', '1', '2', null, null, null);
-INSERT INTO `sysuser` VALUES ('4f0fde82c40e443195449ef366295422', '测试01', 'test01', '96e79218965eb72c92a549dd5a330112', '', '11111111111', '', '', '', 'test01', '2018-03-07 17:14:16', '', '', '', '', '', '', '', '', '1', '0', '1', '1', '1', '3000000.00', '1');
-INSERT INTO `sysuser` VALUES ('8f414d83e03441b68ce615de593db44f', null, 'testbak01', '96e79218965eb72c92a549dd5a330112', null, '12345678901', '', '12345678', null, 'admin', '2018-05-05 14:41:10', '重庆市', '重庆市市辖区', '江北区', null, null, null, '', '', '1', '1', '1', '2', null, null, null);
-INSERT INTO `sysuser` VALUES ('999', '系统管理员', 'admin', '96e79218965eb72c92a549dd5a330112', null, '11111111111', '', '11111111', null, '', '', '重庆市', '重庆市市辖区', '江北区', null, null, null, '', '', '1', '1', '0', '0', '0', '0.00', '0');
-INSERT INTO `sysuser` VALUES ('a1b4e6ed0139428cb0016390a7795514', null, 'test03', '96e79218965eb72c92a549dd5a330112', null, '15223653995', null, null, null, 'test03', '2018-05-03 22:17:45', null, null, null, null, null, null, null, null, '1', null, '1', '1', null, null, null);
+INSERT INTO `sysuser` VALUES ('10ab38914bc34a43813e86888e540b27', null, 'test02', '96e79218965eb72c92a549dd5a330112', null, '15223653995', null, null, null, 'test02', '2018-05-03 15:35:14', null, null, null, null, null, null, null, null, '1', null, '1', '1', null, null, null, '0', '0');
+INSERT INTO `sysuser` VALUES ('42e4d707a11447b69c2ea8da0351ddee', null, 'testbak02', '96e79218965eb72c92a549dd5a330112', null, '12345678901', '', '123456789', null, 'admin', '2018-05-05 14:45:44', '重庆市', '重庆市市辖区', '江北区', null, null, null, '', '', '1', '1', '1', '2', null, null, null, '0', '0');
+INSERT INTO `sysuser` VALUES ('4f0fde82c40e443195449ef366295422', '测试01', 'test01', '96e79218965eb72c92a549dd5a330112', '', '11111111111', '', '', '', 'test01', '2018-03-07 17:14:16', '', '', '', '', '', '', '', '', '1', '0', '1', '1', '1', '3000000.00', '1', '0', '1');
+INSERT INTO `sysuser` VALUES ('8f414d83e03441b68ce615de593db44f', null, 'testbak01', '96e79218965eb72c92a549dd5a330112', null, '12345678901', '', '12345678', null, 'admin', '2018-05-05 14:41:10', '重庆市', '重庆市市辖区', '江北区', null, null, null, '', '', '1', '1', '1', '2', null, null, null, '0', '0');
+INSERT INTO `sysuser` VALUES ('999', '系统管理员', 'admin', '96e79218965eb72c92a549dd5a330112', null, '11111111111', '', '11111111', null, '', '', '重庆市', '重庆市市辖区', '江北区', null, null, null, '', '', '1', '1', '0', '0', '0', '0.00', '0', '0', '0');
+INSERT INTO `sysuser` VALUES ('a1b4e6ed0139428cb0016390a7795514', null, 'test03', '96e79218965eb72c92a549dd5a330112', null, '15223653995', null, null, null, 'test03', '2018-05-03 22:17:45', null, null, null, null, null, null, null, null, '1', null, '1', '1', null, null, null, '0', '0');
+
+-- ----------------------------
+-- Table structure for userphoto
+-- ----------------------------
+DROP TABLE IF EXISTS `userphoto`;
+CREATE TABLE `userphoto` (
+  `id` varchar(64) NOT NULL,
+  `userid` varchar(64) NOT NULL,
+  `headphoto` varchar(2000) DEFAULT '' COMMENT '头像照片地址',
+  `headstate` char(1) DEFAULT '0' COMMENT '头像是否合格：1、是',
+  `idcardphoto` varchar(2000) DEFAULT '' COMMENT '身份证照地址',
+  `idcardstate` char(1) DEFAULT '0' COMMENT '身份证照是否合格：1、是',
+  `stuidcardphoto` varchar(2000) DEFAULT '' COMMENT '学生证照片地址',
+  `stuidcardstate` char(1) DEFAULT '0' COMMENT '学生证照片是否合格：1、是',
+  `remark` varchar(255) DEFAULT '' COMMENT '备注备用字段',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of userphoto
+-- ----------------------------
+INSERT INTO `userphoto` VALUES ('3aad2faecadc4a4fb7277f4c54d0736a', '4f0fde82c40e443195449ef366295422', '/static/upload/userphoto/headphoto/85653714-8a95-49b5-ae67-5c2f7c37f918.png', '1', '/static/upload/userphoto/idcardphoto/ce7d123d-d340-49b5-bb76-1ce40bafb4aa.jpg', '1', '/static/upload/userphoto/stuidcardphoto/802ac745-0e55-40e0-bfda-dd0849646460.jpg', '1', '');
 
 -- ----------------------------
 -- Table structure for userresource

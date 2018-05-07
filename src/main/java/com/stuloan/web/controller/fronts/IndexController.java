@@ -3,9 +3,11 @@ package com.stuloan.web.controller.fronts;
 import com.stuloan.web.mybatis.domain.Creditscore;
 import com.stuloan.web.mybatis.domain.Studentinfo;
 import com.stuloan.web.mybatis.domain.Sysuser;
+import com.stuloan.web.mybatis.domain.Userphoto;
 import com.stuloan.web.mybatis.domain.inte.CreditscoreMapper;
 import com.stuloan.web.mybatis.domain.inte.StudentinfoMapper;
 import com.stuloan.web.mybatis.domain.inte.SysuserMapper;
+import com.stuloan.web.mybatis.domain.inte.UserphotoMapper;
 import com.stuloan.web.util.CommonUtil;
 import com.stuloan.web.util.CookieUtil;
 import com.stuloan.web.util.Userutils;
@@ -36,6 +38,9 @@ public class IndexController {
 
     @Autowired
     private StudentinfoMapper studentinfoMapper;
+
+    @Autowired
+    private UserphotoMapper userphotoMapper;
 
     /**
      * 前台首页
@@ -74,6 +79,9 @@ public class IndexController {
 
             Creditscore creditscore = creditscoreMapper.selectByuserid(sysuser.getId());
             model.addAttribute("creditscore",creditscore);
+
+            Userphoto userphoto = userphotoMapper.selectByuserid(sysuser.getId());
+            model.addAttribute("userphoto",userphoto);
 
         }catch (Exception e){
             e.printStackTrace();

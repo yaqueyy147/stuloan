@@ -492,6 +492,13 @@ function loadDataGrid(params) {
                     }
                     return '0.0元';
                 }},
+            {field:"isfrozen",title:"是否已冻结",width:"80",
+                formatter: function(value,row,index){
+                    if(value == 1){
+                        return "是";
+                    }
+                    return '否';
+                }},
             {field:"userfrom",title:"用户来源",width:"120",
                 formatter: function(value,row,index){
                     if(value == 1){

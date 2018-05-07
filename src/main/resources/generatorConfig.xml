@@ -43,7 +43,7 @@
         </javaClientGenerator>
 
         <!-- 相关表的配置 -->
-        <table tableName="sms" enableCountByExample="false"
+        <table tableName="userphoto" enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false"

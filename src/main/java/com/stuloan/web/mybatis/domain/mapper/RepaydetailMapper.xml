@@ -74,7 +74,7 @@
     ,b.loanpurpose
     from repaydetail a
     left join loan b on b.id=a.loanid
-    where 1=1
+    where 1=1 and a.state='1'
     <if test="state != null and state != ''">
       and a.state = #{state,jdbcType=CHAR}
     </if>
@@ -93,16 +93,13 @@
     select
     count(id) as total
     from repaydetail
-    where 1=1
+    where 1=1 and state='1'
     <if test="id != null and id != ''">
       and id = #{id,jdbcType=VARCHAR}
     </if>
 
     <if test="loanid != null and loanid != ''">
       and loanid = #{loanid,jdbcType=VARCHAR}
-    </if>
-    <if test="state != null and state != ''">
-      and state = #{state,jdbcType=CHAR}
     </if>
 
   </select>
@@ -329,4 +326,45 @@
     update repaydetail set isoverdue='1'
     where repaydateplan &lt; #{searchdate}
   </update>
+
+  <select id="selectnotrepayByParams" parameterType="java.lang.String" resultType="java.util.Map">
+    select
+    a.*
+    ,b.loanpurpose,s.loginname,s1.stuname
+    from repaydetail a
+    left join loan b on b.id=a.loanid
+    left join sysuser s on s.id=b.userid
+    left join studentinfo s1 on s1.userid=b.userid
+    where a.state='1' and (a.isrepay &lt;&gt; '1' or a.isrepay is null or a.isrepay='')
+    <if test="begindate != null and begindate != ''">
+      and DATE_FORMAT(a.repaydateplan,'%Y-%m-%d') &gt;= #{begindate}
+    </if>
+    <if test="enddate != null and enddate != ''">
+      and DATE_FORMAT(a.repaydateplan,'%Y-%m-%d') &lt; #{enddate}
+    </if>
+    <if test="orderby != null and orderby != ''">
+      order by ${orderby}
+    </if>
+    <if test="beginRow != null and beginRow != ''">
+      limit ${beginRow},${pageSize}
+    </if>
+  </select>
+
+  <select id="selectnotrepayCountByParams" parameterType="java.util.Map" resultType="java.lang.Integer">
+    select
+    count(id) as total
+    from repaydetail
+    where state='1' and (isrepay &lt;&gt; '1' or isrepay is null or isrepay='')
+    <if test="id != null and id != ''">
+      and id = #{id,jdbcType=VARCHAR}
+    </if>
+    <if test="begindate != null and begindate != ''">
+      and DATE_FORMAT(repaydateplan,'%Y-%m-%d') &gt;= #{begindate}
+    </if>
+    <if test="enddate != null and enddate != ''">
+      and DATE_FORMAT(repaydateplan,'%Y-%m-%d') &lt; #{enddate}
+    </if>
+
+  </select>
+
 </mapper>

@@ -70,4 +70,8 @@ public interface RepaydetailMapper {
     int updatebyorderno(Map<String,String> repaydetail);
     List<Repaydetail> queryoverdue(Date date);
     int updateoverdue(Date date);
+
+    List<Map<String,Object>> selectnotrepayByParams(Map<String,Object> params);
+
+    Integer selectnotrepayCountByParams(Map<String,Object> params);
 }

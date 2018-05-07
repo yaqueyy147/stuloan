@@ -260,6 +260,7 @@
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/frontJs/applyloan.js"></script>
 <script type="text/javascript">
     var loanlimt = '${sysuser.loanlimit}';
+    var isfrozen = '${sysuser.isfrozen}';
     $(function () {
 
         $("#loanage").onkeyup(function () {

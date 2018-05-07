@@ -51,6 +51,11 @@ public class LoanController {
     private LoanorderMapper loanorderMapper;
     @Autowired
     private SmsMapper smsMapper;
+    @Autowired
+    private BlacklistMapper blacklistMapper;
+
+    @Autowired
+    private UserphotoMapper userphotoMapper;
 
     @RequestMapping(value = "/loan")
     public ModelAndView loan(Model model, HttpServletRequest request){
@@ -72,6 +77,21 @@ public class LoanController {
         return new ModelAndView("/consoles/overdue");
     }
 
+    @RequestMapping(value = "/blacklist")
+    public ModelAndView blacklist(Model model, HttpServletRequest request){
+        return new ModelAndView("/consoles/blacklist");
+    }
+
+    @RequestMapping(value = "/notrepay")
+    public ModelAndView notrepay(Model model, HttpServletRequest request){
+        return new ModelAndView("/consoles/notrepaylist");
+    }
+
+    @RequestMapping(value = "/photoaudit")
+    public ModelAndView photoaudit(Model model, HttpServletRequest request){
+        return new ModelAndView("/consoles/photoaudit");
+    }
+
     @RequestMapping(value = "/loanlist")
     @ResponseBody
     public Object loanlist(HttpServletRequest request, @RequestParam Map<String,Object> params){
@@ -90,6 +110,50 @@ public class LoanController {
         int totalcount = loanMapper.selectCountByParams(params);
         result.put("total",totalcount);
         List<Map<String,Object>> list = loanMapper.selectByParams03(params);
+        result.put("rows",list);
+        return result;
+    }
+
+    @RequestMapping(value = "/blacklistdata")
+    @ResponseBody
+    public Object blacklistdata(HttpServletRequest request, @RequestParam Map<String,Object> params){
+        Map<String,Object> result = new HashMap<>();
+        int totalcount = blacklistMapper.selectCountByParams(params);
+        result.put("total",totalcount);
+        List<Map<String,Object>> list = blacklistMapper.selectByparams(params);
+        result.put("rows",list);
+        return result;
+    }
+
+    @RequestMapping(value = "/overduedetail")
+    @ResponseBody
+    public Object overduedetail(HttpServletRequest request, @RequestParam Map<String,Object> params){
+        Map<String,Object> result = new HashMap<>();
+        int totalcount = blacklistMapper.selectCountByParams4detail(params);
+        result.put("total",totalcount);
+        List<Map<String,Object>> list = blacklistMapper.selectoverduedetail(params);
+        result.put("rows",list);
+        return result;
+    }
+
+    @RequestMapping(value = "/notrepaylist")
+    @ResponseBody
+    public Object notrepaylist(HttpServletRequest request, @RequestParam Map<String,Object> params){
+        Map<String,Object> result = new HashMap<>();
+        int totalcount = repaydetailMapper.selectnotrepayCountByParams(params);
+        result.put("total",totalcount);
+        List<Map<String,Object>> list = repaydetailMapper.selectnotrepayByParams(params);
+        result.put("rows",list);
+        return result;
+    }
+
+    @RequestMapping(value = "/photolist")
+    @ResponseBody
+    public Object photolist(HttpServletRequest request, @RequestParam Map<String,Object> params){
+        Map<String,Object> result = new HashMap<>();
+        int totalcount = userphotoMapper.selectCountByParams(params);
+        result.put("total",totalcount);
+        List<Map<String,Object>> list = userphotoMapper.selectByParams(params);
         result.put("rows",list);
         return result;
     }
@@ -277,14 +341,26 @@ public class LoanController {
 
     @RequestMapping(value = "frozenuser")
     @ResponseBody
-    public Object frozenuser(@RequestParam Map<String,Object> params) throws UnsupportedEncodingException {
+    public Object frozenuser(@RequestParam Map<String,Object> params, HttpServletRequest request) throws UnsupportedEncodingException {
         Map<String,Object> result = new HashMap<>();
         result.put("code",0);
         result.put("message","设置失败");
         try {
+            //冻结账号
             Sysuser sysuser = sysuserMapper.selectByPrimaryKey(params.get("userid") + "");
-            sysuser.setState(3);
+            sysuser.setIsfrozen("1");
             sysuserMapper.updateByPrimaryKeySelective(sysuser);
+
+            //记录黑名单
+            Blacklist blacklist = new Blacklist();
+            blacklist.setId(CommonUtil.uuid());
+            blacklist.setUserid(sysuser.getId());
+            blacklist.setOverduecount(CommonUtil.parseInt(params.get("overduecount")));
+            blacklist.setCreatedate(new Date());
+            blacklist.setCreateid(Userutils.getuserid(request,Userutils.CONSOLE_COOKIE_NAME));
+            blacklist.setCreatename(Userutils.getusername(request,Userutils.CONSOLE_COOKIE_NAME));
+            blacklistMapper.insert(blacklist);
+
             result.put("code",1);
             result.put("message","设置成功");
         }catch (Exception e){
@@ -336,6 +412,52 @@ public class LoanController {
                 }
             }
         }, 10 * 1000);
+    }
+
+    @RequestMapping(value = "auditphoto")
+    @ResponseBody
+    public Object auditphoto(@RequestParam Map<String,Object> params, HttpServletRequest request) throws UnsupportedEncodingException {
+        Map<String,Object> result = new HashMap<>();
+        result.put("code",0);
+        result.put("message","操作失败");
+        try {
+            String photoid = params.get("photoid") + "";
+            String state = params.get("state") + "";
+            String type = params.get("type") + "";
+
+            Userphoto userphoto = userphotoMapper.selectByPrimaryKey(photoid);
+            if("1".equals(type)){
+                userphoto.setHeadstate(state);
+            }
+            if("2".equals(type)){
+                userphoto.setIdcardstate(state);
+            }
+            if("3".equals(type)){
+                userphoto.setStuidcardstate(state);
+            }
+            if("0".equals(type)){
+                userphoto.setHeadstate(state);
+                userphoto.setIdcardstate(state);
+                userphoto.setStuidcardstate(state);
+            }
+            userphotoMapper.updateByPrimaryKeySelective(userphoto);
+
+            if("1".equals(userphoto.getHeadstate()) && "1".equals(userphoto.getIdcardstate()) && "1".equals(userphoto.getStuidcardstate())){
+                //修改用户图片状态
+                Sysuser sysuser = sysuserMapper.selectByPrimaryKey(userphoto.getUserid());
+                sysuser.setPhotostate("1");
+                sysuserMapper.updateByPrimaryKeySelective(sysuser);
+            }
+
+            result.put("code",1);
+            result.put("message","操作成功");
+        }catch (Exception e){
+            e.printStackTrace();
+            result.put("code",0);
+            result.put("message","操作失败");
+        }
+
+        return result;
     }
 
 }

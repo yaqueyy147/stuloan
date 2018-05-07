@@ -34,6 +34,8 @@ public class Sysuser {
     private String isstuidentity;
     private Double loanlimit;
     private String iscreditidentity;
+    private String isfrozen;
+    private String photostate;
 
     public Sysuser(String loginname){
         this.loginname = loginname;
@@ -287,6 +289,8 @@ public class Sysuser {
         this.isstuidentity = isstuidentity;
     }
 
+    @Basic
+    @Column(name = "loanlimit")
     public Double getLoanlimit() {
         return loanlimit;
     }
@@ -295,12 +299,34 @@ public class Sysuser {
         this.loanlimit = loanlimit;
     }
 
+    @Basic
+    @Column(name = "iscreditidentity")
     public String getIscreditidentity() {
         return iscreditidentity;
     }
 
     public void setIscreditidentity(String iscreditidentity) {
         this.iscreditidentity = iscreditidentity;
+    }
+
+    @Basic
+    @Column(name = "isfrozen")
+    public String getIsfrozen() {
+        return isfrozen;
+    }
+
+    public void setIsfrozen(String isfrozen) {
+        this.isfrozen = isfrozen;
+    }
+
+    @Basic
+    @Column(name = "photostate")
+    public String getPhotostate() {
+        return photostate;
+    }
+
+    public void setPhotostate(String photostate) {
+        this.photostate = photostate;
     }
 
     @Override
@@ -336,6 +362,8 @@ public class Sysuser {
         if (isstuidentity != null ? !isstuidentity.equals(that.isstuidentity) : that.isstuidentity != null) return false;
         if (loanlimit != null ? !loanlimit.equals(that.loanlimit) : that.loanlimit != null) return false;
         if (iscreditidentity != null ? !iscreditidentity.equals(that.iscreditidentity) : that.iscreditidentity != null) return false;
+        if (isfrozen != null ? !isfrozen.equals(that.isfrozen) : that.isfrozen != null) return false;
+        if (photostate != null ? !photostate.equals(that.photostate) : that.photostate != null) return false;
         return true;
     }
 
@@ -367,6 +395,8 @@ public class Sysuser {
         result = 31 * result + (isstuidentity != null ? isstuidentity.hashCode() : 0);
         result = 31 * result + (loanlimit != null ? loanlimit.hashCode() : 0);
         result = 31 * result + (iscreditidentity != null ? iscreditidentity.hashCode() : 0);
+        result = 31 * result + (isfrozen != null ? isfrozen.hashCode() : 0);
+        result = 31 * result + (photostate != null ? photostate.hashCode() : 0);
         return result;
     }
 }

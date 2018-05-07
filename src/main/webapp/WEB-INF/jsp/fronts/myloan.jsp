@@ -92,8 +92,9 @@
 
                         </c:choose>
                     </p>
+                    <p><a href="<%=request.getContextPath()%>/loan/userphoto">图片认证</a></p>
                     <label class="tt">我的贷款</label>
-                    <c:if test="${sysuser.isstuidentity == 1 && sysuser.iscreditidentity == 1 && sysuser.loanlimit > 0}">
+                    <c:if test="${sysuser.isstuidentity == 1 && sysuser.iscreditidentity == 1 && sysuser.loanlimit > 0 && sysuser.photostate == 1}">
                         <p><a href="<%=request.getContextPath()%>/loan/applyloan" target="_blank">申请贷款</a></p>
                         <p><a href="<%=request.getContextPath()%>/loan/myloan">我的贷款</a></p>
                         <p><a href="<%=request.getContextPath()%>/loan/repaydetail">全部待还</a></p>
