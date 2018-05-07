@@ -1,6 +1,5 @@
 package com.stuloan.web.task;
 
-import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.stuloan.web.alipay.AlipayTrade_loan;
 import com.stuloan.web.alipay.AlipayTrade_repay;
 import com.stuloan.web.alipay.model.result.AlipayF2FQueryResult;
@@ -12,9 +11,6 @@ import com.stuloan.web.mybatis.domain.inte.LoanMapper;
 import com.stuloan.web.mybatis.domain.inte.LoanorderMapper;
 import com.stuloan.web.mybatis.domain.inte.RepaydetailMapper;
 import com.stuloan.web.mybatis.domain.inte.RepayorderMapper;
-import com.stuloan.web.sms.SmsDemo;
-import com.stuloan.web.util.DateUtil;
-import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +42,7 @@ public class ToGetOrderStatusTask {
     @Autowired
     private RepaydetailMapper repaydetailMapper;
 
-    @Scheduled(cron = "0 0/5 * * * ?")
+    @Scheduled(cron = "0/10 * * * * ?")
     public void dogetorderstatus(){
         System.out.println("********执行了一次dogetorderstatus。。。。。********");
         try {

@@ -335,7 +335,7 @@ public class LoanController {
                     loanorderMapper.updatebyorderno(loanorder);
                 }
             }
-        }, 60 * 1000);
+        }, 10 * 1000);
     }
 
 }

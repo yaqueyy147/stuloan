@@ -341,7 +341,7 @@ public class RepayFrontController {
                     repayorderMapper.updatebyorderno(repayorder);
                 }
             }
-        }, 60 * 1000);
+        }, 10 * 1000);
     }
 
 }
