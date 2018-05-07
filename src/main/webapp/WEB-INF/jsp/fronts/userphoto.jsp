@@ -108,11 +108,11 @@
                             <em><img src="/static/images/delete.png" id="deleteImg" name="deleteimg" data-type="1">删除头像 </em> </label>
                     </div>
                     <div class="photoID" id="upload-div">
-                        <label class="Mupdata"><span>点击上传</span>
+                        <label class="Mupdata"><span>点击上传头像</span>
                             <input type="file" name="uploadFile" id="imgFile" onchange="uploadPP(this,'result_img','resultimg-div','upload-div','headphoto','/upload/userphoto/headphoto','1')" accept="image/png,image/jpeg" />
                         </label>
                     </div>
-                    <span class="tips" id="head-tips">请上传正确的jpg或者png格式的图片!</span>
+                    <span class="tips" id="head-tips">请上传正确的jpg或者png格式的头像图片!</span>
 
                 </div>
 
@@ -124,11 +124,11 @@
                             <em><img src="/static/images/delete.png" id="deleteImg01" name="deleteimg" data-type="2">删除身份证图片 </em> </label>
                     </div>
                     <div class="photoID" id="upload-div01">
-                        <label class="Mupdata"><span>点击上传</span>
+                        <label class="Mupdata"><span>点击上传身份证照</span>
                             <input type="file" name="uploadFile" id="imgFile01" onchange="uploadPP(this,'result_img01','resultimg-div01','upload-div01','idcardphoto','/upload/userphoto/idcardphoto','2')" accept="image/png,image/jpeg" />
                         </label>
                     </div>
-                    <span class="tips" id="idcard-tips">请上传正确的jpg或者png格式的图片!</span>
+                    <span class="tips" id="idcard-tips">请上传正确的jpg或者png格式的身份证照!</span>
                 </div>
 
                 <div class="touxiang">
@@ -139,11 +139,11 @@
                             <em><img src="/static/images/delete.png" id="deleteImg02" name="deleteimg" data-type="3">删除学生证图片 </em> </label>
                     </div>
                     <div class="photoID" id="upload-div02">
-                        <label class="Mupdata"><span>点击上传</span>
+                        <label class="Mupdata"><span>点击上传学生证照</span>
                             <input type="file" name="uploadFile" id="imgFile02" onchange="uploadPP(this,'result_img02','resultimg-div02','upload-div02','stuidcardphoto','/upload/userphoto/stuidcardphoto','3')" accept="image/png,image/jpeg" />
                         </label>
                     </div>
-                    <span class="tips" id="stuidcard-tips">请上传正确的jpg或者png格式的图片!</span>
+                    <span class="tips" id="stuidcard-tips">请上传正确的jpg或者png格式的学生证照!</span>
                 </div>
 
             </div>
