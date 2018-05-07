@@ -57,7 +57,11 @@ public class LoanFrontController {
                 model.addAttribute("loginCode",-2);
                 return new ModelAndView("/fronts/login");
             }
+            sysuser = sysuserMapper.selectByPrimaryKey(sysuser.getId());
             model.addAttribute("sysuser", sysuser);
+            if(!"1".equals(sysuser.getIsstuidentity()) || !"1".equals(sysuser.getIscreditidentity())){
+                return new ModelAndView("redirect:/fronts/personalInfo?loancode=-2");
+            }
 
             Studentinfo studentinfo = new Studentinfo();
             studentinfo.setUserid(sysuser.getId());
@@ -118,7 +122,7 @@ public class LoanFrontController {
             result.put("code",0);
             result.put("message","提交失败");
         }
-        return new ModelAndView("/fronts/myloan");
+        return new ModelAndView("redirect:/loan/myloan");
     }
 
     @RequestMapping(value = "/tostuidentity")
@@ -236,6 +240,9 @@ public class LoanFrontController {
             result.put("code",1);
         }catch (Exception e){
             e.printStackTrace();
+            Stagefee stagefee = new Stagefee();
+            stagefee.setFeepercent(0.0);
+            result.put("stagefee",stagefee);
             result.put("code",0);
         }
 

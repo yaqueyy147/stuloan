@@ -40,7 +40,7 @@
         <a href="<%=request.getContextPath()%>/loan/applyloan">我要借款</a>
         <%--<a href="<%=request.getContextPath()%>/loan/myloan">我的贷款</a>--%>
         <%--<a href="<%=request.getContextPath()%>/loan/repaydetail" class="zm_cura">全部待还</a>--%>
-        <a href="<%=request.getContextPath()%>/fronts/personalInfo?xxx=1" style="margin-right:0;">个人中心</a>
+        <a href="<%=request.getContextPath()%>/fronts/personalInfo?xxx=1" style="margin-right:0;" class="zm_cura">个人中心</a>
         <a href="#" style="margin-right:0;">关于我们</a>
     </div>
 </div>

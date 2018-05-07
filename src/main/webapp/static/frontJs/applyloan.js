@@ -29,6 +29,11 @@ $(function () {
             return;
         }
 
+        if(loanamount > loanlimt){
+            alert("申请贷款金额超过可贷款额度！");
+            return ;
+        }
+
         $("#regeditForm").attr("action",projectUrl + "/loan/toapplyloan");
         $("#regeditForm").submit();
     });

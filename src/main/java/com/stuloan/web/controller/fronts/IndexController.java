@@ -58,6 +58,8 @@ public class IndexController {
     public ModelAndView personalInfo(Model model, HttpServletRequest request){
 
         try {
+            String loancode = CommonUtil.getParam(request,"loancode");
+            model.addAttribute("loancode", loancode);
             Sysuser sysuser = Userutils4mybatis.getcookieuser(request,Userutils.FRONG_COOKIE_NAME);
             if(CommonUtil.isBlank(sysuser)){
                 model.addAttribute("loginCode",-2);

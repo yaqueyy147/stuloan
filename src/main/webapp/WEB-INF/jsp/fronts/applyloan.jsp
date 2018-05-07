@@ -259,6 +259,7 @@
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/frontJs/applyloan.js"></script>
 <script type="text/javascript">
+    var loanlimt = '${sysuser.loanlimit}';
     $(function () {
 
         $("#loanage").onkeyup(function () {

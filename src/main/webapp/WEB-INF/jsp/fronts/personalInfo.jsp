@@ -421,7 +421,11 @@
 <script type="text/javascript">
     var winHeigth = $(window).height();
     var userId = "${sysuser.id}";
+    var loancode = ''${loancode};
     $(document).ready(function () {
+        if(loancode == -2){
+            alert("您还没有进行学生认证或者信用认证，请先申请认证!");
+        }
         $("#province").val("${sysuser.province}");
         $("#province").change();
         $("#city").val("${sysuser.city}");
