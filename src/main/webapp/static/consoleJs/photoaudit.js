@@ -4,8 +4,8 @@
 $(function () {
 
     $("#photoDialog").dialog({
-        width: 800,
-        height: 500,
+        width: 350,
+        height: 250,
         closed: true,
         cache: false,
         modal: true,

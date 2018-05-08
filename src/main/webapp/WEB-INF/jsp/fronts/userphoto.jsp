@@ -12,6 +12,7 @@
 <head>
     <title>校园贷款--个人信息</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <%@include file="common/commonCss.jsp"%>
     <link href="<%=request.getContextPath()%>/static/css/fronts/personalInfo.css" rel="stylesheet" type="text/css" />
     <style>
@@ -24,7 +25,7 @@
             font-size: 16px;
             display: inline-block;
             position: absolute;
-            margin-top: 80px;
+            margin-top: 50px;
         }
 
     </style>
@@ -108,10 +109,13 @@
                     </div>
                     <div class="photoID" id="upload-div">
                         <label class="Mupdata"><span>点击上传头像</span>
-                            <input type="file" name="uploadFile" id="imgFile" onchange="uploadPP(this,'result_img','resultimg-div','upload-div','headphoto','/upload/userphoto/headphoto','1')" accept="image/png,image/jpeg" />
+                            <input type="file" name="uploadFile" id="imgFile" onchange="uploadPP(this,'result_img','resultimg-div','upload-div','head-tips','headphoto','/upload/userphoto/headphoto','1')" accept="image/png,image/jpeg" />
                         </label>
                     </div>
-                    <span class="tips" id="head-tips">请上传正确的jpg或者png格式的头像图片!</span>
+                    <span class="tips" id="head-tips">
+                        请上传正确的jpg或者png格式的头像图片!
+                        或者<br/><a href="javascript:void 0;" onclick="getMedia(this,'1')">点击拍照</a>
+                    </span>
 
                 </div>
 
@@ -124,10 +128,12 @@
                     </div>
                     <div class="photoID" id="upload-div01">
                         <label class="Mupdata"><span>点击上传身份证照</span>
-                            <input type="file" name="uploadFile" id="imgFile01" onchange="uploadPP(this,'result_img01','resultimg-div01','upload-div01','idcardphoto','/upload/userphoto/idcardphoto','2')" accept="image/png,image/jpeg" />
+                            <input type="file" name="uploadFile" id="imgFile01" onchange="uploadPP(this,'result_img01','resultimg-div01','upload-div01','idcard-tips','idcardphoto','/upload/userphoto/idcardphoto','2')" accept="image/png,image/jpeg" />
                         </label>
                     </div>
-                    <span class="tips" id="idcard-tips">请上传正确的jpg或者png格式的身份证照!</span>
+                    <span class="tips" id="idcard-tips">请上传正确的jpg或者png格式的身份证照!
+                    或者<br/><a href="javascript:void 0;" onclick="getMedia(this,'2')">点击拍照</a>
+                    </span>
                 </div>
 
                 <div class="touxiang">
@@ -139,10 +145,12 @@
                     </div>
                     <div class="photoID" id="upload-div02">
                         <label class="Mupdata"><span>点击上传学生证照</span>
-                            <input type="file" name="uploadFile" id="imgFile02" onchange="uploadPP(this,'result_img02','resultimg-div02','upload-div02','stuidcardphoto','/upload/userphoto/stuidcardphoto','3')" accept="image/png,image/jpeg" />
+                            <input type="file" name="uploadFile" id="imgFile02" onchange="uploadPP(this,'result_img02','resultimg-div02','upload-div02','stuidcard-tips','stuidcardphoto','/upload/userphoto/stuidcardphoto','3')" accept="image/png,image/jpeg" />
                         </label>
                     </div>
-                    <span class="tips" id="stuidcard-tips">请上传正确的jpg或者png格式的学生证照!</span>
+                    <span class="tips" id="stuidcard-tips">请上传正确的jpg或者png格式的学生证照!
+                    或者<br/><a href="javascript:void 0;" onclick="getMedia(this,'3')">点击拍照</a>
+                    </span>
                 </div>
 
             </div>
@@ -345,13 +353,33 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <input type="hidden" id="phototype" />
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="photomodaltitle">拍照</h4>
+            </div>
+            <div class="modal-body">
+                <video height="160px" width="260px" autoplay="autoplay" id="photovideo"></video>
+                <canvas id="canvas1" height="160px" width="260" ></canvas>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="takephoto">拍照</button>
+                <button type="button" class="btn btn-primary" id="toupload">确认提交</button>
+            </div>
+        </div>
+    </div>
+</div>
 <%@include file="common/springUrl.jsp"%>
 <%@include file="common/footer.jsp" %>
 <%@include file="common/commonJS.jsp"%>
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/js/distpicker.data.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/js/distpicker.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/js/ajaxfileupload.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/static/frontJs/userphoto.js"></script>
 <script type="text/javascript">
     var winHeigth = $(window).height();
     var userId = "${sysuser.id}";
@@ -362,228 +390,114 @@
     var headstate = "${userphoto.headstate}";
     var idcardstate = "${userphoto.idcardstate}";
     var stuidcardstate = "${userphoto.stuidcardstate}";
+
+    var loancode = '${loancode}';
     $(document).ready(function () {
 
-        if(headphoto && $.trim(headphoto).length > 0){
-            $("#result_img").attr('src', projectUrl + headphoto);
-            $("#result_img").show();
-            $("#resultimg-div").show();
-            $("#headphoto").attr('value', projectUrl + headphoto);
-            $("#upload-div").hide();
-            if(headstate == 1){
-                $("#head-tips").hide();
-            }
-            if(headstate == 5){
-                $("#head-tips").text("审核中...");
-                $("#head-tips").show();
-            }
-            if(headstate == 2){
-                $("#head-tips").text("审核未通过，请重新上传");
-                $("#head-tips").show();
-            }
+        if(loancode == -2){
+            alert("您还没有进行图片认证或图片认证未完成，不能申请贷款。请先进行图片认证!");
         }
-        if(idcardphoto && $.trim(idcardphoto).length > 0){
-            $("#result_img01").attr('src', projectUrl + idcardphoto);
-            $("#result_img01").show();
-            $("#resultimg-div01").show();
-            $("#idcardphoto").attr('value', projectUrl + idcardphoto);
-            $("#upload-div01").hide();
-            if(idcardstate == 1){
-                $("#idcard-tips").hide();
-            }
-            if(idcardstate == 5){
-                $("#idcard-tips").text("审核中...");
-                $("#idcard-tips").show();
-            }
-            if(idcardstate == 2){
-                $("#idcard-tips").text("审核未通过，请重新上传");
-                $("#idcard-tips").show();
-            }
-        }
-        if(stuidcardphoto && $.trim(stuidcardphoto).length > 0){
-            $("#result_img02").attr('src', projectUrl + stuidcardphoto);
-            $("#result_img02").show();
-            $("#resultimg-div02").show();
-            $("#stuidcardphoto").attr('value', projectUrl + stuidcardphoto);
-            $("#upload-div02").hide();
-            if(stuidcardstate == 1){
-                $("#stuidcard-tips").hide();
-            }
-            if(stuidcardstate == 5){
-                $("#stuidcard-tips").text("审核中...");
-                $("#stuidcard-tips").show();
-            }
-            if(stuidcardstate == 2){
-                $("#stuidcard-tips").text("审核未通过，请重新上传");
-                $("#stuidcard-tips").show();
-            }
-        }
-        $("img[name='deleteimg']").click(function () {
-            var type = $(this).attr("data-type");
 
-            if(confirm("确定要删除该图片吗？")){
-                $.ajax({
-                    type 		: "POST",
-                    dataType 	: "json",
-                    url 		: projectUrl + "/upload/deleteimg",
-                    data		: {id : photoid,type:type},
-                    success		: function( result ) {
-                        if(result.code){
-                            alert("删除成功");
-                            if(type == 1){
-                                $("#result_img").attr('src', "");
-                                $("#headphoto").val("");
-                                $("#resultimg-div").hide();
-                                $("#upload-div").show();
-                            }
-                            if(type == 2){
-                                $("#result_img01").attr('src', "");
-                                $("#idcardphoto").val("");
-                                $("#resultimg-div01").hide();
-                                $("#upload-div01").show();
-                            }
-                            if(type == 3){
-                                $("#result_img02").attr('src', "");
-                                $("#stuidcardphoto").val("");
-                                $("#resultimg-div02").hide();
-                                $("#upload-div02").show();
-                            }
-
-                        }else{
-                            alert("网络请求出错,请联系管理员");
-                        }
-                    },
-                    error:function (data) {
-                        var responseText = data.responseText;
-                        if(responseText.indexOf("登出跳转页面") >= 0){
-                            ajaxErrorToLogin();
-                        }else{
-                            alert(JSON.stringify(data));
-                        }
-                    }
-                });
-            }
-
+        $('#photoModal').on('hidden.bs.modal', function (e) {
+            $("#phototype").val("");
+            $("#photovideo").removeAttr("src");
+            context1.clearRect(0,0,canvas1.width,canvas1.height);
         });
 
-        $("#tocreditidentity").click(function () {
-            var alipayname = $("#alipayname").val();
-            if($.trim(alipayname).length <= 0){
-                $("#stuidcardtips").show();
-                return;
-            }
-            $.ajax({
-                type:'post',
-                url: projectUrl + '/loan/tocreditidentity',
-                dataType: 'json',
-                data:{alipayname:alipayname},
-                // async:false,
-                success:function (data) {
-                    if(data.code >= 1){
-                        alert(data.message);
-                        $("#creditopera").replaceWith("<span>已申请信用认证，请等待审核！</span>");
-                        $("#creditidentityModal").modal("hide");
-                    }
-                },
-                error:function (data) {
-                    var responseText = data.responseText;
-                    if(responseText.indexOf("登出跳转页面") >= 0){
-                        ajaxErrorToLogin();
-                    }else{
-                        alert(JSON.stringify(data));
-                    }
-                }
-            });
+        $("#takephoto").click(function () {
+            getPhoto();
         });
 
-        $("#tostuidentity").click(function () {
-            var school = $("#school").val();
-            var classgrade = $("#classgrade").val();
-            var stunum = $("#stunum").val();
-            if($.trim(school).length <= 0){
-                $("#schooltips").show();
-                return;
+        $("#toupload").click(function () {
+            var type = $("#phototype").val();
+            var imgdata = canvas1.toDataURL("image/png");
+            imgdata = imgdata.substring(22);
+            if(type == 1){
+                uploadvideoPP('result_img','resultimg-div','upload-div','head-tips','headphoto','/upload/userphoto/headphoto','1',imgdata);
             }
-            if($.trim(classgrade).length <= 0){
-                $("#classgradetips").show();
-                return;
+            if(type == 2){
+                uploadvideoPP('result_img01','resultimg-div01','upload-div01','idcard-tips','idcardphoto','/upload/userphoto/idcardphoto','2',imgdata);
             }
-            if($.trim(stunum).length <= 0){
-                $("#stunumtips").show();
-                return;
+            if(type == 3){
+                uploadvideoPP('result_img02','resultimg-div02','upload-div02','stuidcard-tips','stuidcardphoto','/upload/userphoto/stuidcardphoto','3',imgdata);
             }
-            $.ajax({
-                type:'post',
-                url: projectUrl + '/loan/tostuidentity',
-                dataType: 'json',
-                data:{school:school,classgrade:classgrade,stunum:stunum},
-                // async:false,
-                success:function (data) {
-                    if(data.code >= 1){
-                        alert(data.message);
-                        $("#loanopera").replaceWith("<span>已申请学生认证，请等待审核！</span>");
-                        $("#stuidentityModal").modal("hide");
-                    }
-                },
-                error:function (data) {
-                    var responseText = data.responseText;
-                    if(responseText.indexOf("登出跳转页面") >= 0){
-                        ajaxErrorToLogin();
-                    }else{
-                        alert(JSON.stringify(data));
-                    }
-                }
-            });
         });
 
     });
-    function uploadPP(obj,resultimg,resultimgdiv,uploaddiv,picinput,targetFile,type) {
-        var filexx = $(obj).val();
-        var suffix = filexx.substring(filexx.lastIndexOf("."));
-        if(suffix != ".jpg" && suffix != ".png" && suffix != ".jpeg"){
-            alert("请上传正确的jpg或者png格式的图片!");
-            return;
-        }
 
-        var fileSize = obj.files[0].size;
-        if(fileSize > 1 * 1024 * 1024){
-            alert("请将图片大小限制在1M以内!");
-            return;
-        }
+    var video = document.querySelector('video');
 
-        var fileElementId = $(obj).attr("id");
+    var canvas1 = document.getElementById('canvas1');
+    var context1 = canvas1.getContext('2d');
+//
+//    var canvas2 = document.getElementById('canvas2');
+//    var context2 = canvas2.getContext('2d');
 
-        $.ajaxFileUpload
-        (
-            {
-                url: projectUrl + '/upload/uploadImg?jsonCallBack=?', //用于文件上传的服务器端请求地址
-                type: 'post',
-                secureuri: false, //是否需要安全协议，一般设置为false
-                fileElementId: fileElementId, //文件上传域的ID
-                dataType: 'JSON', //返回值类型 一般设置为json
-                data:{targetFile: targetFile,id:photoid,type:type},
-                success: function (data, status)  //服务器成功响应处理函数
-                {
-                    data = eval('(' + data + ')');
-                    if(data.code == 1){
-                        var imgPath = data.filePath;
-                        $("#" + resultimg).attr('src', projectUrl + imgPath);
-                        $("#" + resultimg).show();
-                        $("#" + resultimgdiv).show();
-                        $("#" + picinput).attr('value', projectUrl + imgPath);
-                        $("#" + uploaddiv).hide();
-                        alert("上传成功!");
-                    }else{
-                        alert("上传失败!");
-                    }
-                },
-                error: function (data, status, e)//服务器响应失败处理函数
-                {
-                    alert(e);
-                }
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+    window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+
+    var exArray = []; //存储设备源ID
+    MediaStreamTrack.getSources(function (sourceInfos) {
+        for (var i = 0; i != sourceInfos.length; ++i) {
+            var sourceInfo = sourceInfos[i];
+            //这里会遍历audio,video，所以要加以区分
+            if (sourceInfo.kind === 'video') {
+                exArray.push(sourceInfo.id);
             }
-        )
+        }
+    });
+    function getMedia(obj,type) {
+        var title = "头像拍照";
+        if(type == 2){
+            title = "身份证照拍照";
+        }
+        if(type == 3){
+            title = "学生证照拍照";
+        }
+        $("#photomodaltitle").text(title);
+        $("#phototype").val(type);
+        $("#photoModal").modal("show");
+        if (navigator.getUserMedia) {
+            navigator.getUserMedia({
+                'video': {
+                    'optional': [{
+                        'sourceId': exArray[1] //0为前置摄像头，1为后置
+                    }]
+                },
+                'audio':false
+            }, successFunc, errorFunc);    //success是获取成功的回调函数
+        }
+        else {
+            alert('Native device media streaming (getUserMedia) not supported in this browser.');
+        }
     }
+    function successFunc(stream) {
+        //alert('Succeed to get media!');
+        if (video.mozSrcObject !== undefined) {
+            //Firefox中，video.mozSrcObject最初为null，而不是未定义的，我们可以靠这个来检测Firefox的支持
+            video.mozSrcObject = stream;
+        }
+        else {
+            video.src = window.URL && window.URL.createObjectURL(stream) || stream;
+        }
+    }
+    function errorFunc(e) {
+        alert('Error！'+e);
+    }
+
+
+    // 将视频帧绘制到Canvas对象上,Canvas每60ms切换帧，形成肉眼视频效果
+    function drawVideoAtCanvas(video,context) {
+        window.setInterval(function () {
+            context.drawImage(video, 0, 0,90,120);
+        }, 60);
+    }
+
+    //拍照
+    function getPhoto() {
+        context1.drawImage(video, 0, 0,260,160); //将video对象内指定的区域捕捉绘制到画布上指定的区域，实现拍照。
+    }
+
 </script>
 </body>
 </html>

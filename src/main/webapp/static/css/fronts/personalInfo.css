@@ -140,5 +140,5 @@ body{
 .touxiang label em img{ margin: 35px auto 8px auto}
 .touxiang label.Mgetphoto:hover em{ display: block}
 
-.touxiang{width: 280px;height: 160px;overflow: hidden;margin-left: 100px; margin-bottom: 100px}
+.touxiang{width: 280px;height: 160px;overflow: hidden;margin-left: 100px; margin-bottom: 20px}
 .touxiang img{max-width: 100%;}

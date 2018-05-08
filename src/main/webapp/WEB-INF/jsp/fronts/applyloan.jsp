@@ -261,6 +261,7 @@
 <script type="text/javascript">
     var loanlimt = '${sysuser.loanlimit}';
     var isfrozen = '${sysuser.isfrozen}';
+    var photostate = '${sysuser.photostate}';
     $(function () {
 
         $("#loanage").onkeyup(function () {

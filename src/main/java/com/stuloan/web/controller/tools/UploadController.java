@@ -16,9 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Decoder;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -93,6 +99,73 @@ public class UploadController {
         return resultStr;
     }
 
+    @RequestMapping(value = "/uploadvideoimg")
+    @ResponseBody
+    public Object uploadvideoimg(@RequestParam Map<String,Object> params, HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        String imgdata = params.get("imgdata") + "";
+        String targetFile = params.get("targetFile") + "";
+        String type = params.get("type") + "";
+        String id = params.get("id") + "";
+        Map<String,Object> result = new HashMap<String,Object>();
+        result.put("code",0);
+        result.put("message","上传失败");
+
+        String path = request.getSession().getServletContext().getRealPath("");//项目根目录
+        path = path.substring(0,path.indexOf("\\webapp") + 7) + "\\static" + targetFile;//上传图片的地址
+        String fileName = CommonUtil.uuid() + ".png";
+        String filePath = path;
+        BASE64Decoder decoder = new BASE64Decoder();
+        try {
+            byte[] bytes1 = decoder.decodeBuffer(imgdata);
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(bytes1);
+            BufferedImage image = ImageIO.read(bais);
+            boolean bb = false;
+            if (image != null)
+            {
+                //保存图片到指定的目录和文件中
+                bb = ImageIO.write(image, "png", new File(filePath , fileName));
+            }
+            if(bb){
+                filePath = filePath.replace("\\","/");//将路径中的\替换为/
+                filePath = filePath.substring(filePath.indexOf("/static")) + "/" + fileName;
+
+                Userphoto userphoto = new Userphoto();
+                userphoto.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+                if("1".equals(type)){
+                    userphoto.setHeadphoto(filePath);
+                    userphoto.setHeadstate("5");
+                }
+                if("2".equals(type)){
+                    userphoto.setIdcardphoto(filePath);
+                    userphoto.setIdcardstate("5");
+                }
+                if("3".equals(type)){
+                    userphoto.setStuidcardphoto(filePath);
+                    userphoto.setStuidcardstate("5");
+                }
+                if(!CommonUtil.isBlank(id)){
+                    userphoto.setId(id);
+                    userphotoMapper.updateByPrimaryKeySelective(userphoto);
+                }else{
+                    userphoto.setId(CommonUtil.uuid());
+                    userphotoMapper.insertSelective(userphoto);
+                }
+
+                result.put("code",1);
+                result.put("filePath",filePath);
+                result.put("message","上传成功");
+            }
+//            resultStr = JSONObject.fromObject(map).toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("code",0);
+            result.put("message","上传失败");
+        }
+        return result;
+    }
 
     /**
      * 删除图片
@@ -112,18 +185,25 @@ public class UploadController {
             if(!CommonUtil.isBlank(id)){
                 Userphoto userphoto = userphotoMapper.selectByPrimaryKey(id);
                 if("1".equals(type)){
+                    imgpath = userphoto.getHeadphoto();
                     userphoto.setHeadphoto("");
                     userphoto.setHeadstate("0");
                 }
                 if("2".equals(type)){
+                    imgpath = userphoto.getIdcardphoto();
                     userphoto.setIdcardphoto("");
                     userphoto.setIdcardstate("0");
                 }
                 if("3".equals(type)){
+                    imgpath = userphoto.getStuidcardphoto();
                     userphoto.setStuidcardphoto("");
                     userphoto.setStuidcardstate("0");
                 }
-                userphotoMapper.updateByPrimaryKeySelective(userphoto);
+                if(CommonUtil.isBlank(userphoto.getHeadphoto()) && CommonUtil.isBlank(userphoto.getIdcardphoto()) && CommonUtil.isBlank(userphoto.getStuidcardphoto())){
+                    userphotoMapper.deleteByPrimaryKey(id);
+                }else{
+                    userphotoMapper.updateByPrimaryKeySelective(userphoto);
+                }
 
                 if(!"1".equals(userphoto.getHeadstate()) && !"1".equals(userphoto.getIdcardstate()) && !"1".equals(userphoto.getStuidcardstate())){
                     //修改用户图片状态

@@ -89,6 +89,9 @@ public class LoanFrontController {
             if(!"1".equals(sysuser.getIsstuidentity()) || !"1".equals(sysuser.getIscreditidentity())){
                 return new ModelAndView("redirect:/fronts/personalInfo?loancode=-2");
             }
+            if(!"1".equals(sysuser.getPhotostate())){
+                return new ModelAndView("redirect:/loan/userphoto?loancode=-2");
+            }
 
             Studentinfo studentinfo = new Studentinfo();
             studentinfo.setUserid(sysuser.getId());
