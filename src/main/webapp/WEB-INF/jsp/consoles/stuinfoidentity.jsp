@@ -21,6 +21,9 @@
 
 </table>
 <div id="tb">
+    <span>学生姓名:</span>
+    <input type="text" id="stuname" />
+    <a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" id="doSearch">查询</a>
     <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" name="auditidentity" data-identity="1">同意认证</a>
     <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" name="auditidentity" data-identity="0">不同意认证</a>
 </div>

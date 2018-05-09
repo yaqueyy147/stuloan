@@ -13,14 +13,18 @@
 </head>
 <body>
 <table id="photoList" class="easyui-datagrid" style="width:100%;height:100%"
-       title="图片列表" data-options="
+       title="图片列表" toolbar="#tb" data-options="
 				rownumbers:true,
 				singleSelect:true,
 				pagination:true,
 				pageSize:10">
 
 </table>
-
+<div id="tb">
+    <span>账号:</span>
+    <input type="text" id="loginname" />
+    <a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" id="doSearch">查询</a>
+</div>
 <div id="photoDialog" class="easyui-dialog" title="图片大图" style="width:400px;height:200px;padding:10px;top: 10%;left: 10%;text-align: center">
 
 </div>

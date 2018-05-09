@@ -44,6 +44,8 @@ function loadDataGrid(params) {
         loadMsg:"加载中...",
         selectOnCheck:true,
         singleSelect:false,
+        pageSize:10,
+        nowrap: true,
         columns:[[
             {field:"ck",checkbox:"true",hidden:true},
             {field:"loginname",title:"账号",width:"120"},
@@ -63,9 +65,10 @@ function loadDataGrid(params) {
                     }
                     return hh;
                 }}
-        ]],
-        loadFilter:pagerFilter
+        ]]
     });
+
+    datagridpager($("#blackList"),"/consoles/blacklistdata");
 }
 
 function viewrepay(balckid){
@@ -109,7 +112,7 @@ function loadrepaydetail(balckid) {
                     }
                     return '';
                 }}
-        ]],
-        loadFilter:pagerFilter
+        ]]
     });
+    datagridpager($("#repayList"),"/consoles/overduedetail");
 }

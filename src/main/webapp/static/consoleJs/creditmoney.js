@@ -131,8 +131,6 @@ function closeDialog(dialogId){
 function loadDataGrid(params) {
     params.pageNumber = 1;
     params.pageSize = 10;
-    // var dataList = getData("/consoles/roleList",params).dataList;
-    // dataList = formatDataList(dataList);
     $("#creditmoneyList").datagrid({
         url:"/consoles/creditmoneylist",
         queryParams:params,
@@ -151,9 +149,9 @@ function loadDataGrid(params) {
                     }
                     return '';
                 }}
-        ]],
-        loadFilter:pagerFilter
+        ]]
     });
+    datagridpager($("#creditmoneyList"),"/consoles/creditmoneylist");
 }
 
 function loadDataToForm(data){

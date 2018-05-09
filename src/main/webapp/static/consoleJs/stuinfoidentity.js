@@ -2,7 +2,11 @@
  * Created by suyx on 2017/1/12.
  */
 $(function () {
-
+    $("#doSearch").click(function () {
+        var params = {};
+        params.stuname = "%" + $("#stuname").val() + "%";
+        loadDataGrid(params);
+    });
     $("a[name='auditidentity']").click(function () {
         var identitystate = $(this).arrr("data-identity");
         var selectRows = $("#stuinfoList").datagrid('getSelections');
@@ -89,9 +93,9 @@ function loadDataGrid(params) {
                 identity += "<a href='javascript:void 0;' onclick=\"toauditidentity('" + row.id + "','0')\">不同意认证</a>";
                 return identity;
             }}
-        ]],
-        loadFilter:pagerFilter
+        ]]
     });
+    datagridpager($("#stuinfoList"),"/consoles/stuinfolist");
 }
 function toauditidentity(ids,state) {
     $.ajax({

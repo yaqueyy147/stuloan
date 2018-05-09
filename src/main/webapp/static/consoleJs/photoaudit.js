@@ -2,7 +2,11 @@
  * Created by suyx on 2017/1/12.
  */
 $(function () {
-
+    $("#doSearch").click(function () {
+        var params = {};
+        params.loginname = "%" + $("#loginname").val() + "%";
+        loadDataGrid(params);
+    });
     $("#photoDialog").dialog({
         width: 350,
         height: 250,
@@ -112,9 +116,9 @@ function loadDataGrid(params) {
                     }
                     return oo;
                 }}
-        ]],
-        loadFilter:pagerFilter
+        ]]
     });
+    datagridpager($("#photoList"),"/consoles/photolist");
 }
 function toaudit(photoid,state,type){
     $.ajax({

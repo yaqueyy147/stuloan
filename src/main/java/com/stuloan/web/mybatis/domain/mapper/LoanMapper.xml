@@ -28,6 +28,7 @@
       <arg column="ispayoff" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="orderno" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="loanoutdate" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="alipayname" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
@@ -37,7 +38,7 @@
     -->
     id, userid, loanamount, isstage, repayreal, stagenum, repayyet, stagenumyet, createdate, 
     updatedate, state, auditid, auditman, auditdate, auditmsg, remark, loanpurpose, loanage, ispayoff, orderno
-    , loanoutdate
+    , loanoutdate, alipayname
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
@@ -77,11 +78,9 @@
 
   <select id="selectByParams02" parameterType="java.lang.String" resultType="java.util.Map">
     select
-    a.*,b.stuname,cc.alipayname, d.orderstate
+    a.*,b.stuname
     from loan a
     left join studentinfo b on b.userid=a.userid
-    left join creditscore cc on cc.userid=a.userid
-    left join loanorder d on d.orderno=a.orderno
     where 1=1
     <if test="id != null and id != ''">
       and a.id = #{id,jdbcType=VARCHAR}
@@ -92,10 +91,13 @@
     <if test="state != null and state != ''">
       and a.state = #{state,jdbcType=CHAR}
     </if>
+    <if test="stuname != null and stuname != ''">
+      and b.stuname like #{stuname,jdbcType=VARCHAR}
+    </if>
     <if test="orderby != null and orderby != ''">
       order by ${orderby}
     </if>
-    <if test="beginRow != null and beginRow != ''">
+    <if test="beginRow != null">
       limit ${beginRow},${pageSize}
     </if>
   </select>
@@ -176,7 +178,7 @@
       repayyet, stagenumyet, createdate, 
       updatedate, state, auditid, 
       auditman, auditdate, auditmsg, 
-      remark, loanpurpose, loanage, ispayoff, orderno, loanoutdate
+      remark, loanpurpose, loanage, ispayoff, orderno, loanoutdate, alipayname
       )
     values (#{id,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, #{loanamount,jdbcType=DECIMAL}, 
       #{isstage,jdbcType=CHAR}, #{repayreal,jdbcType=DECIMAL}, #{stagenum,jdbcType=INTEGER}, 
@@ -184,7 +186,7 @@
       #{updatedate,jdbcType=TIMESTAMP}, #{state,jdbcType=CHAR}, #{auditid,jdbcType=VARCHAR},
       #{auditman,jdbcType=VARCHAR}, #{auditdate,jdbcType=TIMESTAMP}, #{auditmsg,jdbcType=VARCHAR},
       #{remark,jdbcType=VARCHAR}, #{loanpurpose,jdbcType=VARCHAR}, #{loanage,jdbcType=INTEGER}
-      , #{ispayoff,jdbcType=CHAR}, #{orderno,jdbcType=VARCHAR}, #{loanoutdate,jdbcType=TIMESTAMP}
+      , #{ispayoff,jdbcType=CHAR}, #{orderno,jdbcType=VARCHAR}, #{loanoutdate,jdbcType=TIMESTAMP}, #{alipayname,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.stuloan.web.mybatis.domain.Loan">
@@ -255,7 +257,10 @@
         orderno,
       </if>
       <if test="loanoutdate != null">
-        loanoutdate
+        loanoutdate,
+      </if>
+      <if test="alipayname != null">
+        alipayname,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -320,7 +325,10 @@
         #{orderno,jdbcType=VARCHAR},
       </if>
       <if test="loanoutdate != null">
-        #{loanoutdate,jdbcType=TIMESTAMP}
+        #{loanoutdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alipayname != null">
+        #{alipayname,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -389,7 +397,10 @@
         orderno = #{orderno,jdbcType=VARCHAR},
       </if>
       <if test="loanoutdate != null">
-        loanoutdate = #{loanoutdate,jdbcType=TIMESTAMP}
+        loanoutdate = #{loanoutdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alipayname != null">
+        alipayname = #{alipayname,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -419,7 +430,8 @@
       loanage = #{loanage,jdbcType=INTEGER},
       ispayoff = #{ispayoff,jdbcType=CHAR},
       orderno = #{orderno,jdbcType=VARCHAR},
-    loanoutdate = #{loanoutdate,jdbcType=TIMESTAMP}
+    loanoutdate = #{loanoutdate,jdbcType=TIMESTAMP},
+    alipayname = #{alipayname,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   

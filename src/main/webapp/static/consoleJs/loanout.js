@@ -2,6 +2,13 @@
  * Created by suyx on 2017/1/12.
  */
 $(function () {
+
+    $("#doSearch").click(function () {
+        var params = {};
+        params.stuname = "%" + $("#loanpp").val() + "%";
+        loadDataGrid(params);
+    });
+
     $("#payqrcodeDialog").dialog({
         width: 400,
         height: 400,
@@ -48,8 +55,6 @@ function loadDataGrid(params) {
     params.pageNumber = 1;
     params.pageSize = 10;
     params.state = 5;
-    // var dataList = getData("/consoles/roleList",params).dataList;
-    // dataList = formatDataList(dataList);
     $("#loanList").datagrid({
         url:"/consoles/loanlist",
         queryParams:params,
@@ -60,6 +65,7 @@ function loadDataGrid(params) {
             {field:"ck",checkbox:"true",hidden:true},
             {field:"id",title:"贷款Id",width:"80",hidden:true},
             {field:"stuname",title:"贷款人",width:"120"},
+            {field:"alipayname",title:"支付宝账号",width:"120"},
             {field:"loanpurpose",title:"贷款用途",width:"150"},
             {field:"loanamount",title:"贷款金额",width:"80",
                 formatter: function(value,row,index){
@@ -75,20 +81,6 @@ function loadDataGrid(params) {
                     }
                     return '';
                 }},
-            // {field:"repayyet",title:"已还款金额",width:"80",
-            //     formatter: function(value,row,index){
-            //         if(value){
-            //             return value + "元";
-            //         }
-            //         return '';
-            //     }},
-            // {field:"stagenumyet",title:"已还款期数",width:"80",
-            //     formatter: function(value,row,index){
-            //         if(value){
-            //             return value + "月";
-            //         }
-            //         return '';
-            //     }},
             {field:"state",title:"状态",width:"200",
                 formatter: function(value,row,index){
                 if(value == 1){
@@ -101,30 +93,18 @@ function loadDataGrid(params) {
                 }
                 if(value == 5){
                     var html = "已同意，待";
-                    html += "<a href='javascript:void 0;' onclick=\"toloanout(this,'" + row.id + "','1','" + row.stuname + "')\">放款</a>";
+                    html += "<a href='javascript:void 0;' onclick=\"toloanout(this,'" + row.id + "','1','" + row.stuname + "','" + row.alipayname + "')\">放款</a>";
                     return html;
                 }
                 return '不同意';
             }}
-            // ,
-            // {field:"ispayoff",title:"是否已还清",width:"80",
-            //     formatter: function(value,row,index){
-            //         if(value == 1){
-            //             return "已还清";
-            //         }
-            //         return '未还清';
-            //     }},
-            // {field:"operate",title:"操作",width:"120",
-            //     formatter: function(value,row,index){
-            //         return "<a href=\"javascript:void 0;\" onclick=\"viewrepay('" + row.id + "')\">查看还款明细</a>";
-            //     }}
-        ]],
-        loadFilter:pagerFilter
+        ]]
     });
+    datagridpager($("#loanList"),"/consoles/loanlist");
 }
 
-function toloanout(obj,id,state,stuname) {
-    $.messager.confirm('提示',"您正在向(" + stuname + ")放款转账，确认转账，款项会转入对方支付宝账号，确认转账吗?",function(r){
+function toloanout(obj,id,state,stuname,alipayname) {
+    $.messager.confirm('提示',"您正在向(" + stuname + ")的放款转账，确认转账款项会转入对方支付宝账号(" + alipayname + ")，确认转账吗?",function(r){
         if (r){
             $.messager.progress({title:"等待",msg:"处理中，请稍后"});
             $.ajax({
@@ -160,69 +140,4 @@ function toloanout(obj,id,state,stuname) {
         }
     });
 
-}
-function viewrepay(loanid){
-    $("#repaydetailDialog").dialog("open");
-    loadrepaydetail(loanid);
-}
-function loadrepaydetail(loanid) {
-    var params = {};
-    params.loanid = loanid;
-    params.pageNumber = 1;
-    params.pageSize = 10;
-    params.orderby = "stagenum desc";
-    $("#repayList").datagrid({
-        url:"/consoles/viewrepaydetail",
-        queryParams:params,
-        loadMsg:"加载中...",
-        selectOnCheck:true,
-        singleSelect:false,
-        columns:[[
-            {field:"ck",checkbox:"true",hidden:true},
-            {field:"id",title:"还款Id",width:"80",hidden:true},
-            {field:"stagenum",title:"还款期次",width:"100",
-                formatter: function(value,row,index){
-                    if(value){
-                        return "第" + value + "期";
-                    }
-                    return '';
-                }},
-            {field:"repaymoney",title:"金额",width:"100",
-                formatter: function(value,row,index){
-                    if(value){
-                        return value + "元";
-                    }
-                    return '';
-                }},
-            {field:"repaydateplan",title:"预计还款时间",width:"150",
-                formatter: function(value,row,index){
-                    if(value){
-                        return new Date(value).Format("yyyy-MM-dd hh:mm:ss");
-                    }
-                    return '';
-                }},
-            {field:"repaydatereal",title:"实际还款时间",width:"150",
-                formatter: function(value,row,index){
-                    if(value){
-                        return new Date(value).Format("yyyy-MM-dd hh:mm:ss");
-                    }
-                    return '';
-                }},
-            {field:"isrepay",title:"是否已还本期",width:"80",
-                formatter: function(value,row,index){
-                    if(value == 1){
-                        return "<span style='color:#00ff00'>已还</span>";
-                    }
-                    return "<span style='color:#ff0000'>未还</span>";
-                }},
-            {field:"isoverdue",title:"是否逾期",width:"80",
-                formatter: function(value,row,index){
-                    if(value == 1){
-                        return "已逾期";
-                    }
-                    return '';
-                }}
-        ]],
-        loadFilter:pagerFilter
-    });
 }

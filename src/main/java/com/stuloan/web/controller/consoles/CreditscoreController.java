@@ -5,6 +5,7 @@ import com.stuloan.web.mybatis.domain.Sysuser;
 import com.stuloan.web.mybatis.domain.inte.CreditmoneyMapper;
 import com.stuloan.web.mybatis.domain.inte.CreditscoreMapper;
 import com.stuloan.web.mybatis.domain.inte.SysuserMapper;
+import com.stuloan.web.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,10 +41,15 @@ public class CreditscoreController {
     @ResponseBody
     public Object stuinfolist(@RequestParam Map<String,Object> params){
         Map<String,Object> result = new HashMap<String,Object>();
-        result.put("code",0);
 
         int totalcount = creditscoreMapper.selectCountByParams(params);
         result.put("total",totalcount);
+
+        int pageNumber = CommonUtil.parseInt(params.get("pageNumber"));
+        int pageSize = CommonUtil.parseInt(params.get("pageSize"));
+        int beginRow = (pageNumber - 1) * pageSize;
+        params.put("beginRow",beginRow);
+
         List<Map<String,Object>> list = creditscoreMapper.selectByParams02(params);
         result.put("rows",list);
         return result;

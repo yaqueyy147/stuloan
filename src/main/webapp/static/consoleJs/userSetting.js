@@ -411,10 +411,7 @@ function loadDataGrid(params) {
     params.pageNumber = 1;
     params.pageSize = 10;
     params.orderby = "createdate desc";
-    // var dataList = getData("/consoles/userList",params).dataList;
-    // dataList = formatDataList(dataList);
     $("#userList").datagrid({
-        // data:dataList,
         url:"/consoles/userList",
         queryParams:params,
         loadMsg:"加载中...",
@@ -521,9 +518,9 @@ function loadDataGrid(params) {
                     return '否';
                 }}
             // {field:"operate",title:"操作",width:"120"}
-        ]],
-        loadFilter:pagerFilter
+        ]]
     });
+    datagridpager($("#userList"),"/consoles/userList");
 }
 
 function setloanlimit(userid,loanlimit) {

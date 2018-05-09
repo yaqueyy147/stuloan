@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50634
 File Encoding         : 65001
 
-Date: 2018-05-07 19:53:10
+Date: 2018-05-09 17:37:48
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -103,17 +103,35 @@ CREATE TABLE `loan` (
   `ispayoff` char(1) DEFAULT '0' COMMENT '是否已还清：1、是',
   `orderno` varchar(100) DEFAULT '' COMMENT '订单号，关联订单表orderno',
   `loanoutdate` datetime DEFAULT NULL COMMENT '放款时间',
+  `alipayname` varchar(255) DEFAULT '' COMMENT '接受贷款的支付宝账号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of loan
 -- ----------------------------
-INSERT INTO `loan` VALUES ('0adea96807d14ad4a3a27c544e211fc4', '4f0fde82c40e443195449ef366295422', '1000.00', '1', '1030.00', '1', '0.00', null, '2018-05-07 15:10:17', null, '0', null, null, null, null, null, '其味无穷', '00000000001', null, null, null);
-INSERT INTO `loan` VALUES ('1b12c57b437244d08eb9419c10806984', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11666.55', '5', '0.00', null, '2018-04-22 16:28:40', null, '1', '999', '系统管理员', '2018-04-22 18:04:32', '同意贷款', null, '买包包', '00000000005', null, '', '2018-04-22 18:04:32');
-INSERT INTO `loan` VALUES ('30541cf1be774cf5a595ce033ca329a2', '4f0fde82c40e443195449ef366295422', '1000.00', '1', '1030.00', '1', '0.00', null, '2018-05-07 15:03:17', null, '0', null, null, null, null, null, '啛啛喳喳', '00000000001', null, null, null);
-INSERT INTO `loan` VALUES ('c25b5bdd22c84ed888faf12f66ca7873', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11666.55', '5', '0.00', null, '2018-04-22 16:28:02', null, '1', '999', '系统管理员', '2018-05-05 15:28:33', '同意贷款,待放款', null, '买包包', '00000000005', null, 'loan_aed55efd71f440679fd8d424266118ef', '2018-05-05 17:50:03');
-INSERT INTO `loan` VALUES ('d1710ce208d9423c9ea0aa0ad3b54bff', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '5', '999', '系统管理员', '2018-04-22 17:07:01', '已同意，待放款', null, '买手机', '00000000009', null, '', '2018-05-07 10:50:09');
+INSERT INTO `loan` VALUES ('0adea96807d14ad4a3a27c544e211fc4', '4f0fde82c40e443195449ef366295422', '1000.00', '1', '1030.00', '1', '0.00', null, '2018-05-07 15:10:17', null, '0', null, null, null, null, null, '其味无穷', '00000000001', null, null, null, 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('1', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('10', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('11', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('12', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('13', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('14', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('15', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('16', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('17', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('1b12c57b437244d08eb9419c10806984', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11666.55', '5', '0.00', null, '2018-04-22 16:28:40', null, '1', '999', '系统管理员', '2018-04-22 18:04:32', '同意贷款', null, '买包包', '00000000005', null, '', '2018-04-22 18:04:32', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('2', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('3', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('30541cf1be774cf5a595ce033ca329a2', '4f0fde82c40e443195449ef366295422', '1000.00', '1', '1030.00', '1', '0.00', null, '2018-05-07 15:03:17', null, '0', null, null, null, null, null, '啛啛喳喳', '00000000001', null, null, null, 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('4', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('5', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('6', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('7', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('8', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('9', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('c25b5bdd22c84ed888faf12f66ca7873', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11666.55', '5', '0.00', null, '2018-04-22 16:28:02', null, '1', '999', '系统管理员', '2018-05-05 15:28:33', '同意贷款,待放款', null, '买包包', '00000000005', null, 'loan_aed55efd71f440679fd8d424266118ef', '2018-05-05 17:50:03', 'xvirdi3068@sandbox.com');
+INSERT INTO `loan` VALUES ('d1710ce208d9423c9ea0aa0ad3b54bff', '4f0fde82c40e443195449ef366295422', '11111.00', '1', '11777.66', '9', '9160.41', '7', '2018-04-22 16:22:58', '2018-04-22 17:44:58', '1', '999', '系统管理员', '2018-04-22 17:07:01', '已放款', null, '买手机', '00000000009', null, 'loan_588bc29998734b7d9d76bc34a4347406', '2018-05-09 16:30:22', 'xvirdi3068@sandbox.com');
 
 -- ----------------------------
 -- Table structure for loanorder
@@ -146,6 +164,7 @@ INSERT INTO `loanorder` VALUES ('397ca24c56ff4e1ba864f4c6b4cb59b6', 'loan_397ca2
 INSERT INTO `loanorder` VALUES ('3be86f312d1b4846a021fe427871ab1b', 'loan_3be86f312d1b4846a021fe427871ab1b', '', '0', null, '2018-05-01 17:23:11', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '', '', '', '', '', '');
 INSERT INTO `loanorder` VALUES ('58065066372645ce81e367c7793f5287', 'loan_58065066372645ce81e367c7793f5287', '', '0', null, '2018-05-01 17:21:55', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '', '', '', '', '', '');
 INSERT INTO `loanorder` VALUES ('5824671a24404f9981dbe50759c67824', 'loan_5824671a24404f9981dbe50759c67824', '', '0', null, '2018-05-01 17:10:38', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '', '', '', '', '', '');
+INSERT INTO `loanorder` VALUES ('588bc29998734b7d9d76bc34a4347406', 'loan_588bc29998734b7d9d76bc34a4347406', '', '1', '2018-05-09 16:30:22', '2018-05-09 14:49:29', '测试01的贷款,贷款金额(11111.0),用途:买手机', 'XXX校园贷扫码放款', '11111.00', '', '', '', '', '', '');
 INSERT INTO `loanorder` VALUES ('691639749a6445a1ae3b2104d738bbf4', 'loan_691639749a6445a1ae3b2104d738bbf4', '', '0', null, '2018-05-01 17:30:26', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '', '', '', '', '', '');
 INSERT INTO `loanorder` VALUES ('81290f93b4f24bdd8c893b0204694f93', 'loan_81290f93b4f24bdd8c893b0204694f93', '/static/alipay/loan/qr-loan_81290f93b4f24bdd8c893b0204694f93.png', '0', null, '2018-05-03 23:04:53', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '', '', '', '', '', '');
 INSERT INTO `loanorder` VALUES ('89fe3219bc0445128dee6de9b01836b3', 'loan_89fe3219bc0445128dee6de9b01836b3', '', '0', null, '2018-05-01 17:19:53', '测试01的贷款,贷款金额(11111.0),用途:买包包', 'XXX校园贷扫码放款', '11111.00', '', '', '', '', '', '');
@@ -205,20 +224,20 @@ CREATE TABLE `repaydetail` (
 -- Records of repaydetail
 -- ----------------------------
 INSERT INTO `repaydetail` VALUES ('037a62bdbac440c1b95bb7e6e691c8ac', '0adea96807d14ad4a3a27c544e211fc4', '1', '1030.00', '2018-06-07 15:10:17', null, null, null, '0', null, null, null);
-INSERT INTO `repaydetail` VALUES ('0d1ef2d9c44d4b0bb58203134ed42982', '1b12c57b437244d08eb9419c10806984', '3', '2333.31', '2018-07-22 16:28:40', null, null, null, '1', '', null, '');
+INSERT INTO `repaydetail` VALUES ('0d1ef2d9c44d4b0bb58203134ed42982', '1b12c57b437244d08eb9419c10806984', '3', '2333.31', '2018-07-22 16:28:40', null, '4', null, '1', '', null, 'repay_5b9f815690134c6d98040ef45e57528b');
 INSERT INTO `repaydetail` VALUES ('1a97f7f24fed4a39a60ab953f5c94a00', 'd1710ce208d9423c9ea0aa0ad3b54bff', '1', '1308.63', '2018-05-22 16:22:57', '2018-04-22 17:08:52', '1', null, '1', '', null, '');
 INSERT INTO `repaydetail` VALUES ('3964ee5a446b44b69ef2b20b7e6bc3ae', 'd1710ce208d9423c9ea0aa0ad3b54bff', '7', '1308.63', '2018-11-22 16:22:58', '2018-04-22 17:44:58', '1', null, '1', '', null, '');
-INSERT INTO `repaydetail` VALUES ('3be5d40725aa4da18dd0d46bff142809', 'd1710ce208d9423c9ea0aa0ad3b54bff', '8', '1308.63', '2018-12-22 16:22:58', null, null, null, '1', '', null, '');
-INSERT INTO `repaydetail` VALUES ('41e7a6ab6b0d4059895dc0aa0924440d', '1b12c57b437244d08eb9419c10806984', '2', '2333.31', '2018-06-22 16:28:40', null, null, null, '1', '', null, '');
+INSERT INTO `repaydetail` VALUES ('3be5d40725aa4da18dd0d46bff142809', 'd1710ce208d9423c9ea0aa0ad3b54bff', '8', '1308.63', '2018-12-22 16:22:58', null, null, null, '1', '', null, 'repay_5b9f815690134c6d98040ef45e57528b');
+INSERT INTO `repaydetail` VALUES ('41e7a6ab6b0d4059895dc0aa0924440d', '1b12c57b437244d08eb9419c10806984', '2', '2333.31', '2018-06-22 16:28:40', null, '4', null, '1', '', null, 'repay_5b9f815690134c6d98040ef45e57528b');
 INSERT INTO `repaydetail` VALUES ('49a698a7459e4087b77abb81e108bb67', 'd1710ce208d9423c9ea0aa0ad3b54bff', '6', '1308.63', '2018-10-22 16:22:58', '2018-04-22 17:44:58', '1', null, '1', '', null, '');
-INSERT INTO `repaydetail` VALUES ('6cb74dde7202427292c3750980c969c1', 'd1710ce208d9423c9ea0aa0ad3b54bff', '9', '1308.63', '2019-01-22 16:22:58', null, null, null, '1', '', null, '');
-INSERT INTO `repaydetail` VALUES ('6f92a17512f04476a4d7f3f12481010b', '1b12c57b437244d08eb9419c10806984', '5', '2333.31', '2018-09-22 16:28:40', null, null, null, '1', '', null, '');
+INSERT INTO `repaydetail` VALUES ('6cb74dde7202427292c3750980c969c1', 'd1710ce208d9423c9ea0aa0ad3b54bff', '9', '1308.63', '2019-01-22 16:22:58', null, null, null, '1', '', null, 'repay_5b9f815690134c6d98040ef45e57528b');
+INSERT INTO `repaydetail` VALUES ('6f92a17512f04476a4d7f3f12481010b', '1b12c57b437244d08eb9419c10806984', '5', '2333.31', '2018-09-22 16:28:40', null, '4', null, '1', '', null, 'repay_5b9f815690134c6d98040ef45e57528b');
 INSERT INTO `repaydetail` VALUES ('85c0bb6f20834666a3155e5b44b792a7', 'd1710ce208d9423c9ea0aa0ad3b54bff', '4', '1308.63', '2018-08-22 16:22:57', '2018-04-22 17:43:48', '1', null, '1', '', null, '');
 INSERT INTO `repaydetail` VALUES ('98f113b8c7a246d5b79ecacb15c4b844', 'd1710ce208d9423c9ea0aa0ad3b54bff', '3', '1308.63', '2018-07-22 16:22:57', '2018-04-22 17:30:56', '1', null, '1', '', null, '');
-INSERT INTO `repaydetail` VALUES ('bfeff59a48294a2e9e9689a97c4f8e28', '1b12c57b437244d08eb9419c10806984', '4', '2333.31', '2018-08-22 16:28:40', null, null, null, '1', '', null, '');
+INSERT INTO `repaydetail` VALUES ('bfeff59a48294a2e9e9689a97c4f8e28', '1b12c57b437244d08eb9419c10806984', '4', '2333.31', '2018-08-22 16:28:40', null, '4', null, '1', '', null, 'repay_5b9f815690134c6d98040ef45e57528b');
 INSERT INTO `repaydetail` VALUES ('c57ff6fef4cc4eb2ac5dd5f3bc23bbfd', 'd1710ce208d9423c9ea0aa0ad3b54bff', '5', '1308.63', '2018-09-22 16:22:58', '2018-04-22 17:44:52', '1', null, '1', '', null, '');
 INSERT INTO `repaydetail` VALUES ('d592e8ddfff1461092e9fb2362d4141c', '30541cf1be774cf5a595ce033ca329a2', '1', '1030.00', '2018-06-07 15:03:16', null, null, null, '0', null, null, null);
-INSERT INTO `repaydetail` VALUES ('d7db95e9b65f401db061f4234f75f1e2', '1b12c57b437244d08eb9419c10806984', '1', '2333.31', '2018-05-22 16:28:40', null, null, null, '1', '', null, '');
+INSERT INTO `repaydetail` VALUES ('d7db95e9b65f401db061f4234f75f1e2', '1b12c57b437244d08eb9419c10806984', '1', '2333.31', '2018-05-22 16:28:40', null, '4', null, '1', '', null, 'repay_fcdc6d37afca4c3fa29e80be8269c25e');
 INSERT INTO `repaydetail` VALUES ('eb635d5824644e7bbbda37d25f510ba2', 'd1710ce208d9423c9ea0aa0ad3b54bff', '2', '1308.63', '2018-06-22 16:22:57', '2018-04-22 17:30:56', '1', null, '1', '', null, '');
 
 -- ----------------------------
@@ -249,11 +268,13 @@ CREATE TABLE `repayorder` (
 -- ----------------------------
 INSERT INTO `repayorder` VALUES ('066b96b8893a4080a7ffaac41242ab15', 'repay_066b96b8893a4080a7ffaac41242ab15', '/static/alipay/loan/qr-repay_066b96b8893a4080a7ffaac41242ab15.png', '0', null, '2018-05-05 13:44:14', '测试01的还款,还款金额(14283.81)', 'XXX校园贷扫码放款', '14283.81', '', '', '', '', '', '');
 INSERT INTO `repayorder` VALUES ('594ecf6e63114a8aa8fc7d500640209c', 'repay_594ecf6e63114a8aa8fc7d500640209c', '/static/alipay/repay/qr-repay_594ecf6e63114a8aa8fc7d500640209c.png', '0', null, '2018-05-01 18:31:29', '测试01的还款,还款金额(4666.62)', 'XXX校园贷扫码放款', '4666.62', '', '', '', '', '', '');
+INSERT INTO `repayorder` VALUES ('5b9f815690134c6d98040ef45e57528b', 'repay_5b9f815690134c6d98040ef45e57528b', '/static/alipay/repay/qr-repay_5b9f815690134c6d98040ef45e57528b.png', '0', null, '2018-05-09 17:35:45', '测试01的还款,还款金额(14283.81)', 'XXX校园贷扫码放款', '14283.81', '', '', '', '', '', '');
 INSERT INTO `repayorder` VALUES ('c144e1cbc44d4389bd613d95c8a5e876', 'repay_c144e1cbc44d4389bd613d95c8a5e876', '/static/alipay/repay/qr-repay_c144e1cbc44d4389bd613d95c8a5e876.png', '0', null, '2018-05-03 22:18:35', '测试01的还款,还款金额(4666.62)', 'XXX校园贷扫码放款', '4666.62', '', '', '', '', '', '');
 INSERT INTO `repayorder` VALUES ('c697f57c2b3445b690e91ba2668c023a', 'repay_c697f57c2b3445b690e91ba2668c023a', '/static/alipay/repay/qr-repay_c697f57c2b3445b690e91ba2668c023a.png', '0', null, '2018-05-03 22:18:17', '测试01的还款,还款金额(4666.62)', 'XXX校园贷扫码放款', '4666.62', '', '', '', '', '', '');
 INSERT INTO `repayorder` VALUES ('c8ea8a888465488e9ee26f068c3c7f01', 'repay_c8ea8a888465488e9ee26f068c3c7f01', '/static/alipay/repay/qr-repay_c8ea8a888465488e9ee26f068c3c7f01.png', '0', null, '2018-05-01 18:43:53', '测试01的还款,还款金额(4666.62)', 'XXX校园贷扫码放款', '4666.62', '', '', '', '', '', '');
 INSERT INTO `repayorder` VALUES ('cc44d8236ec944f89d64232f4d518011', 'repay_cc44d8236ec944f89d64232f4d518011', '/static/alipay/repay/qr-repay_cc44d8236ec944f89d64232f4d518011.png', '0', null, '2018-05-01 18:41:33', '测试01的还款,还款金额(4666.62)', 'XXX校园贷扫码放款', '4666.62', '', '', '', '', '', '');
 INSERT INTO `repayorder` VALUES ('df1a1486ad314920b6a97ede0d1094a1', 'repay_df1a1486ad314920b6a97ede0d1094a1', '', '0', null, '2018-05-05 13:37:27', '测试01的还款,还款金额(14283.810000000001)', 'XXX校园贷扫码放款', '14283.81', '', '', '', '', '', '');
+INSERT INTO `repayorder` VALUES ('fcdc6d37afca4c3fa29e80be8269c25e', 'repay_fcdc6d37afca4c3fa29e80be8269c25e', '/static/alipay/repay/qr-repay_fcdc6d37afca4c3fa29e80be8269c25e.png', '0', null, '2018-05-09 17:35:48', '测试01的还款,还款金额(2333.31)', 'XXX校园贷扫码放款', '2333.31', '', '', '', '', '', '');
 INSERT INTO `repayorder` VALUES ('ff761184a0e24fd7b01c7bd7f4f3d0fd', 'repay_ff761184a0e24fd7b01c7bd7f4f3d0fd', '', '0', null, '2018-05-05 13:41:49', '测试01的还款,还款金额(14283.810000000001)', 'XXX校园贷扫码放款', '14283.81', '', '', '', '', '', '');
 INSERT INTO `repayorder` VALUES ('ff7d8705f1624ed6846c1b397d17365a', 'repay_ff7d8705f1624ed6846c1b397d17365a', '/static/alipay/repay/qr-repay_ff7d8705f1624ed6846c1b397d17365a.png', '0', null, '2018-05-01 18:42:10', '测试01的还款,还款金额(4666.62)', 'XXX校园贷扫码放款', '4666.62', '', '', '', '', '', '');
 
@@ -280,7 +301,6 @@ CREATE TABLE `resource` (
 -- ----------------------------
 INSERT INTO `resource` VALUES ('1000', null, '用户管理', '用户管理', '0', '0', '/', '0', null, '1');
 INSERT INTO `resource` VALUES ('1001', null, '用户设置', '用户设置', '0', '0', '/consoles/user', '1000', null, '1');
-INSERT INTO `resource` VALUES ('1002', null, '黑名单', '黑名单', '0', '0', '/consoles/blacklist', '1000', null, '1');
 INSERT INTO `resource` VALUES ('2000', null, '认证管理', '认证管理', '0', '0', '/', '0', null, '1');
 INSERT INTO `resource` VALUES ('2001', null, '学生认证', '学生认证', '0', '0', '/consoles/stuinfo', '2000', null, '1');
 INSERT INTO `resource` VALUES ('2002', null, '信用认证', '信用认证', '0', '0', '/consoles/creditscore', '2000', null, '1');
@@ -292,8 +312,10 @@ INSERT INTO `resource` VALUES ('4001', null, '贷款放款', '贷款放款', '0'
 INSERT INTO `resource` VALUES ('5000', null, '财务管理', '财务管理', '0', '0', '/', '0', null, '1');
 INSERT INTO `resource` VALUES ('5001', null, '财务统计', '财务统计', '0', '0', '/consoles/moneystatistics', '5000', null, '1');
 INSERT INTO `resource` VALUES ('5002', null, '贷款列表', '贷款列表', '0', '0', '/consoles/loan', '5000', null, '1');
-INSERT INTO `resource` VALUES ('5003', null, '逾期管理', '逾期管理', '0', '0', '/consoles/overdue', '5000', null, '1');
 INSERT INTO `resource` VALUES ('5004', null, '未还款列表', '未还款列表', '0', '0', '/consoles/notrepay', '5000', null, '1');
+INSERT INTO `resource` VALUES ('6000', null, '逾期管理', '逾期管理', '0', '0', '/', '0', null, '1');
+INSERT INTO `resource` VALUES ('6001', null, '逾期列表', '逾期列表', '0', '0', '/consoles/overdue', '6000', null, '1');
+INSERT INTO `resource` VALUES ('6002', null, '黑名单', '黑名单', '0', '0', '/consoles/blacklist', '6000', null, '1');
 INSERT INTO `resource` VALUES ('99000', null, '系统管理', '系统管理', '0', '0', '/', '0', null, '1');
 INSERT INTO `resource` VALUES ('99001', null, '费率设置', '费率设置', '0', '0', '/consoles/stagefee', '99000', null, '1');
 INSERT INTO `resource` VALUES ('99002', null, '资源设置', '资源设置', '0', '0', '/consoles/resource', '99000', null, '1');
@@ -346,14 +368,18 @@ INSERT INTO `sms` VALUES ('07a2c51df5ad4756a2f485cb1b182a0c', '1', '15223653995'
 INSERT INTO `sms` VALUES ('17e587bc374b41ecaaa8042e1a45b7fa', '1', '15223653995', '6944', '', '2018-05-03 15:31:22', '2018-05-03 15:36:22', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"6944\"}');
 INSERT INTO `sms` VALUES ('1c424cd9568941cb9977ac3707a59916', '2', ',11111111111', '', '', '2018-05-07 10:50:09', null, '1', '短信提醒已放款', '', '树丫丫的通知', 'SMS_133973146', '');
 INSERT INTO `sms` VALUES ('1c76004aa7d043c89550b8fc9b14ca2b', '1', '15223653995', '2371', '', '2018-05-03 15:35:06', '2018-05-03 15:40:06', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"2371\"}');
+INSERT INTO `sms` VALUES ('254d2d9fc42d471b9996eca570bc0ecf', '2', ',11111111111', '', '', '2018-05-09 12:35:12', null, '1', '短信提醒已放款', '', '树丫丫的通知', 'SMS_133973146', '');
 INSERT INTO `sms` VALUES ('2aae787ec321459c8d442f3c5f3e44d5', '2', ',11111111111', '', '', '2018-05-05 15:37:51', null, '1', '短信提醒已放款', '', '树丫丫的通知', 'SMS_133973146', '');
 INSERT INTO `sms` VALUES ('352e4a00c07d4430a71d4d17f2fb248b', '2', ',11111111111', '', '', '2018-05-03 23:04:53', null, '1', '短信提示还款时间即将到期', '', '树丫丫的通知', 'SMS_133973146', '');
 INSERT INTO `sms` VALUES ('5adf835cfc7044429e8fd36b4724adff', '2', ',11111111111', '', '', '2018-05-03 23:03:24', null, '1', '短信提示还款时间即将到期', '', '树丫丫的通知', 'SMS_133973146', '');
 INSERT INTO `sms` VALUES ('643690d56550471683a0cbc2f912f07e', '1', '15223653995', '3080', '', '2018-05-03 15:29:16', '2018-05-03 15:34:16', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"3080\"}');
+INSERT INTO `sms` VALUES ('9985dd5d5cef4c91ab230a362cb94fa8', '2', ',11111111111', '', '', '2018-05-09 14:49:32', null, '1', '短信提醒已放款', '', '树丫丫的通知', 'SMS_133973146', '');
 INSERT INTO `sms` VALUES ('9c9b8b76f43e48b88657cd7a896259e2', '2', ',11111111111', '', '', '2018-05-05 17:21:54', null, '1', '短信提醒已放款', '', '树丫丫的通知', 'SMS_133973146', '');
 INSERT INTO `sms` VALUES ('9cd9514979d747ef9c582d73cb7fc847', '1', '15223653995', '2674', '', '2018-05-03 15:33:06', '2018-05-03 15:38:06', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"2674\"}');
 INSERT INTO `sms` VALUES ('a6ccfc23c49b446abb0c72f93a75f318', '2', ',11111111111', '', '', '2018-05-05 17:50:03', null, '1', '短信提醒已放款', '', '树丫丫的通知', 'SMS_133973146', '');
 INSERT INTO `sms` VALUES ('b780fb08f57f40309292ffeca6d7292b', '1', '15223653995', '1443', '', '2018-05-03 22:16:52', '2018-05-03 22:21:52', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"1443\"}');
+INSERT INTO `sms` VALUES ('cd15389b2a0644f5956f7b4af6023576', '2', ',11111111111', '', '', '2018-05-09 12:22:13', null, '1', '短信提醒已放款', '', '树丫丫的通知', 'SMS_133973146', '');
+INSERT INTO `sms` VALUES ('d5607751f9534712b82a1584fe539108', '2', ',11111111111', '', '', '2018-05-09 12:20:47', null, '1', '短信提醒已放款', '', '树丫丫的通知', 'SMS_133973146', '');
 INSERT INTO `sms` VALUES ('f713bf06a87e4eae907a6f0272f64a6b', '1', '15223653995', '4681', '', '2018-05-03 22:23:22', '2018-05-03 22:28:22', '1', '15223653995的注册验证码', '', '树丫丫的通知', 'SMS_134080286', '{\"code\":\"4681\"}');
 
 -- ----------------------------
@@ -481,6 +507,7 @@ CREATE TABLE `userphoto` (
 -- Records of userphoto
 -- ----------------------------
 INSERT INTO `userphoto` VALUES ('3aad2faecadc4a4fb7277f4c54d0736a', '4f0fde82c40e443195449ef366295422', '/static/upload/userphoto/headphoto/85653714-8a95-49b5-ae67-5c2f7c37f918.png', '1', '/static/upload/userphoto/idcardphoto/ce7d123d-d340-49b5-bb76-1ce40bafb4aa.jpg', '1', '/static/upload/userphoto/stuidcardphoto/802ac745-0e55-40e0-bfda-dd0849646460.jpg', '1', '');
+INSERT INTO `userphoto` VALUES ('8493f67e257d4860acf3ce2925987528', '10ab38914bc34a43813e86888e540b27', '/static/upload/userphoto/headphoto/7129aea9-90fd-47f1-8fe9-f2cf25a4697a.png', '1', '/static/upload/userphoto/idcardphoto/8b09f7cd-c749-459a-84b9-17ce29efbc30.jpg', '5', '', '0', '');
 
 -- ----------------------------
 -- Table structure for userresource

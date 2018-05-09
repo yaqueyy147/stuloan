@@ -1,5 +1,7 @@
 package com.stuloan.web.task;
 
+import com.stuloan.web.alipay.AlipayTrade_repay;
+import com.stuloan.web.alipay.model.result.AlipayF2FQueryResult;
 import com.stuloan.web.mybatis.domain.Loan;
 import com.stuloan.web.mybatis.domain.Loanorder;
 import com.stuloan.web.mybatis.domain.Repaydetail;
@@ -95,12 +97,12 @@ public class ToGetOrderStatusTask {
 //                            loanorderMapper.updatebyorderno(loanorder);
                         }
                     }else{//tt不为0，表示是还款表的订单，对还款表进行相应的操作
-//                        AlipayF2FQueryResult result = AlipayTrade_repay.test_trade_query(orderno);result.isTradeSuccess()
+                        AlipayF2FQueryResult result = AlipayTrade_repay.test_trade_query(orderno);
 
                         Repayorder repayorder = repayorderMapper.selectByPrimaryKey(id);
-                        boolean bb = AlipayUtil.alipaytransferquery(repayorder);
+//                        boolean bb = AlipayUtil.alipaytransferquery(repayorder);
                         //如果订单状态为成功，则遍历该订单号的还款数据，修改状态为已还款，并修改贷款表的已还款总金额、还款期数和最近还款时间
-                        if(bb){
+                        if(result.isTradeSuccess()){
                             map.put("id","");
                             List<Repaydetail> repaydetaillist = repaydetailMapper.selectByParams(map);
                             if(repaydetaillist != null && repaydetaillist.size() >0){

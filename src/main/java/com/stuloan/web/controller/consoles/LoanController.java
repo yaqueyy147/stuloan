@@ -97,9 +97,15 @@ public class LoanController {
     public Object loanlist(HttpServletRequest request, @RequestParam Map<String,Object> params){
         Map<String,Object> result = new HashMap<>();
         int totalcount = loanMapper.selectCountByParams(params);
-        result.put("total",totalcount);
+
+        int pageNumber = CommonUtil.parseInt(params.get("pageNumber"));
+        int pageSize = CommonUtil.parseInt(params.get("pageSize"));
+        int beginRow = (pageNumber - 1) * pageSize;
+        params.put("beginRow",beginRow);
+
         List<Map<String,Object>> list = loanMapper.selectByParams02(params);
         result.put("rows",list);
+        result.put("total",totalcount);
         return result;
     }
 
@@ -109,6 +115,12 @@ public class LoanController {
         Map<String,Object> result = new HashMap<>();
         int totalcount = loanMapper.selectCountByParams(params);
         result.put("total",totalcount);
+
+        int pageNumber = CommonUtil.parseInt(params.get("pageNumber"));
+        int pageSize = CommonUtil.parseInt(params.get("pageSize"));
+        int beginRow = (pageNumber - 1) * pageSize;
+        params.put("beginRow",beginRow);
+
         List<Map<String,Object>> list = loanMapper.selectByParams03(params);
         result.put("rows",list);
         return result;
@@ -120,6 +132,12 @@ public class LoanController {
         Map<String,Object> result = new HashMap<>();
         int totalcount = blacklistMapper.selectCountByParams(params);
         result.put("total",totalcount);
+
+        int pageNumber = CommonUtil.parseInt(params.get("pageNumber"));
+        int pageSize = CommonUtil.parseInt(params.get("pageSize"));
+        int beginRow = (pageNumber - 1) * pageSize;
+        params.put("beginRow",beginRow);
+
         List<Map<String,Object>> list = blacklistMapper.selectByparams(params);
         result.put("rows",list);
         return result;
@@ -131,6 +149,12 @@ public class LoanController {
         Map<String,Object> result = new HashMap<>();
         int totalcount = blacklistMapper.selectCountByParams4detail(params);
         result.put("total",totalcount);
+
+        int pageNumber = CommonUtil.parseInt(params.get("pageNumber"));
+        int pageSize = CommonUtil.parseInt(params.get("pageSize"));
+        int beginRow = (pageNumber - 1) * pageSize;
+        params.put("beginRow",beginRow);
+
         List<Map<String,Object>> list = blacklistMapper.selectoverduedetail(params);
         result.put("rows",list);
         return result;
@@ -142,6 +166,12 @@ public class LoanController {
         Map<String,Object> result = new HashMap<>();
         int totalcount = repaydetailMapper.selectnotrepayCountByParams(params);
         result.put("total",totalcount);
+
+        int pageNumber = CommonUtil.parseInt(params.get("pageNumber"));
+        int pageSize = CommonUtil.parseInt(params.get("pageSize"));
+        int beginRow = (pageNumber - 1) * pageSize;
+        params.put("beginRow",beginRow);
+
         List<Map<String,Object>> list = repaydetailMapper.selectnotrepayByParams(params);
         result.put("rows",list);
         return result;
@@ -153,6 +183,12 @@ public class LoanController {
         Map<String,Object> result = new HashMap<>();
         int totalcount = userphotoMapper.selectCountByParams(params);
         result.put("total",totalcount);
+
+        int pageNumber = CommonUtil.parseInt(params.get("pageNumber"));
+        int pageSize = CommonUtil.parseInt(params.get("pageSize"));
+        int beginRow = (pageNumber - 1) * pageSize;
+        params.put("beginRow",beginRow);
+
         List<Map<String,Object>> list = userphotoMapper.selectByParams(params);
         result.put("rows",list);
         return result;
@@ -284,7 +320,7 @@ public class LoanController {
                 order.setOrdertitle("XXX校园贷扫码放款");
 
                 //创建新订单，并向支付宝发送订单信息
-                bb = AlipayUtil.alipaytransfer(order);
+                bb = AlipayUtil.alipaytransfer(order,loan.getAlipayname());
                 if(bb){
                     //如果创建成功，马上查询一次订单状态
                     bb1 = AlipayUtil.alipaytransferquery(order);
@@ -413,6 +449,12 @@ public class LoanController {
         Map<String,Object> result = new HashMap<>();
         int totalcount = repaydetailMapper.selectCountByParams(params);
         result.put("total",totalcount);
+
+        int pageNumber = CommonUtil.parseInt(params.get("pageNumber"));
+        int pageSize = CommonUtil.parseInt(params.get("pageSize"));
+        int beginRow = (pageNumber - 1) * pageSize;
+        params.put("beginRow",beginRow);
+
         List<Repaydetail> list = repaydetailMapper.selectByParams(params);
         result.put("rows",list);
         return result;

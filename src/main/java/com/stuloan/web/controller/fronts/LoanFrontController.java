@@ -104,6 +104,9 @@ public class LoanFrontController {
             params.put("orderby","stagenum asc");
             List<Stagefee> list1 = stagefeeMapper.selectByParams(params);
             model.addAttribute("stagefeelist",list1);
+
+            Creditscore creditscore = creditscoreMapper.selectByuserid(sysuser.getId());
+            model.addAttribute("creditscore",creditscore);
         }catch (Exception e){
             e.printStackTrace();
         }

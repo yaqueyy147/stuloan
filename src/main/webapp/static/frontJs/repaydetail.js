@@ -124,29 +124,50 @@ function repaydetailTablePageChange(pageNo,loanid) {
     });
 }
 function getrepyaqrcode(repays){
-    if(confirm("您正在进行还款操作，确定还款将还款至商家账号，是否确定还款?")){
-        $.ajax({
-            type:'post',
-            url: projectUrl + '/loan/transferrepay',
-            dataType: 'json',
-            data:{repays:repays},
-            success:function (data) {
-                alert(data.message);
-                repaydetailTablePageChange(1,"");
-                // var qrcodeurl = data.qrcodeurl;
-                // $("#repayqrcode").attr("src",projectUrl + qrcodeurl);
-                // $("#repayqrcodeModal").modal("show");
-            },
-            error:function (data) {
-                var responseText = data.responseText;
-                if(responseText.indexOf("登出跳转页面") >= 0){
-                    ajaxErrorToLogin();
-                }else{
-                    alert(JSON.stringify(data));
-                }
+    $.ajax({
+        type:'post',
+        url: projectUrl + '/loan/getrepyaqrcode',
+        dataType: 'json',
+        data:{repays:repays},
+        success:function (data) {
+            // alert(data.message);
+            // repaydetailTablePageChange(1,"");
+            var qrcodeurl = data.qrcodeurl;
+            $("#repayqrcode").attr("src",projectUrl + qrcodeurl);
+            $("#repayqrcodeModal").modal("show");
+        },
+        error:function (data) {
+            var responseText = data.responseText;
+            if(responseText.indexOf("登出跳转页面") >= 0){
+                ajaxErrorToLogin();
+            }else{
+                alert(JSON.stringify(data));
             }
-        });
-    }
+        }
+    });
+    // if(confirm("您正在进行还款操作，确定还款将还款至商家账号，是否确定还款?")){
+    //     $.ajax({
+    //         type:'post',
+    //         url: projectUrl + '/loan/transferrepay',
+    //         dataType: 'json',
+    //         data:{repays:repays},
+    //         success:function (data) {
+    //             alert(data.message);
+    //             // repaydetailTablePageChange(1,"");
+    //             var qrcodeurl = data.qrcodeurl;
+    //             $("#repayqrcode").attr("src",projectUrl + qrcodeurl);
+    //             $("#repayqrcodeModal").modal("show");
+    //         },
+    //         error:function (data) {
+    //             var responseText = data.responseText;
+    //             if(responseText.indexOf("登出跳转页面") >= 0){
+    //                 ajaxErrorToLogin();
+    //             }else{
+    //                 alert(JSON.stringify(data));
+    //             }
+    //         }
+    //     });
+    // }
 
 }
 function torepay(repays) {

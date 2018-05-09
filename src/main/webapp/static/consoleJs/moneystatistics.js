@@ -74,7 +74,7 @@ function loadDataGrid(params) {
                     }
                     return '';
                 }}
-        ]],
-        loadFilter:pagerFilter
+        ]]
     });
+    datagridpager($("#moneystatisticslist"),"/consoles/moneystatisticslist");
 }

@@ -60,6 +60,12 @@ public class ConsoleController {
         Map<String,Object> result = new HashMap<String,Object>();
         int totalusercount = consoleService.gettotalusercount(params);
         result.put("total",totalusercount);
+
+        int pageNumber = CommonUtil.parseInt(params.get("pageNumber"));
+        int pageSize = CommonUtil.parseInt(params.get("pageSize"));
+        int beginRow = (pageNumber - 1) * pageSize;
+        params.put("beginRow",beginRow);
+
         List<Sysuser> list = consoleService.getUserList(params);
         result.put("rows",list);
 //        result.put("dataList",list);

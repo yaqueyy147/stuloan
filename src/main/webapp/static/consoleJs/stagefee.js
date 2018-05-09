@@ -131,8 +131,6 @@ function closeDialog(dialogId){
 function loadDataGrid(params) {
     params.pageNumber = 1;
     params.pageSize = 10;
-    // var dataList = getData("/consoles/roleList",params).dataList;
-    // dataList = formatDataList(dataList);
     $("#stagefeeList").datagrid({
         url:"/consoles/stagefeelist",
         queryParams:params,
@@ -157,9 +155,9 @@ function loadDataGrid(params) {
                 }
                 return '不可用';
             }}
-        ]],
-        loadFilter:pagerFilter
+        ]]
     });
+    datagridpager($("#stagefeeList"),"/consoles/stagefeelist");
 }
 
 function loadDataToForm(data){

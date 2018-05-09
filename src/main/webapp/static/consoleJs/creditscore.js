@@ -61,9 +61,9 @@ function loadDataGrid(params) {
                 identity += "<a href='javascript:void 0;' onclick=\"toauditcredit('" + row.id + "','0')\">不同意认证</a>";
                 return identity;
             }}
-        ]],
-        loadFilter:pagerFilter
+        ]]
     });
+    datagridpager($("#creditList"),"/consoles/creditscorelist");
 }
 function toauditcredit(ids,state) {
     $.ajax({

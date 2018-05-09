@@ -33,7 +33,7 @@ public class WarnLoanExpireTask {
     private static final String SIGNNAME = "树丫丫的通知";
     private static final String TEMPLATECODE = "SMS_133276806";
 
-    private static int bq_timoutminute = -7*24*60 ;
+    private static int bq_timoutminute = 7*24*60 ;
 
     @Autowired
     private LoanMapper loanMapper;

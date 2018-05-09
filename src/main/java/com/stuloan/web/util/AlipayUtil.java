@@ -52,7 +52,7 @@ public class AlipayUtil {
 //        return aliresponse.isSuccess();
 //    }
 
-    public static boolean alipaytransfer(Loanorder order) throws Exception{
+    public static boolean alipaytransfer(Loanorder order,String alipayname) throws Exception{
         initalipay("zfbinfo.properties");
         AlipayFundTransToaccountTransferRequest alirequest = new AlipayFundTransToaccountTransferRequest();
         alirequest.setBizContent("{" +

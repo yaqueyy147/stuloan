@@ -55,7 +55,7 @@ function loadDataGrid(params) {
                     }
                     return '';
                 }}
-        ]],
-        loadFilter:pagerFilter
+        ]]
     });
+    datagridpager($("#notrepayList"),"/consoles/notrepaylist");
 }

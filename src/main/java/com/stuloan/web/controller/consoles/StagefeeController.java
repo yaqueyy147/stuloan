@@ -37,6 +37,12 @@ public class StagefeeController {
         Map<String,Object> result = new HashMap<>();
         int totalcount = stagefeeMapper.selectCountByParams(params);
         result.put("total",totalcount);
+
+        int pageNumber = CommonUtil.parseInt(params.get("pageNumber"));
+        int pageSize = CommonUtil.parseInt(params.get("pageSize"));
+        int beginRow = (pageNumber - 1) * pageSize;
+        params.put("beginRow",beginRow);
+
         List<Stagefee> list = stagefeeMapper.selectByParams(params);
         result.put("rows",list);
         return result;

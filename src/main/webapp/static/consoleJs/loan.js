@@ -22,6 +22,7 @@ $(function () {
     $("#doSearch").click(function () {
         var loanstate = $("#loanstate").val();
         var params = {state:loanstate};
+        params.stuname = "%" + $("#loanpp").val() + "%";
         loadDataGrid(params);
     });
 
@@ -50,6 +51,7 @@ function loadDataGrid(params) {
             {field:"ck",checkbox:"true",hidden:true},
             {field:"id",title:"贷款Id",width:"80",hidden:true},
             {field:"stuname",title:"贷款人",width:"120"},
+            {field:"alipayname",title:"支付宝账号",width:"200"},
             {field:"loanpurpose",title:"贷款用途",width:"150"},
             {field:"loanamount",title:"贷款金额",width:"80",
                 formatter: function(value,row,index){
@@ -120,11 +122,13 @@ function loadDataGrid(params) {
                 formatter: function(value,row,index){
                     return "<a href=\"javascript:void 0;\" onclick=\"viewrepay('" + row.id + "')\">查看还款明细</a>";
                 }}
-        ]],
-        loadFilter:pagerFilter
+        ]]
+        // loadFilter:pagerFilter
     });
-}
 
+    datagridpager($("#loanList"),"/consoles/loanlist");
+
+}
 function toaudit(obj,ids,state) {
     $.ajax({
         type:'post',
@@ -170,6 +174,8 @@ function loadrepaydetail(loanid) {
         loadMsg:"加载中...",
         selectOnCheck:true,
         singleSelect:false,
+        pageSize:10,
+        nowrap: true,
         columns:[[
             {field:"ck",checkbox:"true",hidden:true},
             {field:"id",title:"还款Id",width:"80",hidden:true},
@@ -215,7 +221,7 @@ function loadrepaydetail(loanid) {
                     }
                     return '';
                 }}
-        ]],
-        loadFilter:pagerFilter
+        ]]
     });
+    datagridpager($("#repayList"),"/consoles/viewrepaydetail");
 }

@@ -21,6 +21,8 @@
 
 </table>
 <div id="tb">
+    <span>贷款人:</span>
+    <input type="text" id="loanpp" />
     <span>状态:</span>
     <select id="loanstate">
         <option value="">全部</option>

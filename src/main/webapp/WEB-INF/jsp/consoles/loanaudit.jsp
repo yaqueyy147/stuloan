@@ -21,6 +21,9 @@
 
 </table>
 <div id="tb">
+    <span>贷款人:</span>
+    <input type="text" id="loanpp" />
+    <a href="#" class="easyui-linkbutton" iconCls="icon-search" plain="true" id="doSearch">查询</a>
     <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" name="audit" data-state="5">批量同意</a>
     <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" name="audit" data-state="2">批量不同意</a>
 </div>
