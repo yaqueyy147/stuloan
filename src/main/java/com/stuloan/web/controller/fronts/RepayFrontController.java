@@ -5,10 +5,7 @@ import com.stuloan.web.alipay.AlipayTrade_repay;
 import com.stuloan.web.alipay.model.result.AlipayF2FQueryResult;
 import com.stuloan.web.mybatis.domain.*;
 import com.stuloan.web.mybatis.domain.inte.*;
-import com.stuloan.web.util.CommonUtil;
-import com.stuloan.web.util.PageUtil;
-import com.stuloan.web.util.Userutils;
-import com.stuloan.web.util.Userutils4mybatis;
+import com.stuloan.web.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -242,6 +239,82 @@ public class RepayFrontController {
         return result;
     }
 
+    @RequestMapping(value = "/transferrepay")
+    @ResponseBody
+    public Object transferrepay(@RequestParam Map<String,Object> params, HttpServletRequest request){
+        Map<String,Object> result = new HashMap<>();
+        result.put("code",0);
+        result.put("message","系统错误，请联系管理员");
+
+        String repays = params.get("repays") + "";
+        String[] repayarr = repays.split(",");
+
+        try {
+            String userid = Userutils4mybatis.getuserid(request, Userutils4mybatis.FRONG_COOKIE_NAME);
+            Studentinfo studentinfo = studentinfoMapper.selectByuserid(userid);
+            int ii = 0;
+            double repayamount = 0.0;
+            boolean bb = false;
+            boolean bb1 = false;
+            String orderid = CommonUtil.uuid();
+            String orderno = "repay_" + orderid;
+            for(int i=0;i<repayarr.length;i++){
+                String repay = repayarr[i];
+                String repaydetailid = repay.split("::")[1];
+                Repaydetail repaydetail = repaydetailMapper.selectByPrimaryKey(repaydetailid);
+                repayamount += repaydetail.getRepaymoney();
+                repaydetail.setOrderno(orderno);
+                repaydetailMapper.updateByPrimaryKeySelective(repaydetail);
+            }
+            repayamount = CommonUtil.parseDouble(CommonUtil.get2DotStrFrmDouble(repayamount));
+            Repayorder order = new Repayorder();
+            order.setId(orderid);
+            order.setOrderno(orderno);
+            order.setCreatedate(new Date());
+            order.setOrderdesc(studentinfo.getStuname() + "的还款,还款金额(" + repayamount + ")");
+            order.setTotalamount(repayamount);
+            order.setOrdertitle("XXX校园贷扫码放款");
+            bb = AlipayUtil.alipaytransfer(order);
+            if(bb){
+                bb1 = AlipayUtil.alipaytransferquery(order);
+                Map<String,String> repaydetail = new HashMap<>();
+                repaydetail.put("isrepay","3");
+                if(bb1){
+                    order.setOrderstate("1");
+                    repaydetail.put("isrepay","1");
+                }
+                int i = repayorderMapper.insertSelective(order);
+
+                repaydetail.put("ordernonew",orderno);
+                repaydetail.put("ordernoold",orderno);
+                repaydetailMapper.updatebyorderno(repaydetail);
+
+                result.put("code",1);
+                result.put("message","订单创建成功!");
+            }else{
+                Map<String,String> repaydetail = new HashMap<>();
+                repaydetail.put("isrepay","4");
+                repaydetail.put("ordernonew","");
+                repaydetail.put("ordernoold",orderno);
+                repaydetailMapper.updatebyorderno(repaydetail);
+                result.put("code",0);
+                result.put("message","订单创建失败!");
+            }
+
+
+            if(!bb1){
+                //查询订单状态
+                this.getorderstatus4transfer(orderno,orderid);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            result.put("code",0);
+            result.put("message","系统错误，请联系管理员");
+        }
+
+        return result;
+    }
+
     @RequestMapping(value = "/repay")
     @ResponseBody
     public Object repay(@RequestParam Map<String,Object> params, HttpServletRequest request){
@@ -339,6 +412,54 @@ public class RepayFrontController {
                     //设置订单状态为2，等待定时任务继续查询订单状态
                     repayorder.setOrderstate("2");
                     repayorderMapper.updatebyorderno(repayorder);
+                }
+            }
+        }, 10 * 1000);
+    }
+
+    /**
+     * 延时一分钟查询订单状态
+     * @param orderno
+     */
+    private void getorderstatus4transfer(String orderno,String orderid){
+        LOGGER.info("***执行了getorderstatus这个任务***");
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    LOGGER.info("***进来了getorderstatus这个任务的task***");
+                    Map<String,Object> params = new HashMap<>();
+                    Repayorder repayorder = repayorderMapper.selectByPrimaryKey(orderid);
+                    boolean bb = AlipayUtil.alipaytransferquery(repayorder);
+                    //如果订单状态为成功，则遍历是该订单号的贷款数据，修改状态为已放款
+                    if(bb){
+                        params.put("orderno",orderno);
+                        List<Repaydetail> repaydetaillist = repaydetailMapper.selectByParams(params);
+                        if(repaydetaillist != null && repaydetaillist.size() >0){
+                            for(Repaydetail repaydetail : repaydetaillist){
+                                //修改当条还款为已还款
+                                repaydetail.setIsrepay("1");
+                                repaydetail.setRepaydatereal(new Date());
+                                repaydetailMapper.updateByPrimaryKeySelective(repaydetail);
+                                //修改贷款表的还款金额和期数和时间
+                                Loan loan = loanMapper.selectByPrimaryKey(repaydetail.getLoanid());
+                                loan.setRepayyet(loan.getRepayyet() + repaydetail.getRepaymoney());
+                                loan.setStagenumyet(repaydetail.getStagenum());
+                                loan.setUpdatedate(new Date());
+                                loanMapper.updateByPrimaryKeySelective(loan);
+                            }
+                        }
+                        //修改当条订单为已还款
+                        repayorder.setOrderstate("1");
+                        repayorderMapper.updatebyorderno(repayorder);
+                    }else{
+                        //设置订单状态为2，等待定时任务继续查询订单状态
+                        repayorder.setOrderstate("2");
+                        repayorderMapper.updatebyorderno(repayorder);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
                 }
             }
         }, 10 * 1000);

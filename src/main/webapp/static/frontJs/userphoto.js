@@ -9,7 +9,8 @@ $(function () {
         $("#headphoto").attr('value', projectUrl + headphoto);
         $("#upload-div").hide();
         if(headstate == 1){
-            $("#head-tips").hide();
+            $("#head-tips").html("审核通过");
+            $("#head-tips").show();
         }
         if(headstate == 5){
             $("#head-tips").html("审核中...");
@@ -27,7 +28,8 @@ $(function () {
         $("#idcardphoto").attr('value', projectUrl + idcardphoto);
         $("#upload-div01").hide();
         if(idcardstate == 1){
-            $("#idcard-tips").hide();
+            $("#idcard-tips").html("审核通过");
+            $("#idcard-tips").show();
         }
         if(idcardstate == 5){
             $("#idcard-tips").html("审核中...");
@@ -45,7 +47,8 @@ $(function () {
         $("#stuidcardphoto").attr('value', projectUrl + stuidcardphoto);
         $("#upload-div02").hide();
         if(stuidcardstate == 1){
-            $("#stuidcard-tips").hide();
+            $("#stuidcard-tips").html("审核通过");
+            $("#stuidcard-tips").show();
         }
         if(stuidcardstate == 5){
             $("#stuidcard-tips").html("审核中...");
@@ -66,7 +69,7 @@ $(function () {
                 url 		: projectUrl + "/upload/deleteimg",
                 data		: {id : photoid,type:type},
                 success		: function( result ) {
-                    if(result.code){
+                    if(result.code >= 1){
                         alert("删除成功");
                         if(type == 1){
                             $("#result_img").attr('src', "");
@@ -102,6 +105,8 @@ $(function () {
                             $("#stuidcard-tips").show();
                         }
 
+                    }else if(result.code == -1){
+                        alert(result.message);
                     }else{
                         alert("网络请求出错,请联系管理员");
                     }
@@ -208,6 +213,8 @@ function uploadvideoPP(resultimg,resultimgdiv,uploaddiv,tipsdiv,picinput,targetF
                 $("#" + uploaddiv).hide();
                 $("#photoModal").modal("hide");
                 $("#" + tipsdiv).html("上传成功，请等待审核...");
+            }else if(data.code == -1){
+                alert(data.message);
             }else{
                 alert("上传失败!");
             }
@@ -259,6 +266,8 @@ function uploadPP(obj,resultimg,resultimgdiv,uploaddiv,tipsdiv,picinput,targetFi
                     $("#" + picinput).attr('value', projectUrl + imgPath);
                     $("#" + uploaddiv).hide();
                     $("#" + tipsdiv).html("上传成功，请等待审核...");
+                }else if(data.code == -1){
+                    alert(data.message);
                 }else{
                     alert("上传失败!");
                 }

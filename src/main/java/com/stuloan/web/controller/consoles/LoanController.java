@@ -2,10 +2,10 @@ package com.stuloan.web.controller.consoles;
 
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.stuloan.web.alipay.AlipayTrade_loan;
-import com.stuloan.web.alipay.model.result.AlipayF2FQueryResult;
 import com.stuloan.web.mybatis.domain.*;
 import com.stuloan.web.mybatis.domain.inte.*;
 import com.stuloan.web.sms.SmsDemo;
+import com.stuloan.web.util.AlipayUtil;
 import com.stuloan.web.util.CommonUtil;
 import com.stuloan.web.util.Userutils;
 import org.slf4j.Logger;
@@ -220,7 +220,124 @@ public class LoanController {
             result.put("code",1);
             result.put("message","放款成功");
             //查询订单状态
-            this.getorderstatus(orderno,orderid);
+//            this.getorderstatus(orderno,orderid);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.put("code",0);
+            result.put("message","系统错误，请联系管理员");
+        }
+
+        return result;
+    }
+
+    @RequestMapping(value = "/transferpay")
+    @ResponseBody
+    public Object transferpay(HttpServletRequest request, String id){
+        Map<String,Object> result = new HashMap<>();
+        result.put("code",0);
+        result.put("message","系统错误，请联系管理员");
+
+        try {
+            int ii = 0;
+            String userphones = "";
+            Loan loan = loanMapper.selectByPrimaryKey(id);
+            String orderno = loan.getOrderno();
+            String orderid = "";
+            Studentinfo studentinfo = studentinfoMapper.selectByuserid(loan.getUserid());
+            boolean bb = false;//生成订单状态
+            boolean bb1 = false;//查询订单状态
+            //通过orderno查询贷款订单
+            Loanorder loanorder = loanorderMapper.selectbyorderno(orderno);
+            //如果订单存在
+            if(!CommonUtil.isBlank(orderno) && !CommonUtil.isBlank(loanorder) && !CommonUtil.isBlank(loanorder.getId())){
+                orderid = loanorder.getId();
+                //如果订单状态为1，则表示订单已完成，修改贷款表状态，直接返回
+                if("1".equals(loanorder.getOrderstate())){
+                    loan.setLoanoutdate(new Date());
+                    loan.setState("1");
+                    loanMapper.updateByPrimaryKeySelective(loan);
+                    result.put("code",1);
+                    result.put("message","已完成放款，请刷新页面!");
+                }else{//如果订单状态不为1
+                    //即时查询订单状态
+                    bb1 = AlipayUtil.alipaytransferquery(loanorder);
+                    //如果查询订单状态为成功，则修改贷款状态
+                    if(bb1){
+                        loan.setLoanoutdate(new Date());
+                        loan.setState("1");
+                        loanMapper.updateByPrimaryKeySelective(loan);
+                        result.put("code",1);
+                        result.put("message","已完成放款，请刷新页面!");
+                    }else{//否则返回
+                        result.put("code",3);
+                        result.put("message","已放款,等待服务器处理中，请稍后刷新页面!");
+                    }
+
+                }
+            }else{//订单不存在，则生成新订单，并发送短信
+                Loanorder order = new Loanorder();
+                order.setId(CommonUtil.uuid());
+                order.setOrderno("loan_" + order.getId());
+                order.setCreatedate(new Date());
+                order.setOrderdesc(studentinfo.getStuname() + "的贷款,贷款金额(" + loan.getLoanamount() + "),用途:" + loan.getLoanpurpose());
+                order.setTotalamount(loan.getLoanamount());
+                order.setOrdertitle("XXX校园贷扫码放款");
+
+                //创建新订单，并向支付宝发送订单信息
+                bb = AlipayUtil.alipaytransfer(order);
+                if(bb){
+                    //如果创建成功，马上查询一次订单状态
+                    bb1 = AlipayUtil.alipaytransferquery(order);
+                    //根据查询到的订单状态，设置订单和贷款状态
+                    if(bb1){
+                        order.setOrderstate("1");
+                        loan.setState("1");
+                    }else{
+                        order.setOrderstate("3");
+                    }
+                    ii += loanorderMapper.insertSelective(order);
+                    orderno = order.getOrderno();
+                    orderid = order.getId();
+
+                    loan.setOrderno(orderno);
+                    loan.setLoanoutdate(new Date());
+                    ii += loanMapper.updateByPrimaryKeySelective(loan);
+
+                    Sysuser sysuser = sysuserMapper.selectByPrimaryKey(loan.getUserid());
+                    userphones += "," + sysuser.getPhone();
+
+                    Sms sms = new Sms();
+                    sms.setId(CommonUtil.uuid());
+                    sms.setSignname(SIGNNAME);
+                    sms.setTemplatecode(TEMPLATECODE);
+                    sms.setSmsphone(userphones);
+                    sms.setSmsdesc("短信提醒已放款");
+                    sms.setSmstype("2");
+                    sms.setSmstime(new Date());
+                    sms.setTemplateparam("");
+
+                    SendSmsResponse response = SmsDemo.sendSms(sms);
+
+                    if("OK".equalsIgnoreCase(response.getCode())){
+                        int i = smsMapper.insertSelective(sms);
+                        result.put("message","放款成功!");
+                    }else{
+                        result.put("message","放款成功,短信发送失败!");
+                    }
+                    result.put("code",1);
+
+                }else{
+                    result.put("code",0);
+                    result.put("message","订单创建失败，请重试!");
+                }
+
+            }
+
+            if(!bb1){
+                //查询订单状态
+                this.getorderstatus4transfer(orderno,orderid);
+            }
+
         }catch (Exception e){
             e.printStackTrace();
             result.put("code",0);
@@ -372,48 +489,6 @@ public class LoanController {
         return result;
     }
 
-    /**
-     * 延时一分钟查询订单状态
-     * @param orderno
-     */
-    private void getorderstatus(String orderno,String orderid){
-        LOGGER.info("***执行了getorderstatus这个任务***");
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                LOGGER.info("***进来了getorderstatus这个任务的task***");
-                Map<String,Object> params = new HashMap<>();
-                Loanorder loanorder = loanorderMapper.selectByPrimaryKey(orderid);
-                AlipayF2FQueryResult result = AlipayTrade_loan.test_trade_query(orderno);
-                //如果订单状态为成功，则遍历是该订单号的贷款数据，修改状态为已放款
-                if(result.isTradeSuccess()){
-                    params.put("orderno",orderno);
-                    List<Loan> loanlist = loanMapper.selectByParams(params);
-                    if(loanlist != null && loanlist.size() >0){
-                        for(Loan loan : loanlist){
-                            loan.setState("1");
-                            loan.setLoanoutdate(new Date());
-                            loan.setAuditmsg("已放款");
-                            loanMapper.updateByPrimaryKeySelective(loan);
-                            Repaydetail repaydetail = new Repaydetail();
-                            repaydetail.setLoanid(loan.getId());
-                            repaydetail.setState("1");
-                            repaydetailMapper.updatestateByLoanIdSelective(repaydetail);
-                        }
-                    }
-                    //修改当条订单为已还款
-                    loanorder.setOrderstate("1");
-                    loanorderMapper.updatebyorderno(loanorder);
-                }else{
-                    //设置订单状态为2，等待定时任务继续查询订单状态
-                    loanorder.setOrderstate("2");
-                    loanorderMapper.updatebyorderno(loanorder);
-                }
-            }
-        }, 10 * 1000);
-    }
-
     @RequestMapping(value = "auditphoto")
     @ResponseBody
     public Object auditphoto(@RequestParam Map<String,Object> params, HttpServletRequest request) throws UnsupportedEncodingException {
@@ -458,6 +533,94 @@ public class LoanController {
         }
 
         return result;
+    }
+
+//    /**
+//     * 延时一分钟查询订单状态
+//     * @param orderno
+//     */
+//    private void getorderstatus(String orderno,String orderid){
+//        LOGGER.info("***执行了getorderstatus这个任务***");
+//        Timer timer = new Timer();
+//        timer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                LOGGER.info("***进来了getorderstatus这个任务的task***");
+//                Map<String,Object> params = new HashMap<>();
+//                Loanorder loanorder = loanorderMapper.selectByPrimaryKey(orderid);
+//                AlipayF2FQueryResult result = AlipayTrade_loan.test_trade_query(orderno);
+//                //如果订单状态为成功，则遍历是该订单号的贷款数据，修改状态为已放款
+//                if(result.isTradeSuccess()){
+//                    params.put("orderno",orderno);
+//                    List<Loan> loanlist = loanMapper.selectByParams(params);
+//                    if(loanlist != null && loanlist.size() >0){
+//                        for(Loan loan : loanlist){
+//                            loan.setState("1");
+//                            loan.setLoanoutdate(new Date());
+//                            loan.setAuditmsg("已放款");
+//                            loanMapper.updateByPrimaryKeySelective(loan);
+//                            Repaydetail repaydetail = new Repaydetail();
+//                            repaydetail.setLoanid(loan.getId());
+//                            repaydetail.setState("1");
+//                            repaydetailMapper.updatestateByLoanIdSelective(repaydetail);
+//                        }
+//                    }
+//                    //修改当条订单为已还款
+//                    loanorder.setOrderstate("1");
+//                    loanorderMapper.updatebyorderno(loanorder);
+//                }else{
+//                    //设置订单状态为2，等待定时任务继续查询订单状态
+//                    loanorder.setOrderstate("2");
+//                    loanorderMapper.updatebyorderno(loanorder);
+//                }
+//            }
+//        }, 10 * 1000);
+//    }
+
+    /**
+     * 延时一分钟查询订单状态
+     * @param orderno
+     */
+    private void getorderstatus4transfer(String orderno,String orderid){
+        LOGGER.info("***执行了getorderstatus这个任务***");
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    LOGGER.info("***进来了getorderstatus这个任务的task***");
+                    Map<String,Object> params = new HashMap<>();
+                    Loanorder loanorder = loanorderMapper.selectByPrimaryKey(orderid);
+                    boolean bb = AlipayUtil.alipaytransferquery(loanorder);
+                    //如果订单状态为成功，则遍历是该订单号的贷款数据，修改状态为已放款
+                    if(bb){
+                        params.put("orderno",orderno);
+                        List<Loan> loanlist = loanMapper.selectByParams(params);
+                        if(loanlist != null && loanlist.size() >0){
+                            for(Loan loan : loanlist){
+                                loan.setState("1");
+                                loan.setLoanoutdate(new Date());
+                                loan.setAuditmsg("已放款");
+                                loanMapper.updateByPrimaryKeySelective(loan);
+                                Repaydetail repaydetail = new Repaydetail();
+                                repaydetail.setLoanid(loan.getId());
+                                repaydetail.setState("1");
+                                repaydetailMapper.updatestateByLoanIdSelective(repaydetail);
+                            }
+                        }
+                        //修改当条订单为已还款
+                        loanorder.setOrderstate("1");
+                        loanorderMapper.updatebyorderno(loanorder);
+                    }else{
+                        //设置订单状态为2，等待定时任务继续查询订单状态
+                        loanorder.setOrderstate("2");
+                        loanorderMapper.updatebyorderno(loanorder);
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }, 10 * 1000);
     }
 
 }

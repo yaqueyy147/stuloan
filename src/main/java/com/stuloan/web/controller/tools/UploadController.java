@@ -6,6 +6,7 @@ import com.stuloan.web.mybatis.domain.inte.SysuserMapper;
 import com.stuloan.web.mybatis.domain.inte.UserphotoMapper;
 import com.stuloan.web.util.CommonUtil;
 import com.stuloan.web.util.Userutils;
+import com.stuloan.web.util.Userutils4mybatis;
 import cq.hlideal.jetty.main.util.FileUtil;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -19,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
 
 import javax.imageio.ImageIO;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
@@ -58,18 +58,29 @@ public class UploadController {
     public String uploadImg(MultipartFile uploadFile, String targetFile, String id, String type, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String resultStr = "";
+        Map<String,Object> map = new HashMap<String,Object>();
         try {
+            String userid = Userutils4mybatis.getuserid(request,Userutils.FRONG_COOKIE_NAME);
+            if(CommonUtil.isBlank(userid)){
+                map.put("code",-1);
+                map.put("message","您还没有登录或登录已失效,请重新登录!");
+                return JSONObject.fromObject(map).toString();
+            }
             String path = request.getSession().getServletContext().getRealPath("");//项目根目录
             path = path.substring(0,path.indexOf("\\webapp") + 7) + "\\static" + targetFile;//上传图片的地址
             String filePath = CommonUtil.uploadFile(path, uploadFile);//上传图片
             filePath = filePath.replace("\\","/");//将路径中的\替换为/
             filePath = filePath.substring(filePath.indexOf("/static"));
-            Map<String,Object> map = new HashMap<String,Object>();
+
             map.put("code",1);
             map.put("filePath",filePath);
 
-            Userphoto userphoto = new Userphoto();
-            userphoto.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+            Userphoto userphoto = userphotoMapper.selectByuserid(userid);
+
+            if(CommonUtil.isBlank(userphoto) || CommonUtil.isBlank(userphoto.getId())){
+                userphoto = new Userphoto();
+            }
+
             if("1".equals(type)){
                 userphoto.setHeadphoto(filePath);
                 userphoto.setHeadstate("5");
@@ -82,11 +93,12 @@ public class UploadController {
                 userphoto.setStuidcardphoto(filePath);
                 userphoto.setStuidcardstate("5");
             }
-            if(!CommonUtil.isBlank(id)){
-                userphoto.setId(id);
+            if(!CommonUtil.isBlank(userphoto) && !CommonUtil.isBlank(userphoto.getId())){
+//                userphoto.setId(id);
                 userphotoMapper.updateByPrimaryKeySelective(userphoto);
             }else{
                 userphoto.setId(CommonUtil.uuid());
+                userphoto.setUserid(userid);
                 userphotoMapper.insertSelective(userphoto);
             }
 
@@ -103,11 +115,19 @@ public class UploadController {
     @ResponseBody
     public Object uploadvideoimg(@RequestParam Map<String,Object> params, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+        Map<String,Object> result = new HashMap<String,Object>();
+        String userid = Userutils4mybatis.getuserid(request,Userutils.FRONG_COOKIE_NAME);
+        if(CommonUtil.isBlank(userid)){
+            result.put("code",-1);
+            result.put("message","您还没有登录或登录已失效,请重新登录!");
+            return result;
+        }
         String imgdata = params.get("imgdata") + "";
         String targetFile = params.get("targetFile") + "";
         String type = params.get("type") + "";
         String id = params.get("id") + "";
-        Map<String,Object> result = new HashMap<String,Object>();
+
+
         result.put("code",0);
         result.put("message","上传失败");
 
@@ -131,8 +151,10 @@ public class UploadController {
                 filePath = filePath.replace("\\","/");//将路径中的\替换为/
                 filePath = filePath.substring(filePath.indexOf("/static")) + "/" + fileName;
 
-                Userphoto userphoto = new Userphoto();
-                userphoto.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+                Userphoto userphoto = userphotoMapper.selectByuserid(userid);
+                if(CommonUtil.isBlank(userphoto) || CommonUtil.isBlank(userphoto.getId())){
+                    userphoto = new Userphoto();
+                }
                 if("1".equals(type)){
                     userphoto.setHeadphoto(filePath);
                     userphoto.setHeadstate("5");
@@ -145,11 +167,12 @@ public class UploadController {
                     userphoto.setStuidcardphoto(filePath);
                     userphoto.setStuidcardstate("5");
                 }
-                if(!CommonUtil.isBlank(id)){
-                    userphoto.setId(id);
+                if(!CommonUtil.isBlank(userphoto) && !CommonUtil.isBlank(userphoto.getId())){
+//                    userphoto.setId(id);
                     userphotoMapper.updateByPrimaryKeySelective(userphoto);
                 }else{
                     userphoto.setId(CommonUtil.uuid());
+                    userphoto.setUserid(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
                     userphotoMapper.insertSelective(userphoto);
                 }
 
@@ -157,7 +180,6 @@ public class UploadController {
                 result.put("filePath",filePath);
                 result.put("message","上传成功");
             }
-//            resultStr = JSONObject.fromObject(map).toString();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,12 +200,19 @@ public class UploadController {
         Map<String,Object> map = new HashMap<String,Object>();
         map.put("code", 0);
         try{
+            String userid = Userutils4mybatis.getuserid(request,Userutils.FRONG_COOKIE_NAME);
+            if(CommonUtil.isBlank(userid)){
+                map.put("code",-1);
+                map.put("message","您还没有登录或登录已失效,请重新登录!");
+                return map;
+            }
             String path = request.getSession().getServletContext().getRealPath("");
             String imgpath = params.get("imgpath") + "";
             String type = params.get("type") + "";
             String id = params.get("id") + "";
-            if(!CommonUtil.isBlank(id)){
-                Userphoto userphoto = userphotoMapper.selectByPrimaryKey(id);
+            Userphoto userphoto = userphotoMapper.selectByuserid(userid);
+            if(!CommonUtil.isBlank(userphoto) && !CommonUtil.isBlank(userphoto.getId())){
+
                 if("1".equals(type)){
                     imgpath = userphoto.getHeadphoto();
                     userphoto.setHeadphoto("");
@@ -200,7 +229,7 @@ public class UploadController {
                     userphoto.setStuidcardstate("0");
                 }
                 if(CommonUtil.isBlank(userphoto.getHeadphoto()) && CommonUtil.isBlank(userphoto.getIdcardphoto()) && CommonUtil.isBlank(userphoto.getStuidcardphoto())){
-                    userphotoMapper.deleteByPrimaryKey(id);
+                    userphotoMapper.deleteByPrimaryKey(userphoto.getId());
                 }else{
                     userphotoMapper.updateByPrimaryKeySelective(userphoto);
                 }

@@ -101,7 +101,7 @@ function loadDataGrid(params) {
                 }
                 if(value == 5){
                     var html = "已同意，待";
-                    html += "<a href='javascript:void 0;' onclick=\"toloanout(this,'" + row.id + "','1')\">放款</a>";
+                    html += "<a href='javascript:void 0;' onclick=\"toloanout(this,'" + row.id + "','1','" + row.stuname + "')\">放款</a>";
                     return html;
                 }
                 return '不同意';
@@ -123,34 +123,43 @@ function loadDataGrid(params) {
     });
 }
 
-function toloanout(obj,id,state) {
-    $.ajax({
-        type:'post',
-        url: projectUrl + "/consoles/getloanqrcode",
-        dataType:'json',
-        data:{id:id,state:state},
-        success:function (data) {
+function toloanout(obj,id,state,stuname) {
+    $.messager.confirm('提示',"您正在向(" + stuname + ")放款转账，确认转账，款项会转入对方支付宝账号，确认转账吗?",function(r){
+        if (r){
+            $.messager.progress({title:"等待",msg:"处理中，请稍后"});
+            $.ajax({
+                type:'post',
+                url: projectUrl + "/consoles/transferpay",
+                dataType:'json',
+                data:{id:id,state:state},
+                success:function (data) {
+                    $.messager.confirm('提示',data.message);
+                    if(data.code == 1){
+                        var params = {};
+                        loadDataGrid(params);
 
-            if(data.code >= 1){
-                var params = {};
-                loadDataGrid(params);
-                if(state == 1){
-                    var qrcodeurl = data.qrcodeurl;
-                    var qrcode = "<img src=\"" + qrcodeurl + "\" style=\"width:256px;height:256px\" />";
-                    $("#payqrcodeDialog").html(qrcode);
-                    $("#payqrcodeDialog").dialog("open");
+                        // if(state == 1){
+                            // var qrcodeurl = data.qrcodeurl;
+                            // var qrcode = "<img src=\"" + qrcodeurl + "\" style=\"width:256px;height:256px\" />";
+                            // $("#payqrcodeDialog").html(qrcode);
+                            // $("#payqrcodeDialog").dialog("open");
+                        // }
+                    }
+                    $.messager.progress('close');
+                },
+                error:function (data) {
+                    var responseText = data.responseText;
+                    if(responseText.indexOf("登出跳转页面") >= 0){
+                        ajaxErrorToLogin();
+                    }else{
+                        alert(JSON.stringify(data));
+                    }
+                    $.messager.progress('close');
                 }
-            }
-        },
-        error:function (data) {
-            var responseText = data.responseText;
-            if(responseText.indexOf("登出跳转页面") >= 0){
-                ajaxErrorToLogin();
-            }else{
-                alert(JSON.stringify(data));
-            }
+            });
         }
     });
+
 }
 function viewrepay(loanid){
     $("#repaydetailDialog").dialog("open");

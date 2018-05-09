@@ -65,6 +65,7 @@ function repaydetailTablePageChange(pageNo,loanid) {
                 for(var i=0;i<repaydetailList.length;i++){
                     var ii = repaydetailList[i];
                     var isrepay = ii.isrepay;
+                    var orderno = ii.orderno;
                     repaydetail += "<tr>";
                     if(isrepay != 1){
                         repaydetail += "<td><input type='checkbox' name='repaychk' value='" + ii.loanid + "::" + ii.id + "' /></td>";
@@ -82,7 +83,14 @@ function repaydetailTablePageChange(pageNo,loanid) {
                         repaydetail += "<td>&nbsp;</td>";
                     }
                     if(isrepay == 1){
-                        repaydetail += "<td>已还</td>";
+                        repaydetail += "<td>已还款</td>";
+                    }else if(isrepay == 3){
+                        repaydetail += "<td>等待服务器处理中，请稍后刷新！</td>";
+                    }else if(isrepay == 4){
+                        repaydetail += "<td>订单处理失败，重新";
+                        repaydetail += "<a href='javascript:void 0;' onclick=\"getrepyaqrcode('" + ii.loanid + "::" + ii.id + "')\">";
+                        repaydetail += "还款</a>";
+                        repaydetail += "</td>";
                     }else{
                         repaydetail += "<td>";
                         repaydetail += "<a href='javascript:void 0;' onclick=\"getrepyaqrcode('" + ii.loanid + "::" + ii.id + "')\">还款</a>";
@@ -116,25 +124,30 @@ function repaydetailTablePageChange(pageNo,loanid) {
     });
 }
 function getrepyaqrcode(repays){
-    $.ajax({
-        type:'post',
-        url: projectUrl + '/loan/getrepyaqrcode',
-        dataType: 'json',
-        data:{repays:repays},
-        success:function (data) {
-            var qrcodeurl = data.qrcodeurl;
-            $("#repayqrcode").attr("src",projectUrl + qrcodeurl);
-            $("#repayqrcodeModal").modal("show");
-        },
-        error:function (data) {
-            var responseText = data.responseText;
-            if(responseText.indexOf("登出跳转页面") >= 0){
-                ajaxErrorToLogin();
-            }else{
-                alert(JSON.stringify(data));
+    if(confirm("您正在进行还款操作，确定还款将还款至商家账号，是否确定还款?")){
+        $.ajax({
+            type:'post',
+            url: projectUrl + '/loan/transferrepay',
+            dataType: 'json',
+            data:{repays:repays},
+            success:function (data) {
+                alert(data.message);
+                repaydetailTablePageChange(1,"");
+                // var qrcodeurl = data.qrcodeurl;
+                // $("#repayqrcode").attr("src",projectUrl + qrcodeurl);
+                // $("#repayqrcodeModal").modal("show");
+            },
+            error:function (data) {
+                var responseText = data.responseText;
+                if(responseText.indexOf("登出跳转页面") >= 0){
+                    ajaxErrorToLogin();
+                }else{
+                    alert(JSON.stringify(data));
+                }
             }
-        }
-    });
+        });
+    }
+
 }
 function torepay(repays) {
     $.ajax({

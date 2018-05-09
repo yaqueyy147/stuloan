@@ -1,8 +1,5 @@
 package com.stuloan.web.task;
 
-import com.stuloan.web.alipay.AlipayTrade_loan;
-import com.stuloan.web.alipay.AlipayTrade_repay;
-import com.stuloan.web.alipay.model.result.AlipayF2FQueryResult;
 import com.stuloan.web.mybatis.domain.Loan;
 import com.stuloan.web.mybatis.domain.Loanorder;
 import com.stuloan.web.mybatis.domain.Repaydetail;
@@ -11,6 +8,7 @@ import com.stuloan.web.mybatis.domain.inte.LoanMapper;
 import com.stuloan.web.mybatis.domain.inte.LoanorderMapper;
 import com.stuloan.web.mybatis.domain.inte.RepaydetailMapper;
 import com.stuloan.web.mybatis.domain.inte.RepayorderMapper;
+import com.stuloan.web.util.AlipayUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,9 +57,10 @@ public class ToGetOrderStatusTask {
                         //查看订单
                         Loanorder loanorder = loanorderMapper.selectByPrimaryKey(id);
                         //根据订单号查询订单状态
-                        AlipayF2FQueryResult result = AlipayTrade_loan.test_trade_query(orderno);
+//                        AlipayF2FQueryResult result = AlipayTrade_loan.test_trade_query(orderno);result.isTradeSuccess()
+                        boolean bb = AlipayUtil.alipaytransferquery(loanorder);
                         //如果订单状态为成功，则遍历是该订单号的贷款数据，修改状态为已放款
-                        if(result.isTradeSuccess()){
+                        if(bb){
                             map.put("id","");
                             List<Loan> loanlist = loanMapper.selectByParams(map);
                             if(loanlist != null && loanlist.size() >0){
@@ -96,10 +95,12 @@ public class ToGetOrderStatusTask {
 //                            loanorderMapper.updatebyorderno(loanorder);
                         }
                     }else{//tt不为0，表示是还款表的订单，对还款表进行相应的操作
-                        AlipayF2FQueryResult result = AlipayTrade_repay.test_trade_query(orderno);
+//                        AlipayF2FQueryResult result = AlipayTrade_repay.test_trade_query(orderno);result.isTradeSuccess()
+
                         Repayorder repayorder = repayorderMapper.selectByPrimaryKey(id);
+                        boolean bb = AlipayUtil.alipaytransferquery(repayorder);
                         //如果订单状态为成功，则遍历该订单号的还款数据，修改状态为已还款，并修改贷款表的已还款总金额、还款期数和最近还款时间
-                        if(result.isTradeSuccess()){
+                        if(bb){
                             map.put("id","");
                             List<Repaydetail> repaydetaillist = repaydetailMapper.selectByParams(map);
                             if(repaydetaillist != null && repaydetaillist.size() >0){
@@ -121,7 +122,7 @@ public class ToGetOrderStatusTask {
 //                            Repaydetail repaydetail = new Repaydetail();
 //                            repaydetail.setIsrepay("0");
                             Map<String,String> repaydetail = new HashMap<>();
-                            repaydetail.put("isrepay","0");
+                            repaydetail.put("isrepay","4");
                             repaydetail.put("ordernonew","");
                             repaydetail.put("ordernoold",orderno);
                             repaydetailMapper.updatebyorderno(repaydetail);
