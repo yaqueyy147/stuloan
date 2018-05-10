@@ -65,6 +65,15 @@
     <if test="userid != null and userid != ''">
       and a.userid = #{userid,jdbcType=VARCHAR}
     </if>
+    <if test="loginname != null and loginname != ''">
+      and b.loginname like #{loginname,jdbcType=VARCHAR}
+    </if>
+    <if test="orderby != null and orderby != ''">
+      order by ${orderby}
+    </if>
+    <if test="beginRow != null and beginRow != ''">
+      limit ${beginRow},${pageSize}
+    </if>
   </select>
 
   <select id="selectByuserid" parameterType="java.lang.String"  resultMap="BaseResultMap">

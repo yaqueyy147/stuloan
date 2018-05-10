@@ -2,7 +2,11 @@
  * Created by suyx on 2017/1/12.
  */
 $(function () {
-
+    $("#doSearch").click(function () {
+        var params = {};
+        params.loginname = "%" + $("#loginname").val() + "%";
+        loadDataGrid(params);
+    });
     $("a[name='auditcredit']").click(function () {
         var identitystate = $(this).arrr("data-identity");
         var selectRows = $("#creditList").datagrid('getSelections');
