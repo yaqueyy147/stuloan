@@ -409,20 +409,18 @@ public class LoanController {
                     repaydetail.setState("1");
                     ii += repaydetailMapper.updatestateByLoanIdSelective(repaydetail);
 
-                    Studentinfo studentinfo = studentinfoMapper.selectByuserid(loan.getUserid());
+//                    Studentinfo studentinfo = studentinfoMapper.selectByuserid(loan.getUserid());
 
-                    Loanorder order = new Loanorder();
-                    order.setId(CommonUtil.uuid());
-                    order.setOrderno("loan_" + order.getId());
-                    order.setCreatedate(new Date());
-                    order.setOrderdesc(studentinfo.getStuname() + "的贷款,贷款金额(" + loan.getLoanamount() + "),用途:" + loan.getLoanpurpose());
-                    order.setTotalamount(loan.getLoanamount());
-                    order.setOrdertitle("XXX校园贷扫码放款");
-                    String qrcodeurl = AlipayTrade_loan.test_trade_precreate(order,null, request);
-                    result.put("qrcodeurl",qrcodeurl);
-                    order.setOrderqrimage(qrcodeurl);
-                    ii += loanorderMapper.insertSelective(order);
-                    loan.setOrderno(order.getOrderno());
+//                    Loanorder order = new Loanorder();
+//                    order.setId(CommonUtil.uuid());
+//                    order.setOrderno("loan_" + order.getId());
+//                    order.setCreatedate(new Date());
+//                    order.setOrderdesc(studentinfo.getStuname() + "的贷款,贷款金额(" + loan.getLoanamount() + "),用途:" + loan.getLoanpurpose());
+//                    order.setTotalamount(loan.getLoanamount());
+//                    order.setOrdertitle("XXX校园贷扫码放款");
+//                    order.setOrderqrimage(qrcodeurl);
+//                    ii += loanorderMapper.insertSelective(order);
+//                    loan.setOrderno(order.getOrderno());
                 }else{
                     loan.setAuditmsg(CommonUtil.isBlank(auditmsg)?"不同意贷款":auditmsg);
                     ii += repaydetailMapper.deleteByLoanid(id);

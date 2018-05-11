@@ -58,7 +58,7 @@ public class AlipayUtil {
         alirequest.setBizContent("{" +
                 "\"out_biz_no\":\"" + order.getOrderno() + "\"," +
                 "\"payee_type\":\"ALIPAY_LOGONID\"," +
-                "\"payee_account\":\"" + props.get("aplipay_appname_maijia") + "\"," +
+                "\"payee_account\":\"" + alipayname + "\"," +
                 "\"amount\":\"" + CommonUtil.get2DotStrFrmDouble(order.getTotalamount()) + "\"," +
                 "\"payer_show_name\":\"\"," +
                 "\"payee_real_name\":\"\"," +

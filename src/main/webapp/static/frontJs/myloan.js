@@ -173,7 +173,7 @@ function repaydetailTablePageChange(pageNo,loanid) {
                     }
                     if(isrepay == 1){
                         repaydetail += "<td>已还款</td>";
-                    }else if(isrepay == 3){
+                    }else if(isrepay == 3 || isrepay == 2){
                         repaydetail += "<td>等待服务器处理中，请稍后刷新！</td>";
                     }else if(isrepay == 4){
                         repaydetail += "<td>订单处理失败，重新";
