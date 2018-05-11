@@ -131,6 +131,11 @@ public class ConsoleController {
                 List<Sysuser> list = consoleService.getUserList(params);
                 sysuser.setCreateman(list.get(0).getCreateman());
                 sysuser.setCreatedate(list.get(0).getCreatedate());
+                sysuser.setIsstuidentity(list.get(0).getIsstuidentity());
+                sysuser.setIscreditidentity(list.get(0).getIscreditidentity());
+                sysuser.setPhotostate(list.get(0).getPhotostate());
+                sysuser.setIsfrozen(list.get(0).getIsfrozen());
+                sysuser.setLoanlimit(list.get(0).getLoanlimit());
                 sysuser.setUserfrom(CommonUtil.parseInt(list.get(0).getUserfrom()));
                 sysuser.setPassword(consolesUser.get("password") + "");
             }

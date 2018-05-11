@@ -44,7 +44,33 @@ $(function () {
             });
         }
     });
-    
+
+    $("#completerepay").click(function () {
+
+        var orderid = $("#orderid").val();
+        var orderno = $("#orderno").val();
+        var loanid4detail = $("#loanid4detail").val();
+        $.ajax({
+            type:'post',
+            url: projectUrl + '/loan/completerepay',
+            dataType: 'json',
+            data:{orderid:orderid,orderno:orderno},
+            success:function (data) {
+                alert(data.message);
+                repaydetailTablePageChange(currentrepaypageno,loanid4detail);
+                $("#repayqrcodeModal").modal("hide");
+            },
+            error:function (data) {
+                var responseText = data.responseText;
+                if(responseText.indexOf("登出跳转页面") >= 0){
+                    ajaxErrorToLogin();
+                }else{
+                    alert(JSON.stringify(data));
+                }
+            }
+        });
+    });
+
     $("#torepay").click(function () {
         var repaychk = $("input[name='repaychk']:checked");
         if(repaychk.length <= 0){
@@ -134,6 +160,7 @@ function myloanTablePageChange(pageNo) {
 }
 
 function todetail(loanid) {
+    $("#loanid4detail").val(loanid);
     repaydetailTablePageChange(1,loanid);
     $("#repaydetailModal").modal("show");
 }
@@ -245,6 +272,8 @@ function getrepyaqrcode(repays){
             var qrcodeurl = data.qrcodeurl;
             $("#repayqrcode").attr("src",projectUrl + qrcodeurl);
             $("#repayqrcodeModal").modal("show");
+            $("#orderid").val(data.orderid);
+            $("#orderno").val(data.orderno);
         },
         error:function (data) {
             var responseText = data.responseText;

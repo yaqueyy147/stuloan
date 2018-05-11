@@ -226,10 +226,12 @@ public class RepayFrontController {
             order.setOrderqrimage(qrcodeurl);
             int i = repayorderMapper.insertSelective(order);
             result.put("qrcodeurl",qrcodeurl);
+            result.put("orderno",order.getOrderno());
+            result.put("orderid",order.getId());
             result.put("code",1);
             result.put("message","订单创建成功!");
             //查询订单状态
-            this.getorderstatus(orderno,orderid);
+            this.getorderstatus(orderno,orderid,10*1000);
         }catch (Exception e){
             e.printStackTrace();
             result.put("code",0);
@@ -373,11 +375,63 @@ public class RepayFrontController {
         return result;
     }
 
+    @RequestMapping(value = "/completerepay")
+    @ResponseBody
+    public Object completerepay(@RequestParam Map<String,Object> params, HttpServletRequest request){
+        Map<String,Object> result = new HashMap<>();
+        result.put("code",0);
+        result.put("message","系统错误，请联系管理员");
+
+        String orderno = params.get("orderno") + "";
+        String orderid = params.get("orderid") + "";
+
+        try {
+            Repayorder repayorder = repayorderMapper.selectByPrimaryKey(orderid);
+            AlipayF2FQueryResult aliresult = AlipayTrade_loan.test_trade_query(orderno);
+            //如果订单状态为成功，则遍历是该订单号的贷款数据，修改状态为已放款
+            if(aliresult.isTradeSuccess()){
+                List<Repaydetail> repaydetaillist = repaydetailMapper.selectByParams(params);
+                if(repaydetaillist != null && repaydetaillist.size() >0){
+                    for(Repaydetail repaydetail : repaydetaillist){
+                        //修改当条还款为已还款
+                        repaydetail.setIsrepay("1");
+                        repaydetail.setRepaydatereal(new Date());
+                        repaydetailMapper.updateByPrimaryKeySelective(repaydetail);
+                        //修改贷款表的还款金额和期数和时间
+                        Loan loan = loanMapper.selectByPrimaryKey(repaydetail.getLoanid());
+                        loan.setRepayyet(loan.getRepayyet() + repaydetail.getRepaymoney());
+                        loan.setStagenumyet(repaydetail.getStagenum());
+                        loan.setUpdatedate(new Date());
+                        loanMapper.updateByPrimaryKeySelective(loan);
+                    }
+                }
+                //修改当条订单为已还款
+                repayorder.setOrderstate("1");
+                repayorderMapper.updatebyorderno(repayorder);
+                result.put("code",1);
+                result.put("message","还款成功!");
+            }else{
+                //设置订单状态为2，等待定时任务继续查询订单状态
+                repayorder.setOrderstate("2");
+                repayorderMapper.updatebyorderno(repayorder);
+                result.put("code",2);
+                result.put("message","未查到订单状态，请稍后重试!");
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            result.put("code",0);
+            result.put("message","系统错误，请联系管理员");
+        }
+
+        return result;
+    }
+
     /**
      * 延时一分钟查询订单状态
      * @param orderno
      */
-    private void getorderstatus(String orderno,String orderid){
+    private void getorderstatus(String orderno,String orderid,long delay){
         LOGGER.info("***执行了getorderstatus这个任务***");
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -414,7 +468,7 @@ public class RepayFrontController {
                     repayorderMapper.updatebyorderno(repayorder);
                 }
             }
-        }, 10 * 1000);
+        }, delay);
     }
 
     /**

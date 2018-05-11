@@ -139,6 +139,7 @@
             </div>
             <div class="modal-body">
                 <div class="table-responsive" id="repaydetailDiv">
+                    <input type="hidden" id="loanid4detail" />
                     <table class="table table-hover" id="repaydetailTable" style="background: #ffffff">
                         <thead>
                         <tr>
@@ -174,10 +175,13 @@
                 <h4 class="modal-title" id="repayqrcodeModalLabel">还款二维码</h4>
             </div>
             <div class="modal-body" style="width: 300px;height: 300px;text-align: center">
+                <input type="hidden" id="orderid" />
+                <input type="hidden" id="orderno" />
                 <img src="" width="100%" id="repayqrcode" />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="completerepay">完成还款</button>
             </div>
         </div>
     </div>
