@@ -3,6 +3,7 @@ package com.stuloan.web.controller.consoles;
 import com.stuloan.web.domain.Resource;
 import com.stuloan.web.domain.Sysuser;
 import com.stuloan.web.domain.Userresource;
+import com.stuloan.web.mybatis.domain.inte.SysuserMapper;
 import com.stuloan.web.service.consoles.ConsoleService;
 import com.stuloan.web.service.fronts.UserService;
 import com.stuloan.web.util.CommonUtil;
@@ -40,13 +41,30 @@ public class ConsoleController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SysuserMapper sysuserMapper;
+
     /**
      * 用户页面
      * @return
      */
     @RequestMapping(value = "user")
+    @ResponseBody
     public ModelAndView user(){
         return new ModelAndView("/consoles/userSetting");
+    }
+
+    @RequestMapping(value = "userinfo")
+    @ResponseBody
+    public Map<String,Object> userinfo(@RequestParam Map<String,Object> params,HttpServletRequest request){
+        Map<String,Object> result = new HashMap<String,Object>();
+        try {
+            Sysuser sysuser = userService.getUserInfoFromId(params.get("id") + "");
+            result.put("sysuser",sysuser);
+        }catch (Exception e){
+            result.put("message","用户信息读取错误，请重新登录尝试！");
+        }
+        return result;
     }
 
     /**

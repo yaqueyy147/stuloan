@@ -118,14 +118,13 @@ $(function () {
         // alert(userId);
         $.ajax({
             type:'post',
-            url: projectUrl + "/consoles/userList",
+            url: projectUrl + "/consoles/userinfo",
             // async:false,
             dataType:'json',
             data:{id:userId},
             success:function (data) {
-                var userList = data.dataList;
-                if(userList != null && userList.length > 0){
-                    var userInfo = userList[0];
+                var userInfo = data.sysuser;
+                if(userInfo){
                     $("#userId").val(userInfo.id);
                     $("#state").val(userInfo.state);
                     $("#isfront").val(userInfo.isfront);

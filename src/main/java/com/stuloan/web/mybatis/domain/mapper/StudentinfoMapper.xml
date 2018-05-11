@@ -70,7 +70,7 @@
       and a.id = #{id,jdbcType=VARCHAR}
     </if>
     <if test="stuname != null and id != ''">
-      and a.stuname = #{stuname,jdbcType=VARCHAR}
+      and a.stuname like #{stuname,jdbcType=VARCHAR}
     </if>
     <if test="userid != null and userid != ''">
       and a.userid = #{userid,jdbcType=VARCHAR}

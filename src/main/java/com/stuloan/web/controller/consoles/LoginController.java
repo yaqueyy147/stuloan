@@ -59,7 +59,7 @@ public class LoginController {
         if(CommonUtil.isBlank(jsonObject)){
             return new ModelAndView("/consoles/login");
         }
-        model.addAttribute("consoleUserInfo",jsonObject);
+        model.addAttribute(Userutils.CONSOLE_COOKIE_NAME,jsonObject);
         return new ModelAndView("/consoles/main");
     }
 
