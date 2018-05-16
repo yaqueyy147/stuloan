@@ -13,6 +13,17 @@ $(function () {
             {
                 "text":"提交",
                 handler:function(){
+                    var rows = $("#stagefeeList").datagrid("getRows");
+                    var stagenum = $("#stagenum").val();
+                    for(var i=0;i<rows.length;i++)
+                    {
+                        //获取每一行的数据
+                        if(parseInt(rows[i].stagenum) == parseInt(stagenum)){
+                            $.messager.alert("提示","已存在分(" + stagenum + ")期的数据");
+                            return;
+                        }
+                    }
+
                     var formData = {};
                     var postUrl = projectUrl + "/consoles/savestagefee";
                     var testData = $("#stagefeeForm").serializeArray();
@@ -28,7 +39,7 @@ $(function () {
                         data:formData,
                         success:function (data) {
 
-                            alert(data.message);
+                            $.messager.alert("提示",data.message);
                             if(data.code >= 1){
                                 var params = {};
                                 loadDataGrid(params);
@@ -131,6 +142,7 @@ function closeDialog(dialogId){
 function loadDataGrid(params) {
     params.pageNumber = 1;
     params.pageSize = 10;
+    params.orderby = "stagenum asc";
     $("#stagefeeList").datagrid({
         url:"/consoles/stagefeelist",
         queryParams:params,

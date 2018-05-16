@@ -33,6 +33,16 @@
         #loandesc{
             color: #ff0000;
         }
+        #regeditForm .form-group .form-control{
+            padding-right: 10px !important;
+            padding-left: 10px !important;
+        }
+        #regeditForm  .form-group canvas.form-control{
+            padding-left:0px !important;
+            padding-right:0px !important;
+            height: 40px !important;
+            width: 120px;
+        }
     </style>
 </head>
 <body>
@@ -136,7 +146,7 @@
                                 <div class="form-group">
                                     <label for="loanamount" class="col-sm-4 control-label">*贷款金额:</label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="loanamount" name="loanamount" value="" type="text" />
+                                        <input class="form-control" id="loanamount" name="loanamount" value="" type="text" placeholder="您的贷款额度为${sysuser.loanlimit}元" />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -197,10 +207,18 @@
     var photostate = '${sysuser.photostate}';
     $(function () {
 
-        $("#loanage").onkeyup(function () {
-            var xx = parseInt($(this).val());
-            if(isNaN(ival)){
-                alert("请输入正确的贷款年限，请输入正确的数字年限！");
+//        $("#loanage").onkeyup(function () {
+//            var xx = parseInt($(this).val());
+//            if(isNaN(ival)){
+//                alert("请输入正确的贷款年限，请输入正确的数字年限！");
+//                return;
+//            }
+//        });
+
+        $("#loanamount").onkeyup(function () {
+            var xx = $(this).val();
+            if(xx > loanlimt){
+                alert("您的贷款额度为:" + loanlimt + ",输入金额不能超过额度");
                 return;
             }
         });

@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by suyx on 2018-04-21.
@@ -115,11 +112,20 @@ public class LoanFrontController {
     }
 
     @RequestMapping(value = "/toapplyloan")
-    public ModelAndView toapplyloan(Loan loan, HttpServletRequest request){
+    @ResponseBody
+    public Object toapplyloan(Loan loan, HttpServletRequest request){
         Map<String,Object> result = new HashMap<>();
         result.put("code",0);
         result.put("message","提交失败");
         try{
+
+            Sysuser sysuser = sysuserMapper.selectByPrimaryKey(Userutils.getuserid(request,Userutils.FRONG_COOKIE_NAME));
+            if(loan.getLoanamount() > sysuser.getLoanlimit()){
+                result.put("code",-3);
+                result.put("message","申请贷款金额超过带额度，请重新申请！");
+                return result;
+            }
+
             loan.setId(CommonUtil.uuid());
             loan.setIsstage("1");
             loan.setCreatedate(new Date());
@@ -155,7 +161,7 @@ public class LoanFrontController {
             result.put("code",0);
             result.put("message","提交失败");
         }
-        return new ModelAndView("redirect:/loan/myloan");
+        return result;
     }
 
     @RequestMapping(value = "/tostuidentity")
@@ -269,14 +275,21 @@ public class LoanFrontController {
 
         try {
             List<Stagefee> list1 = stagefeeMapper.selectByParams(params);
-            result.put("stagefee",list1.get(0));
-            result.put("code",1);
+            if(list1 != null && list1.size() > 0){
+                result.put("stagefee",list1.get(0));
+                result.put("code",1);
+            }else {
+                Stagefee stagefee = new Stagefee();
+                stagefee.setFeepercent(0.0);
+                result.put("stagefee",stagefee);
+                result.put("code",1);
+            }
         }catch (Exception e){
             e.printStackTrace();
             Stagefee stagefee = new Stagefee();
             stagefee.setFeepercent(0.0);
             result.put("stagefee",stagefee);
-            result.put("code",0);
+            result.put("code",1);
         }
 
         return result;

@@ -34,13 +34,38 @@ $(function () {
             return;
         }
 
-        if(loanamount > loanlimt){
+        if(Number(loanamount) > Number(loanlimt)){
             alert("申请贷款金额超过可贷款额度！");
             return ;
         }
+        var formData = $("#regeditForm").serializeArray();
+        var testData = {};
+        for (var item in formData) {
+            testData["" + formData[item].name + ""] = formData[item].value;
+        }
+        $.ajax({
+            type:'post',
+            url: projectUrl + '/loan/toapplyloan',
+            dataType: 'json',
+            data:testData,
+            success:function (data) {
+                alert(data.message);
+                if(data.code >= 1){
+                    window.location.href = projectUrl + '/loan/myloan';
+                }
 
-        $("#regeditForm").attr("action",projectUrl + "/loan/toapplyloan");
-        $("#regeditForm").submit();
+            },
+            error:function (data) {
+                var responseText = data.responseText;
+                if(responseText.indexOf("登出跳转页面") >= 0){
+                    ajaxErrorToLogin();
+                }else{
+                    alert(JSON.stringify(data));
+                }
+            }
+        });
+        // $("#regeditForm").attr("action",projectUrl + "/loan/toapplyloan");
+        // $("#regeditForm").submit();
     });
 
     document.getElementById("canvas").onclick = function(e){
@@ -48,7 +73,7 @@ $(function () {
         checkCodePre = drawPic();
     };
 
-    $("#loanage").bind("propertychange input",function () {
+    $("#loanage").change(function () {
         var age = $(this).val();
         var loanamount = $("#loanamount").val();
         if($.trim(loanamount).length <= 0){
@@ -62,13 +87,27 @@ $(function () {
             data:{stagenum:age},
             async:true,
             success:function (data) {
-                if(data){
+                if(data.code >= 1){
                     var fee = data.stagefee.feepercent;
-                    var orirepay = parseFloat(loanamount) / parseInt(age);
-                    var totalrepay = parseFloat(loanamount) + parseFloat(loanamount * fee / 100);
-                    var avgrepay = parseFloat(totalrepay) / parseInt(age);
-                    var avgfee = parseFloat(orirepay) * parseFloat(fee) / 100;
-                    var loandesc = "每期本金" + orirepay.toFixed(2) + "元,每期费率" + fee + "%,每期手续费" + avgfee.toFixed(2) + "元,每期总额" + avgrepay.toFixed(2) + "元";
+                    var orirepay = loanamount;
+                    var totalrepay = loanamount;
+                    var avgrepay = loanamount;
+                    var avgfee = 0;
+                    var loandesc = "";
+                    if(fee == 0 || fee == 0.0){
+                        loandesc = "无分期";
+                    }else{
+                        orirepay = parseFloat(loanamount) / parseInt(age);
+                        totalrepay = parseFloat(loanamount) + parseFloat(loanamount * fee / 100);
+                        avgrepay = parseFloat(totalrepay) / parseInt(age);
+                        avgfee = parseFloat(orirepay) * parseFloat(fee) / 100;
+
+                        avgfee = avgfee.toFixed(2);
+                        orirepay = orirepay.toFixed(2);
+                        avgrepay = avgrepay.toFixed(2);
+                        loandesc = "每期本金" + orirepay + "元,每期费率" + fee + "%,每期手续费" + avgfee + "元,每期总额" + avgrepay + "元";
+                    }
+
                     $("#loandesc").html(loandesc);
                 }else{
                     var loandesc = "系统错误，请联系管理员!";
@@ -86,4 +125,12 @@ $(function () {
         });
     });
 
+    $("#loanamount").bind("propertychange input",function () {
+        var xx = $(this).val();
+        if(Number(xx) > Number(loanlimt)){
+            alert("您的贷款额度为:" + loanlimt + ",输入金额不能超过额度");
+            $(this).val(loanlimt);
+            return;
+        }
+    });
 });

@@ -6,7 +6,13 @@ $(function () {
     $("#doSearch").click(function () {
         var begindate = $("#begindate").val();
         var enddate = $("#enddate").val();
+        var loginname = $("#loginname").val();
+        var stuname = $("#stuname").val();
+        var isrepay = $("#isrepay").val();
         var params = {begindate:begindate,enddate:enddate};
+        params.loginname = "'%" + loginname + "%'";
+        params.stuname = "'%" + stuname + "%'";
+        params.isrepay = isrepay;
         loadDataGrid(params);
     });
 
@@ -23,6 +29,7 @@ function closeDialog(dialogId){
 function loadDataGrid(params) {
     params.pageNumber = 1;
     params.pageSize = 10;
+    params.orderby = "a.loanid asc,a.stagenum asc";
     $("#notrepayList").datagrid({
         url:"/consoles/notrepaylist",
         queryParams:params,
@@ -54,6 +61,13 @@ function loadDataGrid(params) {
                         return new Date(value).Format("yyyy-MM-dd");
                     }
                     return '';
+                }},
+            {field:"isrepay",title:"还款状态",width:"120",
+                formatter: function(value,row,index){
+                    if(value == 1){
+                        return "已还款";
+                    }
+                    return '未还款';
                 }}
         ]]
     });

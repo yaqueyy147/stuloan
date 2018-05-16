@@ -57,6 +57,14 @@ public class StagefeeController {
 
         try{
             int i = 0;
+            //先查看改分期是否已存在
+            Map<String,Object> params = new HashMap<>();
+            params.put("stagenum",stagefee.getStagenum());
+            List<Stagefee> ll = stagefeeMapper.selectByParams(params);
+            if(ll != null && ll.size() > 0){
+                stagefee.setId(ll.get(0).getId());
+            }
+
             if(CommonUtil.isBlank(stagefee.getId()) || "0".equals(stagefee.getId())){
                 stagefee.setId(CommonUtil.uuid());
                 i += stagefeeMapper.insert(stagefee);

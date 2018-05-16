@@ -21,6 +21,16 @@
 
 </table>
 <div id="tb">
+    <span>账号:</span>
+    <input type="text" id="loginname" />
+    <span>贷款人:</span>
+    <input type="text" id="stuname" />
+    <span>状态:</span>
+    <select id="isrepay">
+        <option value="">全部</option>
+        <option value="1">已还款</option>
+        <option value="0">未还款</option>
+    </select>
     <span>应还款时间:</span>
     <input type="text" id="begindate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />
     <input type="text" id="enddate" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" />

@@ -181,7 +181,7 @@ $(function () {
     }
 
     };
-    var params = {userId:userId};
+    var params = {userid:userId};
     loadMenuTree(params);
 
 });
