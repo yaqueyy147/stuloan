@@ -457,6 +457,10 @@ public class RepayFrontController {
                             loan.setStagenumyet(repaydetail.getStagenum());
                             loan.setUpdatedate(new Date());
                             loanMapper.updateByPrimaryKeySelective(loan);
+
+                            Sysuser sysuser = sysuserMapper.selectByPrimaryKey(loan.getUserid());
+                            sysuser.setLoanlimit(sysuser.getLoanlimit() + repaydetail.getRepaymoney());
+                            sysuserMapper.updateByPrimaryKeySelective(sysuser);
                         }
                     }
                     //修改当条订单为已还款
@@ -502,6 +506,9 @@ public class RepayFrontController {
                                 loan.setStagenumyet(repaydetail.getStagenum());
                                 loan.setUpdatedate(new Date());
                                 loanMapper.updateByPrimaryKeySelective(loan);
+                                Sysuser sysuser = sysuserMapper.selectByPrimaryKey(loan.getUserid());
+                                sysuser.setLoanlimit(sysuser.getLoanlimit() + repaydetail.getRepaymoney());
+                                sysuserMapper.updateByPrimaryKeySelective(sysuser);
                             }
                         }
                         //修改当条订单为已还款

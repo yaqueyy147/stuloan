@@ -421,6 +421,10 @@ public class LoanController {
 //                    order.setOrderqrimage(qrcodeurl);
 //                    ii += loanorderMapper.insertSelective(order);
 //                    loan.setOrderno(order.getOrderno());
+
+                    Sysuser sysuser = sysuserMapper.selectByPrimaryKey(loan.getUserid());
+                    sysuser.setLoanlimit(sysuser.getLoanlimit() - loan.getLoanamount());
+                    sysuserMapper.updateByPrimaryKeySelective(sysuser);
                 }else{
                     loan.setAuditmsg(CommonUtil.isBlank(auditmsg)?"不同意贷款":auditmsg);
                     ii += repaydetailMapper.deleteByLoanid(id);

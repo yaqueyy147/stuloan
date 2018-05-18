@@ -21,8 +21,8 @@
 
 </table>
 <div id="tb">
-    <span>账号:</span>
-    <input type="text" id="loginname" />
+    <%--<span>账号:</span>--%>
+    <%--<input type="text" id="loginname" />--%>
     <span>贷款人:</span>
     <input type="text" id="stuname" />
     <span>状态:</span>

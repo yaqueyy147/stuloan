@@ -2,14 +2,8 @@ package com.stuloan.web.task;
 
 import com.stuloan.web.alipay.AlipayTrade_repay;
 import com.stuloan.web.alipay.model.result.AlipayF2FQueryResult;
-import com.stuloan.web.mybatis.domain.Loan;
-import com.stuloan.web.mybatis.domain.Loanorder;
-import com.stuloan.web.mybatis.domain.Repaydetail;
-import com.stuloan.web.mybatis.domain.Repayorder;
-import com.stuloan.web.mybatis.domain.inte.LoanMapper;
-import com.stuloan.web.mybatis.domain.inte.LoanorderMapper;
-import com.stuloan.web.mybatis.domain.inte.RepaydetailMapper;
-import com.stuloan.web.mybatis.domain.inte.RepayorderMapper;
+import com.stuloan.web.mybatis.domain.*;
+import com.stuloan.web.mybatis.domain.inte.*;
 import com.stuloan.web.util.AlipayUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +35,8 @@ public class ToGetOrderStatusTask {
     private LoanMapper loanMapper;
     @Autowired
     private RepaydetailMapper repaydetailMapper;
+    @Autowired
+    private SysuserMapper sysuserMapper;
 
     @Scheduled(cron = "0/10 * * * * ?")
     public void dogetorderstatus(){
@@ -116,6 +112,10 @@ public class ToGetOrderStatusTask {
                                     loan.setStagenumyet(repaydetail.getStagenum());
                                     loan.setUpdatedate(new Date());
                                     loanMapper.updateByPrimaryKeySelective(loan);
+
+                                    Sysuser sysuser = sysuserMapper.selectByPrimaryKey(loan.getUserid());
+                                    sysuser.setLoanlimit(sysuser.getLoanlimit() + repaydetail.getRepaymoney());
+                                    sysuserMapper.updateByPrimaryKeySelective(sysuser);
                                 }
                             }
                             repayorder.setOrderstate("1");

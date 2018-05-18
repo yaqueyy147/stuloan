@@ -6,12 +6,12 @@ $(function () {
     $("#doSearch").click(function () {
         var begindate = $("#begindate").val();
         var enddate = $("#enddate").val();
-        var loginname = $("#loginname").val();
+        // var loginname = $("#loginname").val();
         var stuname = $("#stuname").val();
         var isrepay = $("#isrepay").val();
         var params = {begindate:begindate,enddate:enddate};
-        params.loginname = "'%" + loginname + "%'";
-        params.stuname = "'%" + stuname + "%'";
+        // params.loginname = "%" + loginname + "%";
+        params.stuname = "%" + stuname + "%";
         params.isrepay = isrepay;
         loadDataGrid(params);
     });
