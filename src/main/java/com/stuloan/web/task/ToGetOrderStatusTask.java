@@ -114,7 +114,11 @@ public class ToGetOrderStatusTask {
                                     loanMapper.updateByPrimaryKeySelective(loan);
 
                                     Sysuser sysuser = sysuserMapper.selectByPrimaryKey(loan.getUserid());
-                                    sysuser.setLoanlimitleft(sysuser.getLoanlimitleft() + repaydetail.getRepaymoney());
+                                    if((sysuser.getLoanlimit() + repaydetail.getRepaymoney()) >= sysuser.getLoanlimit()){
+                                        sysuser.setLoanlimitleft(sysuser.getLoanlimit());
+                                    }else{
+                                        sysuser.setLoanlimitleft(sysuser.getLoanlimitleft() + repaydetail.getRepaymoney());
+                                    }
                                     sysuserMapper.updateByPrimaryKeySelective(sysuser);
                                 }
                             }

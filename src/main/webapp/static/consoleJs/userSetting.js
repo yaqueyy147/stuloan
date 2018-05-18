@@ -474,6 +474,19 @@ function loadDataGrid(params) {
                     }
                     return '0.0元';
                 }},
+            {field:"loanlimitleft",title:"剩余贷款额度",width:"120",
+                formatter: function(value,row,index){
+                    if(row.isfront == 1){
+                        var hh = "";
+                        if(value){
+                            hh += value + "元";
+                        }else{
+                            hh += "0.0元";
+                        }
+                        return hh;
+                    }
+                    return '0.0元';
+                }},
             {field:"isfrozen",title:"是否已冻结",width:"80",
                 formatter: function(value,row,index){
                     if(value == 1){
