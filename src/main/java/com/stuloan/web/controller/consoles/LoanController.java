@@ -423,7 +423,7 @@ public class LoanController {
 //                    loan.setOrderno(order.getOrderno());
 
                     Sysuser sysuser = sysuserMapper.selectByPrimaryKey(loan.getUserid());
-                    sysuser.setLoanlimit(sysuser.getLoanlimit() - loan.getLoanamount());
+                    sysuser.setLoanlimitleft(sysuser.getLoanlimit() - loan.getLoanamount());
                     sysuserMapper.updateByPrimaryKeySelective(sysuser);
                 }else{
                     loan.setAuditmsg(CommonUtil.isBlank(auditmsg)?"不同意贷款":auditmsg);
@@ -488,6 +488,7 @@ public class LoanController {
             String loanlimit = params.get("loanlimit") + "";
             double ll = CommonUtil.parseDouble(loanlimit);
             sysuser.setLoanlimit(ll);
+            sysuser.setLoanlimitleft(ll);
             sysuserMapper.updateByPrimaryKeySelective(sysuser);
             result.put("code",1);
             result.put("message","设置成功");

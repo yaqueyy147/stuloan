@@ -80,6 +80,7 @@ public class CreditscoreController {
                     Sysuser sysuser = new Sysuser();
                     sysuser.setId(creditscore.getUserid());
                     sysuser.setLoanlimit(maxloanmoney);
+                    sysuser.setLoanlimitleft(maxloanmoney);
                     ii += sysuserMapper.updateByPrimaryKeySelective(sysuser);
                 }else{
                     creditscoreMapper.deleteByPrimaryKey(id);

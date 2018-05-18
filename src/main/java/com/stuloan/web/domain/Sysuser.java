@@ -36,6 +36,7 @@ public class Sysuser {
     private String iscreditidentity;
     private String isfrozen;
     private String photostate;
+    private Double loanlimitleft;
 
     public Sysuser(String loginname){
         this.loginname = loginname;
@@ -329,6 +330,16 @@ public class Sysuser {
         this.photostate = photostate;
     }
 
+    @Basic
+    @Column(name = "loanlimitleft")
+    public Double getLoanlimitleft() {
+        return loanlimitleft;
+    }
+
+    public void setLoanlimitleft(Double loanlimitleft) {
+        this.loanlimitleft = loanlimitleft;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -364,6 +375,7 @@ public class Sysuser {
         if (iscreditidentity != null ? !iscreditidentity.equals(that.iscreditidentity) : that.iscreditidentity != null) return false;
         if (isfrozen != null ? !isfrozen.equals(that.isfrozen) : that.isfrozen != null) return false;
         if (photostate != null ? !photostate.equals(that.photostate) : that.photostate != null) return false;
+        if (loanlimitleft != null ? !loanlimitleft.equals(that.loanlimitleft) : that.loanlimitleft != null) return false;
         return true;
     }
 
@@ -397,6 +409,7 @@ public class Sysuser {
         result = 31 * result + (iscreditidentity != null ? iscreditidentity.hashCode() : 0);
         result = 31 * result + (isfrozen != null ? isfrozen.hashCode() : 0);
         result = 31 * result + (photostate != null ? photostate.hashCode() : 0);
+        result = 31 * result + (loanlimitleft != null ? loanlimitleft.hashCode() : 0);
         return result;
     }
 }

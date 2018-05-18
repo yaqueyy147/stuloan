@@ -146,7 +146,7 @@
                                 <div class="form-group">
                                     <label for="loanamount" class="col-sm-4 control-label">*贷款金额:</label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" id="loanamount" name="loanamount" value="" type="text" placeholder="您的贷款额度为${sysuser.loanlimit}元" />
+                                        <input class="form-control" id="loanamount" name="loanamount" value="" type="text" placeholder="您的剩余贷款额度为${sysuser.loanlimitleft}元" />
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -202,7 +202,7 @@
 
 <script type="text/javascript" src="<%=request.getContextPath()%>/static/frontJs/applyloan.js"></script>
 <script type="text/javascript">
-    var loanlimt = '${sysuser.loanlimit}';
+    var loanlimt = '${sysuser.loanlimitleft}';
     var isfrozen = '${sysuser.isfrozen}';
     var photostate = '${sysuser.photostate}';
     $(function () {

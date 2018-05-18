@@ -35,6 +35,7 @@
       <arg column="iscreditidentity" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="isfrozen" javaType="java.lang.String" jdbcType="CHAR" />
       <arg column="photostate" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="loanlimitleft" javaType="java.lang.Double" jdbcType="DECIMAL" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
@@ -44,7 +45,7 @@
     -->
     id, username, loginname, password, idcard, phone, wechart, qqnum, remark, createman, 
     createdate, province, city, district, county, town, detailaddr, userphoto, idcardphoto, 
-    state, isconsole, isfront, userfrom, isstuidentity, loanlimit, iscreditidentity, isfrozen, photostate
+    state, isconsole, isfront, userfrom, isstuidentity, loanlimit, iscreditidentity, isfrozen, photostate, loanlimitleft
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
@@ -76,7 +77,7 @@
       city, district, county, 
       town, detailaddr, userphoto, 
       idcardphoto, state, isconsole, 
-      isfront, userfrom, isstuidentity, loanlimit, iscreditidentity, isfrozen, photostate)
+      isfront, userfrom, isstuidentity, loanlimit, iscreditidentity, isfrozen, photostate, loanlimitleft)
     values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{loginname,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{idcard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{wechart,jdbcType=VARCHAR}, #{qqnum,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
@@ -86,7 +87,7 @@
       #{idcardphoto,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{isconsole,jdbcType=INTEGER}, 
       #{isfront,jdbcType=INTEGER}, #{userfrom,jdbcType=INTEGER}, #{isstuidentity,jdbcType=CHAR}
       , #{loanlimit,jdbcType=DECIMAL}, #{iscreditidentity,jdbcType=CHAR}, #{isfrozen,jdbcType=CHAR}
-    , #{photostate,jdbcType=CHAR})
+    , #{photostate,jdbcType=CHAR}, #{loanlimitleft,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.stuloan.web.mybatis.domain.Sysuser">
     <!--
@@ -179,6 +180,9 @@
       <if test="photostate != null">
         photostate,
       </if>
+      <if test="loanlimitleft != null">
+        loanlimitleft,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -264,6 +268,9 @@
       </if>
       <if test="photostate != null">
         #{photostate,jdbcType=CHAR},
+      </if>
+      <if test="loanlimitleft != null">
+        #{loanlimitleft,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -355,6 +362,9 @@
       <if test="photostate != null">
         photostate = #{photostate,jdbcType=CHAR},
       </if>
+      <if test="loanlimitleft != null">
+        loanlimitleft = #{loanlimitleft,jdbcType=DECIMAL},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -390,7 +400,8 @@
       loanlimit = #{loanlimit,jdbcType=DECIMAL},
       iscreditidentity = #{iscreditidentity,jdbcType=CHAR},
       isfrozen = #{isfrozen,jdbcType=CHAR},
-      photostate = #{photostate,jdbcType=CHAR}
+      photostate = #{photostate,jdbcType=CHAR},
+    loanlimitleft = #{loanlimitleft,jdbcType=DECIMAL}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

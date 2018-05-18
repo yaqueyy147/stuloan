@@ -459,7 +459,7 @@ public class RepayFrontController {
                             loanMapper.updateByPrimaryKeySelective(loan);
 
                             Sysuser sysuser = sysuserMapper.selectByPrimaryKey(loan.getUserid());
-                            sysuser.setLoanlimit(sysuser.getLoanlimit() + repaydetail.getRepaymoney());
+                            sysuser.setLoanlimitleft(sysuser.getLoanlimitleft() + repaydetail.getRepaymoney());
                             sysuserMapper.updateByPrimaryKeySelective(sysuser);
                         }
                     }
@@ -507,7 +507,7 @@ public class RepayFrontController {
                                 loan.setUpdatedate(new Date());
                                 loanMapper.updateByPrimaryKeySelective(loan);
                                 Sysuser sysuser = sysuserMapper.selectByPrimaryKey(loan.getUserid());
-                                sysuser.setLoanlimit(sysuser.getLoanlimit() + repaydetail.getRepaymoney());
+                                sysuser.setLoanlimitleft(sysuser.getLoanlimitleft() + repaydetail.getRepaymoney());
                                 sysuserMapper.updateByPrimaryKeySelective(sysuser);
                             }
                         }

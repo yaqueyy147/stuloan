@@ -73,7 +73,8 @@
                     <p id="creditopera">
                     <c:choose>
                     <c:when test="${sysuser.iscreditidentity == 1}">
-                    已通过信用认证,您的信用额度为<span style="color: #ff0000">${sysuser.loanlimit}</span>元
+                        已通过信用认证,您的总信用额度为<span style="color: #00ff00">${sysuser.loanlimit}</span>元
+                        ,剩余信用额度为<span style="color: #ff0000">${sysuser.loanlimitleft}</span>元
                     &nbsp;&nbsp;
                     <a href="#creditModal" id="viewcredit" data-toggle="modal" data-target="#creditModal">查看信用信息</a>
                     </c:when>
